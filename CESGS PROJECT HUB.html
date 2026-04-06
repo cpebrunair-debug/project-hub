@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CESGS · Project Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink:#0D0A1E;--ink2:#3D3756;--ink3:#8B85A0;
+  --cream:#FAF8F3;--white:#FFFFFF;
+  --teal:#0B8C7A;--teal-light:#E0F5F2;--teal-mid:#2DC4A8;
+  --gold:#C9891A;--gold-light:#FDF3E0;
+  --red:#C13B3B;--red-light:#FDEAEA;
+  --blue:#1A55C9;--blue-light:#E5EEFF;
+  --border:rgba(13,10,30,0.09);--border2:rgba(13,10,30,0.15);
+  --radius:16px;--radius-sm:10px;
+  --shadow:0 4px 24px rgba(13,10,30,0.08);
+  --shadow-md:0 8px 40px rgba(13,10,30,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+/* ═══ LANDING PAGE ═══ */
+.landing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 60px;background:#0a0e17;position:relative;overflow:hidden}
+.landing::before{content:'';position:absolute;top:-20%;left:-10%;width:70%;height:80%;background:radial-gradient(ellipse at center,rgba(11,140,122,0.35) 0%,rgba(11,140,122,0.08) 40%,transparent 70%);pointer-events:none;filter:blur(60px)}
+.landing::after{content:'';position:absolute;bottom:-30%;right:-15%;width:80%;height:90%;background:radial-gradient(ellipse at center,rgba(45,196,168,0.2) 0%,rgba(26,85,201,0.1) 35%,transparent 65%);pointer-events:none;filter:blur(80px)}
+.landing-header{text-align:center;margin-bottom:48px;position:relative;z-index:1}
+.landing-logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#0B8C7A,#2DC4A8);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(11,140,122,0.3)}
+.landing-logo svg{width:30px;height:30px}
+.landing-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--teal-mid);font-weight:600;margin-bottom:12px}
+.landing-title{font-family:'Fraunces',serif;font-size:46px;font-weight:600;color:#fff;line-height:1.1;background:linear-gradient(135deg,#fff 0%,#2DC4A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.landing-sub{font-size:15px;color:rgba(255,255,255,0.45);margin-top:14px;max-width:520px;line-height:1.7}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;width:100%;margin-bottom:40px;position:relative;z-index:1}
+@media(max-width:800px){.project-grid{grid-template-columns:1fr}}
+
+.project-card{
+  background:rgba(255,255,255,0.04);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.08);
+  overflow:hidden;cursor:pointer;transition:all 0.3s;position:relative;backdrop-filter:blur(12px);
+}
+.project-card:hover{transform:translateY(-6px);box-shadow:0 12px 48px rgba(11,140,122,0.2);border-color:rgba(45,196,168,0.3);background:rgba(255,255,255,0.07)}
+.pc-accent{height:3px;opacity:0.8}
+.pc-body{padding:28px 24px}
+.pc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.pc-name{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-bottom:6px;color:#fff}
+.pc-org{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.pc-desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:18px}
+.pc-status{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:600}
+.pc-collab{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:8px}
+.pc-collab-count{font-size:12px;color:rgba(255,255,255,0.35)}
+.pc-collab-avatars{display:flex}
+.pc-av{width:24px;height:24px;border-radius:50%;border:2px solid rgba(10,14,23,0.8);font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;color:#fff;margin-left:-6px}
+.pc-av:first-child{margin-left:0}
+.landing-footer{position:relative;z-index:1;text-align:center;color:rgba(255,255,255,0.2);font-size:12px;margin-top:20px}
+
+/* ═══ PASSWORD GATE ═══ */
+.pw-overlay{position:fixed;inset:0;background:rgba(10,14,23,0.85);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;z-index:999}
+.pw-overlay.show{display:flex}
+.pw-box{background:#141a2a;border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:36px;width:380px;max-width:90vw;box-shadow:0 24px 64px rgba(0,0,0,0.5);text-align:center}
+.pw-box-title{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:6px;color:#fff}
+.pw-box-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:24px;line-height:1.5}
+.pw-inp{width:100%;height:44px;border:1.5px solid rgba(255,255,255,0.12);border-radius:var(--radius-sm);padding:0 16px;font-size:14px;font-family:'DM Sans',sans-serif;text-align:center;letter-spacing:2px;outline:none;transition:border-color 0.2s;background:rgba(255,255,255,0.05);color:#fff}
+.pw-inp:focus{border-color:var(--teal-mid)}
+.pw-inp::placeholder{color:rgba(255,255,255,0.2)}
+.pw-inp.error{border-color:var(--red);animation:shake 0.4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pw-err{font-size:12px;color:var(--red);margin-top:8px;min-height:18px}
+.pw-btn{width:100%;height:42px;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:16px;transition:all 0.15s;background:linear-gradient(135deg,#0B8C7A,#2DC4A8);color:#fff}
+.pw-btn:hover{opacity:0.9}
+.pw-btn:active{transform:scale(0.97)}
+.pw-back{background:none;border:none;font-size:13px;color:rgba(255,255,255,0.35);cursor:pointer;margin-top:16px;font-family:'DM Sans',sans-serif}
+.pw-back:hover{color:rgba(255,255,255,0.7)}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{position:fixed;top:0;left:0;height:100vh;width:240px;background:var(--ink);display:flex;flex-direction:column;z-index:100;transition:transform 0.3s}
+.sidebar-logo{padding:28px 24px 20px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.logo-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-mid);font-weight:600;margin-bottom:6px}
+.logo-main{font-family:'Fraunces',serif;font-size:22px;color:#fff;line-height:1.1}
+.logo-sub{font-size:11px;color:rgba(255,255,255,0.35);margin-top:4px;line-height:1.5}
+.nav{flex:1;padding:16px 12px;overflow-y:auto}
+.nav-section{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.25);font-weight:600;padding:12px 12px 6px;margin-top:8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);color:rgba(255,255,255,0.55);font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.85)}
+.nav-item.active{background:var(--teal);color:#fff}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:0.7}
+.nav-item.active svg{opacity:1}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.07)}
+.project-badge{background:rgba(11,140,122,0.2);border:1px solid rgba(45,196,168,0.3);border-radius:8px;padding:8px 12px}
+.pb-label{font-size:10px;color:var(--teal-mid);letter-spacing:1px;text-transform:uppercase;font-weight:600}
+.pb-val{font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px}
+.back-to-hub{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--radius-sm);color:rgba(255,255,255,0.45);font-size:12px;cursor:pointer;border:none;background:none;width:100%;text-align:left;margin-bottom:8px;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.back-to-hub:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.85)}
+
+/* ═══ MAIN ═══ */
+.main{margin-left:240px;min-height:100vh;padding:32px 36px;display:none}
+.page{display:none}.page.active{display:block;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.page-header{margin-bottom:32px}
+.page-eyebrow{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:8px}
+.page-title{font-family:'Fraunces',serif;font-size:36px;color:var(--ink);line-height:1.1;font-weight:600}
+.page-desc{font-size:14px;color:var(--ink3);margin-top:8px;line-height:1.6;max-width:520px}
+
+/* ═══ CARDS / GRID / TILES ═══ */
+.card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.card-pad{padding:24px}.card-sm-pad{padding:16px 20px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat-tile{background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--border);padding:20px;position:relative;overflow:hidden}
+.stat-tile::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.st-teal::after{background:var(--teal)}.st-gold::after{background:var(--gold)}.st-blue::after{background:var(--blue)}.st-ink::after{background:var(--ink)}
+.st-num{font-family:'Fraunces',serif;font-size:36px;font-weight:600;line-height:1;margin-bottom:4px}
+.st-teal .st-num{color:var(--teal)}.st-gold .st-num{color:var(--gold)}.st-blue .st-num{color:var(--blue)}.st-ink .st-num{color:var(--ink)}
+.st-label{font-size:12px;color:var(--ink3);line-height:1.4}
+.section-label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;color:var(--ink3);margin-bottom:12px}
+
+/* ═══ BUTTONS ═══ */
+.btn{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;border:none}
+.btn:active{transform:scale(0.97)}
+.btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:#097a6a}
+.btn-outline{background:none;border:1.5px solid var(--border2);color:var(--ink2)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-ghost{background:none;border:none;color:var(--ink3);font-size:13px;cursor:pointer;padding:6px 10px;border-radius:8px}.btn-ghost:hover{background:var(--cream);color:var(--ink)}
+.btn-sm{height:30px;padding:0 12px;font-size:12px}
+.btn-red{background:var(--red-light);color:var(--red);border:1px solid var(--red-light)}.btn-red:hover{background:var(--red);color:#fff}
+.btn-gold{background:var(--gold-light);color:var(--gold);border:1px solid var(--gold-light)}.btn-gold:hover{background:var(--gold);color:#fff}
+
+/* ═══ BADGE ═══ */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
+.badge-teal{background:var(--teal-light);color:var(--teal)}.badge-gold{background:var(--gold-light);color:var(--gold)}.badge-blue{background:var(--blue-light);color:var(--blue)}.badge-ink{background:rgba(13,10,30,0.06);color:var(--ink2)}.badge-red{background:var(--red-light);color:var(--red)}
+
+/* ═══ FORMS ═══ */
+.inp{height:40px;border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:0 14px;font-size:13px;font-family:'DM Sans',sans-serif;width:100%;outline:none;transition:border-color 0.15s;background:#fff}.inp:focus{border-color:var(--teal)}
+.textarea{border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;font-family:'DM Sans',sans-serif;width:100%;min-height:80px;resize:vertical;outline:none;line-height:1.6;background:#fff}.textarea:focus{border-color:var(--teal)}
+.inp-label{font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px;display:block}
+.form-row{margin-bottom:16px}
+select.inp{appearance:auto}
+
+/* ═══ OVERLAY / MODAL ═══ */
+.overlay{position:fixed;inset:0;background:rgba(13,10,30,0.45);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:200}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:var(--radius);width:440px;max-width:92vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)}
+.modal-lg{width:560px}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-head-title{font-family:'Fraunces',serif;font-size:18px;font-weight:600}
+.modal-close{width:28px;height:28px;border-radius:8px;border:none;background:var(--cream);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--ink3)}.modal-close:hover{background:var(--red-light);color:var(--red)}
+.modal-body{padding:24px;overflow-y:auto;flex:1}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+
+/* ═══ HERO ═══ */
+.hero-banner{background:linear-gradient(135deg,var(--ink) 0%,#1a1540 100%);border-radius:var(--radius);padding:40px 36px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden}
+.hero-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(45,196,168,0.1)}
+.hero-banner::after{content:'';position:absolute;bottom:-60px;left:30%;width:300px;height:150px;border-radius:50%;background:rgba(45,196,168,0.05)}
+.hero-tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-mid);font-weight:600;margin-bottom:10px}
+.hero-title{font-family:'Fraunces',serif;font-size:32px;font-weight:600;line-height:1.1;margin-bottom:10px}
+.hero-sub{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;max-width:480px}
+.hero-actions{display:flex;gap:10px;margin-top:20px}
+.btn-hero{height:40px;padding:0 22px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.btn-hero:active{transform:scale(0.97)}
+.btn-hero-primary{background:var(--teal);color:#fff}.btn-hero-primary:hover{background:#097a6a}
+.btn-hero-ghost{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.12)}.btn-hero-ghost:hover{background:rgba(255,255,255,0.14);color:#fff}
+
+/* ═══ CHIPS ═══ */
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px 5px 5px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:all 0.15s}
+.chip.dim{opacity:0.5}.chip.dim:hover{opacity:0.8}
+.chip-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.chip-x{width:16px;height:16px;border-radius:50%;background:rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;margin-left:2px}.chip-x:hover{background:rgba(0,0,0,0.25)}
+
+/* ═══ CALENDAR ═══ */
+.cal-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px}
+.cal-nav-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border2);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--ink2)}.cal-nav-btn:hover{border-color:var(--teal);color:var(--teal)}
+.cal-month{font-family:'Fraunces',serif;font-size:18px;font-weight:600;min-width:160px;text-align:center}
+.cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:2px}
+.cal-dow{text-align:center;font-size:11px;font-weight:600;color:var(--ink3);padding:6px}
+.cal-grid-g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-cell{min-height:70px;border-radius:8px;border:1px solid var(--border);padding:6px;cursor:pointer;position:relative;transition:all 0.15s;background:#fff}
+.cal-cell:hover{border-color:var(--teal-mid);z-index:1}
+.cal-cell.empty{border:none;cursor:default;background:transparent}
+.cal-cell.is-today{border-color:var(--teal);background:rgba(11,140,122,0.04)}
+.cal-cell.is-overlap{background:var(--teal-light);border-color:var(--teal)}
+.cal-cell.has-meeting{border-color:var(--gold);box-shadow:inset 0 -3px 0 var(--gold)}
+.day-num{font-size:12px;font-weight:600;color:var(--ink)}
+.av-stack{display:flex;flex-wrap:wrap;gap:2px;margin-top:4px}
+.av-mini{width:18px;height:18px;border-radius:50%;font-size:8px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center}
+.overlap-tick{position:absolute;top:4px;right:4px;background:var(--teal);color:#fff;width:14px;height:14px;border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.note-dot{position:absolute;bottom:4px;right:4px;width:6px;height:6px;border-radius:50%;background:#F59E0B}
+.cal-meeting-pill{font-size:9px;background:var(--gold-light);color:var(--gold);padding:1px 5px;border-radius:4px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.legend-row{display:flex;gap:18px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3)}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+
+/* ═══ PARTNER ROW (modal) ═══ */
+.p-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:all 0.15s;margin-bottom:6px}
+.p-row:hover{border-color:var(--teal-mid)}
+.p-row.checked{border-color:var(--teal);background:var(--teal-light)}
+.pr-ck{width:18px;height:18px;border-radius:6px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.p-row.checked .pr-ck{background:var(--teal);border-color:var(--teal)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.av-sm{width:24px;height:24px;font-size:9px}
+.av-md{width:32px;height:32px;font-size:11px}
+
+/* ═══ MEETING CARDS ═══ */
+.meeting-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
+.mc-header{display:flex;align-items:center;gap:14px;padding:16px 20px;position:relative}
+.mc-date-stripe{position:absolute;left:0;top:0;bottom:0;width:4px}
+.mc-info{flex:1}
+.mc-title{font-size:15px;font-weight:600;margin-bottom:2px}
+.mc-meta{font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mc-dot{width:3px;height:3px;border-radius:50%;background:var(--ink3)}
+.mc-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.mc-expand{width:28px;height:28px;border-radius:8px;border:none;background:var(--cream);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--ink3)}.mc-expand:hover{background:#eee}
+.mc-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border)}
+.mc-body.open{display:block}
+.mc-section{margin-bottom:14px;margin-top:14px}
+.mc-sec-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:600;margin-bottom:6px}
+.attendee-chips{display:flex;flex-wrap:wrap;gap:6px}
+.attendee-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 3px;border-radius:99px;background:var(--cream);font-size:11px;font-weight:500}
+
+/* ═══ DOC CARDS ═══ */
+.doc-card{display:flex;align-items:center;gap:14px;padding:16px 20px;background:#fff;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:8px}
+.doc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.doc-info{flex:1;min-width:0}
+.doc-title{font-size:14px;font-weight:600;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.doc-meta{font-size:11px;color:var(--ink3)}
+.doc-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* ═══ MoM ═══ */
+.mom-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:16px;overflow:hidden}
+.mom-header{padding:20px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.mom-num{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:4px}
+.mom-title{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:4px}
+.mom-meta{font-size:12px;color:var(--ink3);display:flex;gap:12px;flex-wrap:wrap}
+.mom-body{padding:0 24px 24px;border-top:1px solid var(--border)}
+.mom-section-title{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink3);font-weight:600;margin:16px 0 8px}
+.decision-item{display:flex;gap:8px;font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:4px}
+.action-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.ai-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.15s}
+.ai-check.done{background:var(--teal);border-color:var(--teal)}
+.ai-text{flex:1;font-size:13px;color:var(--ink2)}.ai-text.done{text-decoration:line-through;opacity:0.5}
+.ai-owner{font-size:11px;padding:2px 10px;border-radius:99px;background:var(--cream);color:var(--ink3);font-weight:500}
+
+/* ═══ TABS ═══ */
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--cream);padding:4px;border-radius:10px;width:fit-content}
+.tab{padding:8px 16px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--ink3);transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(13,10,30,0.1)}
+
+/* ═══ EMAIL ═══ */
+.day-pill{display:inline-flex;align-items:center;padding:6px 14px;border-radius:8px;border:1.5px solid var(--border2);font-size:12px;font-weight:500;cursor:pointer;margin:3px;transition:all 0.15s}
+.day-pill:hover{border-color:var(--teal-mid)}.day-pill.sel{background:var(--teal);color:#fff;border-color:var(--teal)}
+.email-preview{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+
+/* ═══ PROGRESS BAR ═══ */
+.prog-bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:6px}
+.prog-fill{height:100%;border-radius:99px;background:var(--teal);transition:width 0.5s}
+
+/* ═══ QUICK LINKS ═══ */
+.quick-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);text-decoration:none;color:var(--ink2);font-size:13px;font-weight:500;transition:all 0.15s}
+.quick-link:hover{background:var(--cream)}
+.ql-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ═══ UPCOMING ═══ */
+.upcoming-item{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border)}
+.upcoming-item:last-child{border-bottom:none}
+.upcoming-date-box{width:40px;height:40px;border-radius:8px;background:var(--teal-light);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.ud-day{font-family:'Fraunces',serif;font-size:16px;font-weight:600;line-height:1;color:var(--teal)}
+.ud-mon{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--teal);font-weight:600}
+.ui-title{font-size:13px;font-weight:600}
+.ui-sub{font-size:11px;color:var(--ink3)}
+.ui-right{flex:1;display:flex;justify-content:flex-end}
+
+/* ═══ PARTNER ROW DASH ═══ */
+.partner-row-dash{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.partner-row-dash:last-of-type{border-bottom:none}
+.pr-info{flex:1}.pr-name-dash{font-size:13px;font-weight:600}.pr-inst{font-size:11px;color:var(--ink3)}
+.pr-avail{font-size:12px;font-weight:600}
+
+/* ═══ COLLABORATOR ═══ */
+.collab-section{margin-top:20px}
+.collab-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.collab-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#fff;border-radius:8px;border:1px solid var(--border)}
+.collab-email{flex:1;font-size:13px;font-weight:500}
+.collab-role{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--teal-light);color:var(--teal);font-weight:600}
+.collab-remove{width:24px;height:24px;border-radius:6px;border:none;background:var(--cream);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--ink3)}.collab-remove:hover{background:var(--red-light);color:var(--red)}
+
+/* ═══ TOAST ═══ */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:#fff;padding:12px 24px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s;box-shadow:var(--shadow-md)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ═══ HAMBURGER ═══ */
+.hamburger{display:none;position:fixed;top:14px;left:14px;z-index:150;width:36px;height:36px;border-radius:8px;border:none;background:var(--ink);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.hamburger span{width:18px;height:2px;background:#fff;border-radius:2px}
+@media(max-width:768px){
+  .hamburger{display:flex}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:24px 16px;padding-top:60px}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .hero-title{font-size:24px}
+  .landing-title{font-size:28px}
+  .project-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LANDING PAGE -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="landing" id="landing-page">
+  <div class="landing-header">
+    <div class="landing-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="landing-tag">CESGS · Universitas Airlangga</div>
+    <div class="landing-title">Project Collaboration Hub</div>
+    <div class="landing-sub">Workspace terpusat untuk koordinasi proyek penelitian. Kelola jadwal, dokumen, notulen, dan komunikasi tim — semua di satu tempat.</div>
+  </div>
+
+  <div class="project-grid" id="project-grid"></div>
+  <div class="landing-footer">© 2026 CESGS — Center for Environmental, Social & Governance · Universitas Airlangga</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PASSWORD GATE -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="pw-overlay" id="pw-overlay">
+  <div class="pw-box">
+    <div id="pw-icon" style="font-size:32px;margin-bottom:12px"></div>
+    <div class="pw-box-title" id="pw-title">Masukkan Kata Sandi</div>
+    <div class="pw-box-sub" id="pw-sub">Proyek ini dilindungi kata sandi.</div>
+    <input class="pw-inp" id="pw-input" type="password" placeholder="••••••••" autocomplete="off"/>
+    <div class="pw-err" id="pw-err"></div>
+    <button class="pw-btn" id="pw-btn" onclick="checkPassword()">Masuk</button>
+    <button class="pw-back" onclick="closePwGate()">← Kembali ke Hub</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- HAMBURGER -->
+<!-- ══════════════════════════════════════════════ -->
+<button class="hamburger" id="hamburger-btn" style="display:none" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- SIDEBAR (dynamically populated) -->
+<!-- ══════════════════════════════════════════════ -->
+<nav class="sidebar" id="sidebar" style="display:none">
+  <div class="sidebar-logo" id="sidebar-logo"></div>
+  <div class="nav" id="sidebar-nav"></div>
+  <div class="sidebar-footer">
+    <div class="project-badge">
+      <div class="pb-label">Project Status</div>
+      <div class="pb-val">Phase 1 — Active</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- MAIN CONTENT -->
+<!-- ══════════════════════════════════════════════ -->
+<main class="main" id="main-content">
+
+<!-- PAGE: DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="hero-banner">
+    <div class="hero-tag" id="hero-tag"></div>
+    <div class="hero-title" id="hero-title"></div>
+    <div class="hero-sub" id="hero-sub"></div>
+    <div class="hero-actions">
+      <button class="btn-hero btn-hero-primary" onclick="showPage('schedule')">View Calendar</button>
+      <button class="btn-hero btn-hero-ghost" onclick="showPage('mom')">Latest MoM</button>
+    </div>
+  </div>
+  <div class="grid-4" style="margin-bottom:24px">
+    <div class="stat-tile st-teal"><div class="st-num" id="dash-partners">0</div><div class="st-label">Active Partners</div></div>
+    <div class="stat-tile st-gold"><div class="st-num" id="dash-meetings">0</div><div class="st-label">Meetings</div></div>
+    <div class="stat-tile st-blue"><div class="st-num" id="dash-docs">0</div><div class="st-label">Documents</div></div>
+    <div class="stat-tile st-ink"><div class="st-num" id="dash-actions">0</div><div class="st-label">Open Actions</div></div>
+  </div>
+  <div class="grid-2" style="margin-bottom:24px">
+    <div class="card">
+      <div class="card-sm-pad" style="border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div class="section-label" style="margin:0">Upcoming Meetings</div>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('schedule')">See all →</button>
+      </div>
+      <div class="card-pad" id="dash-upcoming-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-sm-pad" style="border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div class="section-label" style="margin:0">Partner Availability</div>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('schedule')">Edit →</button>
+      </div>
+      <div class="card-pad" id="dash-partner-list"></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-sm-pad" style="border-bottom:1px solid var(--border)"><div class="section-label" style="margin:0">Quick Links</div></div>
+      <div class="card-pad" id="quick-links-container"></div>
+    </div>
+    <div class="card">
+      <div class="card-sm-pad" style="border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div class="section-label" style="margin:0">Latest Action Items</div>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('mom')">View MoM →</button>
+      </div>
+      <div class="card-pad" id="dash-action-items"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: SCHEDULE -->
+<div class="page" id="page-schedule">
+  <div class="page-header">
+    <div class="page-eyebrow">Planning</div>
+    <div class="page-title">Meeting Schedule</div>
+    <div class="page-desc">Mark partner availability, identify overlap days, and coordinate meeting dates across institutions.</div>
+  </div>
+  <div class="grid-2" style="margin-bottom:20px">
+    <div class="card card-pad">
+      <div class="section-label">Add Partner</div>
+      <div style="display:flex;gap:8px">
+        <input class="inp" id="sched-name" placeholder="Partner name..." maxlength="30" style="flex:1"/>
+        <button class="btn btn-teal" onclick="addPartner()">+ Add</button>
+      </div>
+      <div style="margin-top:14px" id="sched-chips"><span style="font-size:13px;color:var(--ink3)">No partners yet</span></div>
+    </div>
+    <div class="grid-2" style="align-content:start">
+      <div class="stat-tile st-teal"><div class="st-num" id="sched-stat-avail">0</div><div class="st-label">Total available days</div></div>
+      <div class="stat-tile st-gold"><div class="st-num" id="sched-stat-overlap">0</div><div class="st-label">Overlap days</div></div>
+    </div>
+  </div>
+  <div class="card card-pad">
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)">&#8592;</button>
+      <div class="cal-month" id="cal-month-label"></div>
+      <button class="cal-nav-btn" onclick="changeMonth(1)">&#8594;</button>
+    </div>
+    <div class="cal-dow-row" id="cal-dow"></div>
+    <div class="cal-grid-g" id="cal-grid"></div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div>Today</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--teal-light);border:1.5px solid var(--teal)"></div>All available</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Meeting</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: MEETINGS LIST -->
+<div class="page" id="page-meetings-list">
+  <div class="page-header">
+    <div class="page-eyebrow">Planning</div>
+    <div class="page-title">Meetings &amp; Invites</div>
+    <div class="page-desc">Manage all scheduled meetings, view summaries, and send invitations to partners.</div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+    <button class="btn btn-teal" onclick="openAddMeetingModal()">+ Add Meeting</button>
+  </div>
+  <div id="meetings-list-container"></div>
+</div>
+
+<!-- PAGE: DOCUMENTS -->
+<div class="page" id="page-documents">
+  <div class="page-header">
+    <div class="page-eyebrow">Resources</div>
+    <div class="page-title">Documents &amp; Proposals</div>
+    <div class="page-desc">All project documents in one place.</div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div class="tabs" id="doc-tabs">
+      <button class="tab active" onclick="setDocTab('all',this)">All</button>
+      <button class="tab" onclick="setDocTab('proposal',this)">Proposal</button>
+      <button class="tab" onclick="setDocTab('report',this)">Report</button>
+      <button class="tab" onclick="setDocTab('reference',this)">Reference</button>
+    </div>
+    <button class="btn btn-teal" onclick="openAddDocModal()">+ Add Document</button>
+  </div>
+  <div id="docs-list"></div>
+</div>
+
+<!-- PAGE: MoM -->
+<div class="page" id="page-mom">
+  <div class="page-header">
+    <div class="page-eyebrow">Documentation</div>
+    <div class="page-title">Minutes of Meeting</div>
+    <div class="page-desc">Formal records of each meeting — decisions, action items, attendees.</div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+    <button class="btn btn-teal" onclick="openAddMoMModal()">+ New MoM</button>
+  </div>
+  <div id="mom-list"></div>
+</div>
+
+<!-- PAGE: EMAIL -->
+<div class="page" id="page-email">
+  <div class="page-header">
+    <div class="page-eyebrow">Communication</div>
+    <div class="page-title">Send Meeting Invitation</div>
+    <div class="page-desc">Compose and send professional meeting invitations.</div>
+  </div>
+  <div class="grid-2">
+    <div class="card card-pad">
+      <div class="form-row"><label class="inp-label">To (email)</label><input class="inp" id="e-to" placeholder="partner@university.edu"/></div>
+      <div class="form-row"><label class="inp-label">Subject</label><input class="inp" id="e-subject" placeholder="Meeting Invitation"/></div>
+      <div class="grid-2">
+        <div class="form-row"><label class="inp-label">Time</label><input class="inp" id="e-time" placeholder="09:00 WIB"/></div>
+        <div class="form-row"><label class="inp-label">Platform</label><input class="inp" id="e-location" placeholder="Zoom"/></div>
+      </div>
+      <div class="form-row"><label class="inp-label">Agenda</label><textarea class="textarea" id="e-agenda" placeholder="Meeting agenda..."></textarea></div>
+      <div class="form-row">
+        <label class="inp-label">Select Overlap Days</label>
+        <div id="email-overlap-list"></div>
+      </div>
+      <button class="btn btn-teal" style="width:100%" onclick="buildEmailPreview()">Generate Preview →</button>
+    </div>
+    <div>
+      <div class="card card-pad" id="email-preview-card">
+        <div style="color:var(--ink3);font-size:14px;text-align:center;padding:48px 16px">Fill in the form and click "Generate Preview".</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: COLLABORATORS -->
+<div class="page" id="page-collaborators">
+  <div class="page-header">
+    <div class="page-eyebrow">Team</div>
+    <div class="page-title">Collaborators</div>
+    <div class="page-desc">Invite team members via email to collaborate on this project.</div>
+  </div>
+  <div class="card card-pad" style="max-width:560px">
+    <div class="section-label">Invite Collaborator</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <input class="inp" id="collab-email" placeholder="email@example.com" style="flex:1"/>
+      <select class="inp" id="collab-role" style="width:120px"><option value="viewer">Viewer</option><option value="editor">Editor</option></select>
+      <button class="btn btn-teal" onclick="addCollaborator()">Invite</button>
+    </div>
+    <div class="collab-list" id="collab-list"></div>
+  </div>
+</div>
+
+</main>
+
+<!-- ══════ MODALS ══════ -->
+<div class="overlay" id="ov-date">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-head-title" id="m-date-title">Date</div><button class="modal-close" onclick="closeOv('ov-date')">✕</button></div>
+    <div class="modal-body">
+      <div class="section-label">Partners available this day</div>
+      <div id="m-partner-rows" style="margin-bottom:18px"></div>
+      <div class="section-label">Note</div>
+      <textarea class="textarea" id="m-note" placeholder="e.g. Morning only"></textarea>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeOv('ov-date')">Cancel</button><button class="btn btn-teal" onclick="saveDate()">Save</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="ov-add-meeting">
+  <div class="modal modal-lg">
+    <div class="modal-head"><div class="modal-head-title">Schedule a Meeting</div><button class="modal-close" onclick="closeOv('ov-add-meeting')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label class="inp-label">Meeting Title *</label><input class="inp" id="nm-title" placeholder="Kick-off Meeting"/></div>
+      <div class="grid-2">
+        <div class="form-row"><label class="inp-label">Date *</label><input class="inp" type="date" id="nm-date"/></div>
+        <div class="form-row"><label class="inp-label">Time</label><input class="inp" id="nm-time" placeholder="09:00 – 11:00 WIB"/></div>
+      </div>
+      <div class="form-row"><label class="inp-label">Platform / Location</label><input class="inp" id="nm-loc" placeholder="Zoom / Room 3"/></div>
+      <div class="form-row"><label class="inp-label">Agenda</label><textarea class="textarea" id="nm-agenda" placeholder="Main topics..."></textarea></div>
+      <div class="form-row"><label class="inp-label">Attendees</label><div id="nm-attendees" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeOv('ov-add-meeting')">Cancel</button><button class="btn btn-teal" onclick="saveMeeting()">Add Meeting</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="ov-add-doc">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-head-title">Add Document / Link</div><button class="modal-close" onclick="closeOv('ov-add-doc')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label class="inp-label">Title *</label><input class="inp" id="nd-title" placeholder="Document title"/></div>
+      <div class="form-row"><label class="inp-label">Category</label><select class="inp" id="nd-cat"><option value="proposal">Proposal</option><option value="report">Report</option><option value="reference">Reference</option><option value="other">Other</option></select></div>
+      <div class="form-row"><label class="inp-label">URL</label><input class="inp" id="nd-url" placeholder="https://..."/></div>
+      <div class="form-row"><label class="inp-label">Description</label><textarea class="textarea" id="nd-desc" style="min-height:60px"></textarea></div>
+      <div class="form-row"><label class="inp-label">Added by</label><input class="inp" id="nd-author" placeholder="Name / institution"/></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeOv('ov-add-doc')">Cancel</button><button class="btn btn-teal" onclick="saveDoc()">Add Document</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="ov-add-mom">
+  <div class="modal modal-lg">
+    <div class="modal-head"><div class="modal-head-title">New Minutes of Meeting</div><button class="modal-close" onclick="closeOv('ov-add-mom')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label class="inp-label">Meeting Title *</label><input class="inp" id="nmom-title"/></div>
+      <div class="grid-2">
+        <div class="form-row"><label class="inp-label">Date *</label><input class="inp" type="date" id="nmom-date"/></div>
+        <div class="form-row"><label class="inp-label">Time</label><input class="inp" id="nmom-time" placeholder="09:00 – 11:00 WIB"/></div>
+      </div>
+      <div class="form-row"><label class="inp-label">Location</label><input class="inp" id="nmom-loc"/></div>
+      <div class="form-row"><label class="inp-label">Attendees</label><div id="nmom-attendees" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div></div>
+      <div class="form-row"><label class="inp-label">Summary</label><textarea class="textarea" id="nmom-summary" style="min-height:100px"></textarea></div>
+      <div class="form-row"><label class="inp-label">Decisions (one per line)</label><textarea class="textarea" id="nmom-decisions" style="min-height:80px"></textarea></div>
+      <div class="form-row"><label class="inp-label">Actions (Task | Owner | Deadline)</label><textarea class="textarea" id="nmom-actions" style="min-height:80px"></textarea></div>
+      <div class="form-row"><label class="inp-label">Next Meeting</label><input class="inp" id="nmom-next"/></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeOv('ov-add-mom')">Cancel</button><button class="btn btn-teal" onclick="saveMoM()">Save MoM</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════
+   PROJECT DEFINITIONS
+═══════════════════════════════════ */
+const PROJECTS = {
+  plts: {
+    id:'plts', name:'Kajian PLTS Terapung', org:'PLN', password:'PLTST2026',
+    accent:'#0B8C7A', icon:'☀️', iconBg:'#E0F5F2',
+    orgColor:'var(--teal)', statusBg:'var(--teal-light)', statusColor:'var(--teal)',
+    tag:'PLTS Terapung · PLN',
+    title:'Kajian PLTS Terapung Hub',
+    sub:'Workspace kolaborasi untuk kajian pembangkit listrik tenaga surya terapung bersama PLN. Koordinasi jadwal, dokumen, dan keputusan.',
+    teamName:'Tim Kajian PLTS',
+    teamOrg:'CESGS — Universitas Airlangga',
+    links:[
+      {label:'PLN Portal',url:'https://www.pln.co.id',icon:'🔌',bg:'#E0F5F2'},
+      {label:'Shared Google Drive',url:'https://drive.google.com',icon:'📁',bg:'#FDF3E0'},
+      {label:'Zoom Meeting Room',url:'https://zoom.us',icon:'📹',bg:'var(--teal-light)'},
+    ],
+    seedDocs:[
+      {id:1,title:'Proposal Kajian PLTS Terapung v1.0',cat:'proposal',url:'https://drive.google.com',desc:'Draft proposal kajian PLTS terapung.',author:'CESGS Team',date:'2026-01-15'},
+      {id:2,title:'Data Teknis PLTS — PLN',cat:'reference',url:'https://drive.google.com',desc:'Data teknis dari PLN untuk evaluasi lokasi.',author:'PLN',date:'2026-02-01'},
+      {id:3,title:'Studi Literatur Floating Solar',cat:'reference',url:'https://drive.google.com',desc:'Review literatur teknologi floating solar PV.',author:'CESGS Team',date:'2026-01-20'},
+    ]
+  },
+  bi: {
+    id:'bi', name:'Blue Building', org:'Bank Indonesia', password:'BlueBuilding2026',
+    accent:'#1A55C9', icon:'🏛️', iconBg:'#E5EEFF',
+    orgColor:'var(--blue)', statusBg:'var(--blue-light)', statusColor:'var(--blue)',
+    tag:'Blue Building · Bank Indonesia',
+    title:'Blue Building Hub',
+    sub:'Workspace kolaborasi untuk proyek Blue Building bersama Bank Indonesia. Koordinasi jadwal, dokumen, dan notulen rapat.',
+    teamName:'Tim Blue Building',
+    teamOrg:'CESGS — Universitas Airlangga',
+    links:[
+      {label:'Bank Indonesia Portal',url:'https://www.bi.go.id',icon:'🏦',bg:'#E5EEFF'},
+      {label:'Shared Google Drive',url:'https://drive.google.com',icon:'📁',bg:'#FDF3E0'},
+      {label:'Zoom Meeting Room',url:'https://zoom.us',icon:'📹',bg:'var(--teal-light)'},
+    ],
+    seedDocs:[
+      {id:1,title:'Proposal Blue Building BI v1.0',cat:'proposal',url:'https://drive.google.com',desc:'Proposal proyek Blue Building untuk Bank Indonesia.',author:'CESGS Team',date:'2026-02-01'},
+      {id:2,title:'Panduan Green Building BI',cat:'reference',url:'https://drive.google.com',desc:'Panduan standar bangunan hijau Bank Indonesia.',author:'Bank Indonesia',date:'2026-01-10'},
+    ]
+  },
+  cbhe: {
+    id:'cbhe', name:'CBHE Erasmus+', org:'Erasmus+ Programme', password:'CBHE2027',
+    accent:'#9333EA', icon:'🎓', iconBg:'#F3E8FF',
+    orgColor:'#9333EA', statusBg:'#F3E8FF', statusColor:'#9333EA',
+    tag:'CBHE · Erasmus+ Programme',
+    title:'CESGS Collaboration Hub',
+    sub:'Centralized workspace for the Capacity Building for Higher Education project. Coordinate schedules, manage documents, and track decisions across all partner institutions.',
+    teamName:'CESGS Team',
+    teamOrg:'Universitas Airlangga',
+    links:[
+      {label:'Erasmus+ Portal',url:'https://erasmus-plus.ec.europa.eu',icon:'🌐',bg:'#E5EEFF'},
+      {label:'Shared Google Drive',url:'https://drive.google.com',icon:'📁',bg:'#FDF3E0'},
+      {label:'Zoom Meeting Room',url:'https://zoom.us',icon:'📹',bg:'var(--teal-light)'},
+    ],
+    seedDocs:[
+      {id:1,title:'CBHE Project Proposal v1.0',cat:'proposal',url:'https://drive.google.com',desc:'Initial project proposal submitted to Erasmus+ CBHE.',author:'CESGS Team',date:'2026-01-10'},
+      {id:2,title:'Work Package Description',cat:'proposal',url:'https://drive.google.com',desc:'Detailed work packages and milestones.',author:'Coord. Office',date:'2026-02-01'},
+      {id:3,title:'Erasmus+ CBHE Guidelines 2025',cat:'reference',url:'https://erasmus-plus.ec.europa.eu',desc:'Official CBHE guidelines.',author:'EU Commission',date:'2025-09-01'},
+      {id:4,title:'Partner Agreement Template',cat:'reference',url:'https://drive.google.com',desc:'Inter-institutional agreement template.',author:'Legal Team',date:'2026-01-20'},
+    ]
+  }
+};
+
+/* ═══════════════════════════════════
+   STATE
+═══════════════════════════════════ */
+const COLORS=[
+  {bg:'#EDE9FE',text:'#5B21B6',av:'#7C3AED'},{bg:'#FCE7F3',text:'#9D174D',av:'#DB2777'},
+  {bg:'#D1FAE5',text:'#065F46',av:'#059669'},{bg:'#FEF3C7',text:'#78350F',av:'#D97706'},
+  {bg:'#DBEAFE',text:'#1E3A8A',av:'#2563EB'},{bg:'#FEE2E2',text:'#7F1D1D',av:'#DC2626'},
+  {bg:'#F3E8FF',text:'#581C87',av:'#9333EA'},{bg:'#CCFBF1',text:'#134E4A',av:'#0D9488'},
+];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MOS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+let currentProjectId=null;
+let projectData={};
+// Each project stores: {partners,currentPartner,availability,calNotes,meetings,documents,moms,collaborators}
+
+let viewYear,viewMonth;
+let modalDate=null,modalChecked={};
+let selectedOverlapDays=new Set();
+let nmAttendees={},nmomAttendees={};
+let emailPlain='';
+let activeDocTab='all';
+
+const now=new Date();
+viewYear=now.getFullYear();
+viewMonth=now.getMonth();
+
+function getState(){
+  if(!currentProjectId) return null;
+  if(!projectData[currentProjectId]){
+    const proj=PROJECTS[currentProjectId];
+    projectData[currentProjectId]={
+      partners:[],currentPartner:'',availability:{},calNotes:{},
+      meetings:[],documents:[...proj.seedDocs],moms:[],
+      collaborators:[]
+    };
+  }
+  return projectData[currentProjectId];
+}
+
+// Persistence via localStorage
+function saveAll(){
+  try{localStorage.setItem('cesgs_hub_data',JSON.stringify(projectData))}catch(e){}
+  try{localStorage.setItem('cesgs_hub_auth',JSON.stringify(authenticatedProjects))}catch(e){}
+}
+function loadAll(){
+  try{const d=localStorage.getItem('cesgs_hub_data');if(d)projectData=JSON.parse(d)}catch(e){}
+  try{const a=localStorage.getItem('cesgs_hub_auth');if(a)authenticatedProjects=JSON.parse(a)}catch(e){}
+}
+let authenticatedProjects={};
+
+/* ═══════════════════════════════════
+   LANDING PAGE
+═══════════════════════════════════ */
+function renderLanding(){
+  const grid=document.getElementById('project-grid');
+  grid.innerHTML=Object.values(PROJECTS).map(p=>{
+    const data=projectData[p.id];
+    const collabCount=data?data.collaborators.length:0;
+    const docCount=data?data.documents.length:p.seedDocs.length;
+    const meetCount=data?data.meetings.length:0;
+    const avColors=['#7C3AED','#DB2777','#059669','#D97706','#2563EB'];
+    return`<div class="project-card" onclick="requestAccess('${p.id}')">
+      <div class="pc-accent" style="background:linear-gradient(90deg,${p.accent},${p.accent}88)"></div>
+      <div class="pc-body">
+        <div class="pc-icon" style="background:${p.accent}18">${p.icon}</div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-org" style="color:${p.accent}">${p.org}</div>
+        <div class="pc-desc">${p.sub.slice(0,100)}...</div>
+        <div class="pc-status" style="background:${p.accent}18;color:${p.accent}">
+          <span style="width:6px;height:6px;border-radius:50%;background:currentColor"></span> Active
+        </div>
+        <div class="pc-collab">
+          <div class="pc-collab-avatars">
+            ${avColors.slice(0,Math.min(3,collabCount+1)).map((c,i)=>`<div class="pc-av" style="background:${c}">${i===0?'Y':String.fromCharCode(65+i)}</div>`).join('')}
+          </div>
+          <div class="pc-collab-count">${docCount} docs · ${meetCount} meetings</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════
+   PASSWORD GATE
+═══════════════════════════════════ */
+let pendingProject=null;
+
+function requestAccess(pid){
+  if(authenticatedProjects[pid]){
+    enterProject(pid);
+    return;
+  }
+  pendingProject=pid;
+  const p=PROJECTS[pid];
+  document.getElementById('pw-icon').textContent=p.icon;
+  document.getElementById('pw-title').textContent=p.name;
+  document.getElementById('pw-sub').textContent=`Masukkan kata sandi untuk mengakses proyek ${p.org}.`;
+  document.getElementById('pw-input').value='';
+  document.getElementById('pw-err').textContent='';
+  document.getElementById('pw-input').classList.remove('error');
+  const btn=document.getElementById('pw-btn');
+  // btn styled by CSS
+  document.getElementById('pw-overlay').classList.add('show');
+  setTimeout(()=>document.getElementById('pw-input').focus(),200);
+}
+document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword()});
+
+function checkPassword(){
+  const val=document.getElementById('pw-input').value;
+  const p=PROJECTS[pendingProject];
+  if(val===p.password){
+    authenticatedProjects[pendingProject]=true;
+    saveAll();
+    document.getElementById('pw-overlay').classList.remove('show');
+    enterProject(pendingProject);
+  } else {
+    document.getElementById('pw-err').textContent='Kata sandi salah. Coba lagi.';
+    document.getElementById('pw-input').classList.add('error');
+    setTimeout(()=>document.getElementById('pw-input').classList.remove('error'),500);
+  }
+}
+function closePwGate(){
+  document.getElementById('pw-overlay').classList.remove('show');
+  pendingProject=null;
+}
+
+/* ═══════════════════════════════════
+   ENTER PROJECT
+═══════════════════════════════════ */
+function enterProject(pid){
+  currentProjectId=pid;
+  const p=PROJECTS[pid];
+  const s=getState();
+
+  // Hide landing, show app
+  document.getElementById('landing-page').style.display='none';
+  document.getElementById('sidebar').style.display='flex';
+  document.getElementById('main-content').style.display='block';
+  document.getElementById('hamburger-btn').style.display='';
+
+  // Sidebar
+  document.getElementById('sidebar-logo').innerHTML=`
+    <div class="logo-tag">${p.tag}</div>
+    <div class="logo-main">CollabHub</div>
+    <div class="logo-sub">${p.name}</div>`;
+
+  document.getElementById('sidebar-nav').innerHTML=`
+    <button class="back-to-hub" onclick="goToLanding()">← Kembali ke Hub</button>
+    <div class="nav-section">Overview</div>
+    <button class="nav-item active" onclick="showPage('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard</button>
+    <div class="nav-section">Planning</div>
+    <button class="nav-item" onclick="showPage('schedule')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Meeting Schedule</button>
+    <button class="nav-item" onclick="showPage('meetings-list')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Meetings & Invites</button>
+    <div class="nav-section">Resources</div>
+    <button class="nav-item" onclick="showPage('documents')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Documents</button>
+    <button class="nav-item" onclick="showPage('mom')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Minutes of Meeting</button>
+    <div class="nav-section">Communication</div>
+    <button class="nav-item" onclick="showPage('email')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Send Invitation</button>
+    <div class="nav-section">Team</div>
+    <button class="nav-item" onclick="showPage('collaborators')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      Collaborators</button>`;
+
+  // Hero
+  document.getElementById('hero-tag').textContent=p.tag;
+  document.getElementById('hero-title').textContent=p.title;
+  document.getElementById('hero-sub').textContent=p.sub;
+
+  // Quick links
+  document.getElementById('quick-links-container').innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">`+
+    p.links.map(l=>`<a class="quick-link" href="${l.url}" target="_blank">
+      <div class="ql-icon" style="background:${l.bg};font-size:16px">${l.icon}</div>${l.label}</a>`).join('')+
+    `<a class="quick-link" href="#" onclick="showPage('documents');return false">
+      <div class="ql-icon" style="background:rgba(13,10,30,0.05);font-size:16px">📄</div>Project Documents</a></div>`;
+
+  activeDocTab='all';
+  selectedOverlapDays=new Set();
+  showPage('dashboard');
+}
+
+function goToLanding(){
+  saveAll();
+  currentProjectId=null;
+  document.getElementById('landing-page').style.display='';
+  document.getElementById('sidebar').style.display='none';
+  document.getElementById('main-content').style.display='none';
+  document.getElementById('hamburger-btn').style.display='none';
+  renderLanding();
+}
+
+/* ═══════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const map={dashboard:0,schedule:1,'meetings-list':2,documents:3,mom:4,email:5,collaborators:6};
+  // +1 offset for back-to-hub button
+  document.querySelectorAll('.nav-item')[map[id]]?.classList.add('active');
+  if(id==='dashboard') refreshDashboard();
+  if(id==='schedule'){renderChips();renderCalendar();}
+  if(id==='meetings-list') renderMeetingsList();
+  if(id==='documents') renderDocs();
+  if(id==='mom') renderMoMs();
+  if(id==='email') renderEmailOverlapDays();
+  if(id==='collaborators') renderCollaborators();
+  if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
+}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+
+/* ═══════════════════════════════════
+   OVERLAY / TOAST
+═══════════════════════════════════ */
+function openOv(id){document.getElementById(id).classList.add('show')}
+function closeOv(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('.overlay').forEach(ov=>{ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('show')})});
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+
+/* ═══════════════════════════════════
+   HELPERS
+═══════════════════════════════════ */
+function ini(name){return name.trim().split(/\s+/).map(w=>w[0]||'').join('').slice(0,2).toUpperCase()}
+function pc(i){return COLORS[i%COLORS.length]}
+function dk(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
+function fmtDate(k){const[y,m,d]=k.split('-').map(Number);return`${d} ${MONTHS[m-1]} ${y}`}
+function fmtDateShort(k){const[y,m,d]=k.split('-').map(Number);return`${d} ${MOS[m-1]}`}
+function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+function svgCheck(){return`<svg width="10" height="10" viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+
+function getOverlapDays(){
+  const s=getState();if(!s||!s.partners.length)return[];
+  return Object.keys(s.availability).filter(k=>{
+    const avs=s.availability[k]||[];
+    return s.partners.every(p=>avs.includes(p));
+  }).sort();
+}
+
+/* ═══════════════════════════════════
+   PARTNERS
+═══════════════════════════════════ */
+function addPartner(){
+  const s=getState();if(!s)return;
+  const inp=document.getElementById('sched-name');
+  const name=inp.value.trim();
+  if(!name)return;
+  if(s.partners.find(p=>p.toLowerCase()===name.toLowerCase())){inp.value='';return;}
+  s.partners.push(name);s.currentPartner=name;inp.value='';
+  renderChips();renderCalendar();refreshDashboard();saveAll();
+}
+document.getElementById('sched-name').addEventListener('keydown',e=>{if(e.key==='Enter')addPartner()});
+
+function removePartner(name){
+  const s=getState();if(!s)return;
+  s.partners=s.partners.filter(p=>p!==name);
+  Object.keys(s.availability).forEach(k=>{s.availability[k]=(s.availability[k]||[]).filter(n=>n!==name)});
+  if(s.currentPartner===name) s.currentPartner=s.partners[0]||'';
+  renderChips();renderCalendar();refreshDashboard();saveAll();
+}
+function setCP(name){const s=getState();if(s)s.currentPartner=name;renderChips()}
+
+function renderChips(){
+  const s=getState();if(!s)return;
+  const el=document.getElementById('sched-chips');
+  if(!s.partners.length){el.innerHTML='<span style="font-size:13px;color:var(--ink3)">No partners yet</span>';return;}
+  el.innerHTML=s.partners.map((p,i)=>{
+    const c=pc(i);const act=s.currentPartner===p;
+    return`<div class="chip${act?'':' dim'}" style="background:${c.bg};color:${c.text};border-color:${act?c.av:'transparent'}" onclick="setCP('${esc(p)}')">
+      <div class="chip-av" style="background:${c.av}">${ini(p)}</div>${p}
+      <div class="chip-x" onclick="event.stopPropagation();removePartner('${esc(p)}')">✕</div></div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════
+   CALENDAR
+═══════════════════════════════════ */
+function changeMonth(d){viewMonth+=d;if(viewMonth>11){viewMonth=0;viewYear++}if(viewMonth<0){viewMonth=11;viewYear--}renderCalendar()}
+
+function renderCalendar(){
+  const s=getState();if(!s)return;
+  document.getElementById('cal-month-label').textContent=`${MONTHS[viewMonth]} ${viewYear}`;
+  document.getElementById('cal-dow').innerHTML=DAYS.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const todayKey=dk(now.getFullYear(),now.getMonth(),now.getDate());
+  const first=new Date(viewYear,viewMonth,1).getDay();
+  const dim=new Date(viewYear,viewMonth+1,0).getDate();
+  const meetingDates=s.meetings.map(m=>m.date);
+  let totalSet=new Set(),overlapCount=0,html='';
+  for(let i=0;i<first;i++) html+=`<div class="cal-cell empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const k=dk(viewYear,viewMonth,d);
+    const avs=s.availability[k]||[];
+    avs.forEach(n=>totalSet.add(k+'|'+n));
+    const isToday=k===todayKey;
+    const isOverlap=s.partners.length>0&&s.partners.every(p=>avs.includes(p));
+    const hasMeeting=meetingDates.includes(k);
+    if(isOverlap) overlapCount++;
+    const mtg=s.meetings.find(m=>m.date===k);
+    const avsHtml=avs.map(name=>{const idx=s.partners.indexOf(name);if(idx<0)return'';return`<div class="av-mini" style="background:${pc(idx).av}" title="${name}">${ini(name)}</div>`}).join('');
+    html+=`<div class="cal-cell${isToday?' is-today':''}${isOverlap?' is-overlap':''}${hasMeeting?' has-meeting':''}" onclick="openDateModal('${k}',${d})">
+      <div class="day-num">${d}</div><div class="av-stack">${avsHtml}</div>
+      ${hasMeeting&&mtg?`<div class="cal-meeting-pill">📅 ${mtg.title}</div>`:''}
+      ${isOverlap?`<div class="overlap-tick">✓</div>`:''}
+      ${s.calNotes[k]?`<div class="note-dot"></div>`:''}
+    </div>`;
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+  document.getElementById('sched-stat-avail').textContent=totalSet.size;
+  document.getElementById('sched-stat-overlap').textContent=overlapCount;
+}
+
+function openDateModal(k,d){
+  const s=getState();if(!s)return;
+  modalDate=k;
+  const avs=s.availability[k]||[];
+  modalChecked={};avs.forEach(n=>modalChecked[n]=true);
+  document.getElementById('m-date-title').textContent=`${d} ${MONTHS[viewMonth]} ${viewYear}`;
+  document.getElementById('m-note').value=s.calNotes[k]||'';
+  renderMPartnerRows();openOv('ov-date');
+}
+function renderMPartnerRows(){
+  const s=getState();if(!s)return;
+  const el=document.getElementById('m-partner-rows');
+  if(!s.partners.length){el.innerHTML='<div style="font-size:13px;color:var(--ink3)">No partners added yet</div>';return;}
+  el.innerHTML=s.partners.map((p,i)=>{
+    const c=pc(i);const on=!!modalChecked[p];
+    return`<div class="p-row${on?' checked':''}" onclick="toggleMP('${esc(p)}')">
+      <div class="pr-ck">${on?svgCheck():''}</div>
+      <div class="av av-sm" style="background:${c.av}">${ini(p)}</div>
+      <div style="font-size:14px;font-weight:500;flex:1">${p}</div></div>`;
+  }).join('');
+}
+function toggleMP(name){modalChecked[name]=!modalChecked[name];renderMPartnerRows()}
+
+function saveDate(){
+  const s=getState();if(!s||!modalDate)return;
+  s.availability[modalDate]=Object.keys(modalChecked).filter(k=>modalChecked[k]);
+  const note=document.getElementById('m-note').value.trim();
+  if(note) s.calNotes[modalDate]=note; else delete s.calNotes[modalDate];
+  closeOv('ov-date');renderCalendar();refreshDashboard();saveAll();toast('Saved!');
+}
+
+/* ═══════════════════════════════════
+   MEETINGS
+═══════════════════════════════════ */
+function openAddMeetingModal(){
+  const s=getState();if(!s)return;
+  document.getElementById('nm-title').value='';document.getElementById('nm-date').value='';
+  document.getElementById('nm-time').value='';document.getElementById('nm-loc').value='';
+  document.getElementById('nm-agenda').value='';nmAttendees={};
+  const el=document.getElementById('nm-attendees');
+  if(!s.partners.length){el.innerHTML='<span style="font-size:13px;color:var(--ink3)">Add partners first</span>'}
+  else{el.innerHTML=s.partners.map((p,i)=>`<div class="p-row" id="nma-${i}" onclick="toggleNMA('${esc(p)}',${i})" style="margin-bottom:0;padding:6px 10px">
+    <div class="pr-ck" id="nmac-${i}"></div>
+    <div class="av av-sm" style="background:${pc(i).av}">${ini(p)}</div>
+    <div style="font-size:13px;font-weight:500">${p}</div></div>`).join('')}
+  openOv('ov-add-meeting');
+}
+function toggleNMA(name,i){
+  nmAttendees[name]=!nmAttendees[name];
+  const row=document.getElementById('nma-'+i);const ck=document.getElementById('nmac-'+i);
+  if(nmAttendees[name]){row.classList.add('checked');ck.innerHTML=svgCheck()}else{row.classList.remove('checked');ck.innerHTML=''}
+}
+function saveMeeting(){
+  const s=getState();if(!s)return;
+  const title=document.getElementById('nm-title').value.trim();const date=document.getElementById('nm-date').value;
+  if(!title||!date){toast('Fill in title and date');return}
+  s.meetings.push({id:Date.now(),title,date,time:document.getElementById('nm-time').value.trim(),
+    location:document.getElementById('nm-loc').value.trim(),agenda:document.getElementById('nm-agenda').value.trim(),
+    attendees:Object.keys(nmAttendees).filter(k=>nmAttendees[k]),status:'upcoming'});
+  closeOv('ov-add-meeting');renderMeetingsList();renderCalendar();refreshDashboard();saveAll();toast('Meeting added!');
+}
+
+function renderMeetingsList(){
+  const s=getState();if(!s)return;
+  const el=document.getElementById('meetings-list-container');
+  if(!s.meetings.length){el.innerHTML='<div class="card card-pad" style="color:var(--ink3);font-size:14px;text-align:center;padding:48px">No meetings yet.</div>';return}
+  const sorted=[...s.meetings].sort((a,b)=>a.date.localeCompare(b.date));
+  el.innerHTML=sorted.map(m=>{
+    const[y,mo,d]=m.date.split('-').map(Number);
+    const colors=['#0B8C7A','#C9891A','#1A55C9','#C13B3B','#9333EA'];
+    const ci=s.meetings.indexOf(s.meetings.find(x=>x.id===m.id))%colors.length;
+    const attHtml=m.attendees.map(n=>{const idx=s.partners.indexOf(n);return`<div class="attendee-chip"><div class="av av-sm" style="background:${idx>=0?pc(idx).av:'#8B85A0'};width:20px;height:20px;font-size:8px">${ini(n)}</div>${n}</div>`}).join('');
+    return`<div class="meeting-card">
+      <div class="mc-header">
+        <div class="mc-date-stripe" style="background:${colors[ci]}"></div>
+        <div style="width:44px;height:44px;border-radius:10px;background:${colors[ci]}18;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:600;line-height:1;color:${colors[ci]}">${d}</div>
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:${colors[ci]};font-weight:600">${MOS[mo-1]}</div></div>
+        <div class="mc-info"><div class="mc-title">${m.title}</div><div class="mc-meta">${m.time?`<span>🕐 ${m.time}</span><div class="mc-dot"></div>`:''}${m.location?`<span>📍 ${m.location}</span>`:''}</div></div>
+        <div class="mc-actions"><span class="badge badge-teal">${m.status}</span>
+          <button class="mc-expand" onclick="toggleMC(${m.id})">▾</button></div>
+      </div>
+      <div class="mc-body" id="mc-body-${m.id}">
+        ${m.agenda?`<div class="mc-section"><div class="mc-sec-label">Agenda</div><div style="font-size:13px;color:var(--ink2);line-height:1.7;white-space:pre-line">${m.agenda}</div></div>`:''}
+        ${m.attendees.length?`<div class="mc-section"><div class="mc-sec-label">Attendees</div><div class="attendee-chips">${attHtml}</div></div>`:''}
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-sm btn-outline" onclick="deleteMeeting(${m.id})">Delete</button>
+          <button class="btn btn-sm btn-teal" onclick="sendInviteFor(${m.id})">Send Invitation</button></div>
+      </div></div>`}).join('');
+}
+function toggleMC(id){document.getElementById('mc-body-'+id)?.classList.toggle('open')}
+function deleteMeeting(id){const s=getState();if(!s)return;s.meetings=s.meetings.filter(m=>m.id!==id);renderMeetingsList();renderCalendar();refreshDashboard();saveAll();toast('Removed')}
+function sendInviteFor(id){const s=getState();if(!s)return;const m=s.meetings.find(x=>x.id===id);if(!m)return;
+  document.getElementById('e-subject').value=m.title;document.getElementById('e-time').value=m.time||'';
+  document.getElementById('e-location').value=m.location||'';document.getElementById('e-agenda').value=m.agenda||'';
+  showPage('email');selectedOverlapDays=new Set([m.date]);renderEmailOverlapDays()}
+
+/* ═══════════════════════════════════
+   DOCUMENTS
+═══════════════════════════════════ */
+const DOC_ICONS={proposal:'📋',report:'📊',reference:'📚',other:'📎'};
+const DOC_COLORS={proposal:'badge-blue',report:'badge-gold',reference:'badge-teal',other:'badge-ink'};
+
+function setDocTab(tab,btn){activeDocTab=tab;document.querySelectorAll('#doc-tabs .tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderDocs()}
+function openAddDocModal(){document.getElementById('nd-title').value='';document.getElementById('nd-url').value='';document.getElementById('nd-desc').value='';document.getElementById('nd-author').value='';openOv('ov-add-doc')}
+function saveDoc(){
+  const s=getState();if(!s)return;const title=document.getElementById('nd-title').value.trim();if(!title){toast('Enter a title');return}
+  s.documents.push({id:Date.now(),title,cat:document.getElementById('nd-cat').value,url:document.getElementById('nd-url').value.trim(),desc:document.getElementById('nd-desc').value.trim(),author:document.getElementById('nd-author').value.trim(),date:new Date().toISOString().split('T')[0]});
+  closeOv('ov-add-doc');renderDocs();refreshDashboard();saveAll();toast('Document added!')
+}
+function deleteDoc(id){const s=getState();if(!s)return;s.documents=s.documents.filter(d=>d.id!==id);renderDocs();refreshDashboard();saveAll();toast('Removed')}
+function renderDocs(){
+  const s=getState();if(!s)return;const el=document.getElementById('docs-list');
+  const list=activeDocTab==='all'?s.documents:s.documents.filter(d=>d.cat===activeDocTab);
+  if(!list.length){el.innerHTML=`<div style="color:var(--ink3);font-size:14px;text-align:center;padding:48px;background:#fff;border-radius:var(--radius);border:1px solid var(--border)">No documents.</div>`;return}
+  el.innerHTML=list.map(d=>`<div class="doc-card">
+    <div class="doc-icon" style="background:var(--cream);font-size:20px">${DOC_ICONS[d.cat]||'📎'}</div>
+    <div class="doc-info"><div class="doc-title">${d.title}</div><div class="doc-meta">${d.author?d.author+' · ':''}<span class="badge ${DOC_COLORS[d.cat]||'badge-ink'}" style="font-size:10px;padding:2px 8px">${d.cat}</span></div></div>
+    <div class="doc-actions">${d.url?`<a href="${d.url}" target="_blank" class="btn btn-sm btn-teal">Open ↗</a>`:''}<button class="btn btn-sm btn-outline" onclick="deleteDoc(${d.id})">Remove</button></div>
+  </div>`).join('');
+}
+
+/* ═══════════════════════════════════
+   MoM
+═══════════════════════════════════ */
+function openAddMoMModal(){
+  const s=getState();if(!s)return;
+  ['nmom-title','nmom-date','nmom-time','nmom-loc','nmom-summary','nmom-decisions','nmom-actions','nmom-next'].forEach(id=>document.getElementById(id).value='');
+  nmomAttendees={};
+  const el=document.getElementById('nmom-attendees');
+  if(!s.partners.length){el.innerHTML='<span style="font-size:13px;color:var(--ink3)">Add partners first</span>'}
+  else{el.innerHTML=s.partners.map((p,i)=>`<div class="p-row" id="nmoma-${i}" onclick="toggleNMOMA('${esc(p)}',${i})" style="margin-bottom:0;padding:6px 10px">
+    <div class="pr-ck" id="nmomc-${i}"></div>
+    <div class="av av-sm" style="background:${pc(i).av}">${ini(p)}</div>
+    <div style="font-size:13px;font-weight:500">${p}</div></div>`).join('')}
+  openOv('ov-add-mom');
+}
+function toggleNMOMA(name,i){
+  nmomAttendees[name]=!nmomAttendees[name];
+  const row=document.getElementById('nmoma-'+i);const ck=document.getElementById('nmomc-'+i);
+  if(nmomAttendees[name]){row.classList.add('checked');ck.innerHTML=svgCheck()}else{row.classList.remove('checked');ck.innerHTML=''}
+}
+function saveMoM(){
+  const s=getState();if(!s)return;
+  const title=document.getElementById('nmom-title').value.trim();const date=document.getElementById('nmom-date').value;
+  if(!title||!date){toast('Fill in title and date');return}
+  const actionsRaw=document.getElementById('nmom-actions').value.trim();
+  const actions=actionsRaw?actionsRaw.split('\n').filter(Boolean).map(l=>{const p=l.split('|').map(s=>s.trim());return{text:p[0]||l,owner:p[1]||'',deadline:p[2]||'',done:false}}):[];
+  const decisionsRaw=document.getElementById('nmom-decisions').value.trim();
+  const decisions=decisionsRaw?decisionsRaw.split('\n').filter(Boolean):[];
+  s.moms.unshift({id:Date.now(),title,date,time:document.getElementById('nmom-time').value.trim(),
+    location:document.getElementById('nmom-loc').value.trim(),
+    attendees:Object.keys(nmomAttendees).filter(k=>nmomAttendees[k]),
+    summary:document.getElementById('nmom-summary').value.trim(),decisions,actions,
+    next:document.getElementById('nmom-next').value.trim()});
+  closeOv('ov-add-mom');renderMoMs();refreshDashboard();saveAll();toast('MoM saved!');
+}
+function toggleAction(momId,idx){
+  const s=getState();if(!s)return;const mom=s.moms.find(m=>m.id===momId);if(!mom)return;
+  mom.actions[idx].done=!mom.actions[idx].done;renderMoMs();refreshDashboard();saveAll();
+}
+function renderMoMs(){
+  const s=getState();if(!s)return;const el=document.getElementById('mom-list');
+  if(!s.moms.length){el.innerHTML='<div class="card card-pad" style="color:var(--ink3);font-size:14px;text-align:center;padding:48px">No minutes yet.</div>';return}
+  el.innerHTML=s.moms.map((m,mi)=>{
+    const[y,mo,d]=m.date.split('-').map(Number);
+    const attHtml=m.attendees.map(n=>{const idx=s.partners.indexOf(n);return`<div class="attendee-chip"><div class="av av-sm" style="background:${idx>=0?pc(idx).av:'#8B85A0'};width:20px;height:20px;font-size:8px">${ini(n)}</div>${n}</div>`}).join('');
+    const decisionsHtml=m.decisions.map(dec=>`<div class="decision-item"><span style="font-size:14px;flex-shrink:0">✦</span>${dec}</div>`).join('');
+    const actionsHtml=m.actions.map((a,ai)=>`<div class="action-item">
+      <div class="ai-check${a.done?' done':''}" onclick="toggleAction(${m.id},${ai})">${a.done?svgCheck():''}</div>
+      <div class="ai-text${a.done?' done':''}">${a.text}${a.deadline?`<span style="font-size:11px;color:var(--ink3);margin-left:8px">· Due ${a.deadline}</span>`:''}</div>
+      ${a.owner?`<div class="ai-owner">${a.owner}</div>`:''}</div>`).join('');
+    return`<div class="mom-card">
+      <div class="mom-header"><div><div class="mom-num">MoM #${s.moms.length-mi} · ${d} ${MONTHS[mo-1]} ${y}</div>
+        <div class="mom-title">${m.title}</div>
+        <div class="mom-meta">${m.time?`<span>🕐 ${m.time}</span>`:''}${m.location?`<span>📍 ${m.location}</span>`:''}${m.next?`<span>Next: ${m.next}</span>`:''}</div></div>
+        <button class="btn btn-sm btn-outline" onclick="deleteMoM(${m.id})">Delete</button></div>
+      <div class="mom-body">
+        ${m.attendees.length?`<div class="mom-section-title">Attendees</div><div class="attendee-chips" style="margin-bottom:4px">${attHtml}</div>`:''}
+        ${m.summary?`<div class="mom-section-title">Summary</div><div style="font-size:13px;color:var(--ink2);line-height:1.7;white-space:pre-line">${m.summary}</div>`:''}
+        ${m.decisions.length?`<div class="mom-section-title">Decisions</div>${decisionsHtml}`:''}
+        ${m.actions.length?`<div class="mom-section-title">Action Items</div>${actionsHtml}`:''}
+      </div></div>`}).join('');
+}
+function deleteMoM(id){const s=getState();if(!s)return;s.moms=s.moms.filter(m=>m.id!==id);renderMoMs();refreshDashboard();saveAll();toast('Deleted')}
+
+/* ═══════════════════════════════════
+   EMAIL
+═══════════════════════════════════ */
+function renderEmailOverlapDays(){
+  const s=getState();if(!s)return;
+  const el=document.getElementById('email-overlap-list');const od=getOverlapDays();
+  if(!od.length){el.innerHTML='<div style="font-size:13px;color:var(--ink3)">No overlap days yet.</div>';return}
+  el.innerHTML='<div style="display:flex;flex-wrap:wrap">'+od.map(k=>`<div class="day-pill${selectedOverlapDays.has(k)?' sel':''}" id="epill-${k}" onclick="toggleEDay('${k}')">${fmtDate(k)}</div>`).join('')+'</div>';
+}
+function toggleEDay(k){const el=document.getElementById('epill-'+k);if(selectedOverlapDays.has(k)){selectedOverlapDays.delete(k);el.classList.remove('sel')}else{selectedOverlapDays.add(k);el.classList.add('sel')}}
+
+function buildEmailPreview(){
+  const s=getState();if(!s)return;const p=PROJECTS[currentProjectId];
+  const subj=document.getElementById('e-subject').value.trim()||'Meeting Invitation';
+  const time=document.getElementById('e-time').value.trim();
+  const loc=document.getElementById('e-location').value.trim();
+  const agenda=document.getElementById('e-agenda').value.trim();
+  const dates=[...selectedOverlapDays].sort().map(fmtDate).join(', ')||'(not selected)';
+  const partnerList=s.partners.map(p=>`• ${p}`).join('\n')||'(no partners)';
+  emailPlain=`Dear Partners,\n\nWe would like to invite you to the following meeting:\n\n━━━━━━━━━━━━━━━━━━━━━━\n${subj}\n━━━━━━━━━━━━━━━━━━━━━━\n\nDate     : ${dates}\nTime     : ${time||'TBD'}\nPlatform : ${loc||'TBD'}\n\nAttendees:\n${partnerList}\n\n${agenda?`Agenda:\n${agenda}\n\n`:''}Please confirm your attendance.\n\nKind regards,\n${p.teamName}\n${p.teamOrg}`;
+  const html=`<div style="font-family:sans-serif">
+    <div style="background:#0D0A1E;padding:18px 24px;border-radius:10px 10px 0 0">
+      <div style="color:${p.accent};font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:4px">${p.tag}</div>
+      <div style="color:#fff;font-size:16px;font-weight:600">Meeting Invitation</div></div>
+    <div style="border:1px solid #eee;border-top:none;padding:24px;border-radius:0 0 10px 10px">
+      <p style="margin-bottom:16px;color:#3D3756">Dear Partners,</p>
+      <div style="background:${p.statusBg};border-left:3px solid ${p.accent};padding:16px;border-radius:0 8px 8px 0;margin-bottom:20px">
+        <div style="font-size:16px;font-weight:700;color:${p.accent};margin-bottom:12px">${subj}</div>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;color:#3D3756">
+          <tr><td style="padding:4px 0;color:#8B85A0;width:90px">📅 Date</td><td style="font-weight:600">${dates}</td></tr>
+          <tr><td style="padding:4px 0;color:#8B85A0">🕐 Time</td><td style="font-weight:600">${time||'TBD'}</td></tr>
+          <tr><td style="padding:4px 0;color:#8B85A0">📍 Platform</td><td style="font-weight:600">${loc||'TBD'}</td></tr></table></div>
+      ${agenda?`<div style="margin-bottom:20px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8B85A0;margin-bottom:8px">AGENDA</div><div style="font-size:13px;line-height:1.8;white-space:pre-line;color:#3D3756">${agenda}</div></div>`:''}
+      <div style="border-top:1px solid #eee;padding-top:16px"><div style="font-weight:700;color:#0D0A1E">${p.teamName}</div><div style="font-size:12px;color:#8B85A0">${p.teamOrg}</div></div>
+    </div></div>`;
+  document.getElementById('email-preview-card').innerHTML=`
+    <div style="margin-bottom:16px;display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-outline btn-sm" onclick="copyEmail()">Copy Text</button>
+      <button class="btn btn-teal btn-sm" onclick="openMailto()">Open in Mail</button></div>
+    <div class="email-preview">${html}</div>`;
+}
+function copyEmail(){navigator.clipboard.writeText(emailPlain).catch(()=>{const ta=document.createElement('textarea');ta.value=emailPlain;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)});toast('Copied!')}
+function openMailto(){const to=document.getElementById('e-to').value.trim();const subj=document.getElementById('e-subject').value.trim();window.open(`mailto:${to}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(emailPlain)}`)}
+
+/* ═══════════════════════════════════
+   COLLABORATORS
+═══════════════════════════════════ */
+function buildInviteEmail(email,role){
+  const p=PROJECTS[currentProjectId];
+  const subject=`[Invitation] Kolaborasi Proyek: ${p.name} — CESGS Hub`;
+  const body=`Yth. Rekan,
+
+Anda diundang untuk berkolaborasi pada proyek berikut di CESGS Project Hub:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Proyek  : ${p.name}
+  Mitra   : ${p.org}
+  Role    : ${role.charAt(0).toUpperCase()+role.slice(1)}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cara mengakses:
+1. Download file CESGS Hub (cesgs_hub.html) yang dilampirkan di email ini, atau minta file-nya kepada pengirim email ini.
+2. Buka file tersebut di browser (Chrome / Edge / Firefox).
+3. Pilih proyek "${p.name}" di halaman utama.
+4. Masukkan kata sandi: ${p.password}
+
+Setelah masuk, Anda dapat:
+${role==='editor'?'• Melihat dan mengedit semua data proyek (jadwal, dokumen, notulen)':'• Melihat semua data proyek (jadwal, dokumen, notulen)'}
+• Menambah partner dan mengatur jadwal meeting
+• Mengelola dokumen dan minutes of meeting
+
+─────────────────────────────
+⚠️ Kata sandi bersifat rahasia. Jangan bagikan ke pihak yang tidak berkepentingan.
+─────────────────────────────
+
+Salam,
+${p.teamName}
+${p.teamOrg}
+Center for Environmental, Social, and Governance
+Universitas Airlangga`;
+  return{subject,body};
+}
+
+function sendInviteEmail(email,role){
+  const{subject,body}=buildInviteEmail(email,role);
+  window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+}
+
+function addCollaborator(){
+  const s=getState();if(!s)return;
+  const email=document.getElementById('collab-email').value.trim();
+  const role=document.getElementById('collab-role').value;
+  if(!email||!email.includes('@')){toast('Masukkan email yang valid');return}
+  if(s.collaborators.find(c=>c.email.toLowerCase()===email.toLowerCase())){toast('Email sudah ditambahkan');return}
+  s.collaborators.push({email,role,addedAt:new Date().toISOString()});
+  document.getElementById('collab-email').value='';
+  renderCollaborators();saveAll();
+  // Open email client with invite
+  sendInviteEmail(email,role);
+  toast(`Invitation sent to ${email}!`);
+}
+document.getElementById('collab-email').addEventListener('keydown',e=>{if(e.key==='Enter')addCollaborator()});
+
+function removeCollaborator(email){
+  const s=getState();if(!s)return;
+  s.collaborators=s.collaborators.filter(c=>c.email!==email);
+  renderCollaborators();saveAll();toast('Removed');
+}
+function renderCollaborators(){
+  const s=getState();if(!s)return;
+  const el=document.getElementById('collab-list');
+  if(!s.collaborators.length){el.innerHTML='<div style="color:var(--ink3);font-size:13px;padding:16px 0">Belum ada kolaborator. Invite via email di atas.</div>';return}
+  el.innerHTML=s.collaborators.map(c=>{
+    const initials=c.email.split('@')[0].slice(0,2).toUpperCase();
+    const colors=['#7C3AED','#DB2777','#059669','#D97706','#2563EB'];
+    const color=colors[Math.abs(c.email.charCodeAt(0)*7+c.email.charCodeAt(1)*13)%colors.length];
+    return`<div class="collab-row">
+      <div class="av av-sm" style="background:${color}">${initials}</div>
+      <div class="collab-email">${c.email}</div>
+      <div class="collab-role">${c.role}</div>
+      <button class="btn btn-sm btn-outline" style="font-size:11px;height:26px;padding:0 10px" onclick="sendInviteEmail('${esc(c.email)}','${c.role}')">Resend</button>
+      <button class="collab-remove" onclick="removeCollaborator('${esc(c.email)}')">✕</button>
+    </div>`}).join('');
+}
+
+/* ═══════════════════════════════════
+   DASHBOARD REFRESH
+═══════════════════════════════════ */
+function refreshDashboard(){
+  const s=getState();if(!s)return;
+  document.getElementById('dash-partners').textContent=s.partners.length;
+  document.getElementById('dash-docs').textContent=s.documents.length;
+  document.getElementById('dash-meetings').textContent=s.meetings.length;
+  const openActions=s.moms.flatMap(m=>m.actions).filter(a=>!a.done).length;
+  document.getElementById('dash-actions').textContent=openActions;
+
+  const upcoming=[...s.meetings].sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3);
+  const upEl=document.getElementById('dash-upcoming-list');
+  if(!upcoming.length){upEl.innerHTML='<div style="color:var(--ink3);font-size:13px">No meetings yet.</div>'}
+  else{upEl.innerHTML=upcoming.map(m=>{
+    const[y,mo,d]=m.date.split('-').map(Number);
+    return`<div class="upcoming-item">
+      <div class="upcoming-date-box"><div class="ud-day">${d}</div><div class="ud-mon">${MOS[mo-1]}</div></div>
+      <div><div class="ui-title">${m.title}</div><div class="ui-sub">${m.time||''}${m.time&&m.location?' · ':''}${m.location||''}</div></div>
+      <div class="ui-right"><span class="badge badge-teal">upcoming</span></div></div>`}).join('')}
+
+  const pEl=document.getElementById('dash-partner-list');
+  if(!s.partners.length){pEl.innerHTML='<div style="color:var(--ink3);font-size:13px">Add partners in Schedule.</div>'}
+  else{
+    const ol=getOverlapDays();
+    pEl.innerHTML=s.partners.map((p,i)=>{
+      const c=pc(i);const avDays=Object.keys(s.availability).filter(k=>(s.availability[k]||[]).includes(p)).length;
+      return`<div class="partner-row-dash">
+        <div class="av av-md" style="background:${c.av}">${ini(p)}</div>
+        <div class="pr-info"><div class="pr-name-dash">${p}</div><div class="pr-inst">${avDays} day${avDays!==1?'s':''} available</div></div>
+        <div class="pr-avail" style="color:var(--teal)">${ol.length} overlap</div></div>`}).join('')+
+      `<div style="margin-top:14px;padding:12px;background:var(--teal-light);border-radius:10px;font-size:13px;color:var(--teal);font-weight:600;text-align:center">${ol.length} day${ol.length!==1?'s':''} when ALL partners are available</div>`}
+
+  const aEl=document.getElementById('dash-action-items');
+  const allActions=s.moms.flatMap(m=>m.actions.map(a=>({...a,momTitle:m.title}))).filter(a=>!a.done).slice(0,4);
+  if(!allActions.length){aEl.innerHTML='<div style="color:var(--ink3);font-size:13px">No open actions.</div>'}
+  else{aEl.innerHTML=allActions.map(a=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
+    <div style="width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0"></div>
+    <div style="flex:1"><div style="font-size:13px;font-weight:500">${a.text}</div><div style="font-size:11px;color:var(--ink3)">${a.momTitle}${a.owner?' · '+a.owner:''}${a.deadline?' · Due '+a.deadline:''}</div></div></div>`).join('')}
+}
+
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
+loadAll();
+renderLanding();
+</script>
+</body>
+</html>
