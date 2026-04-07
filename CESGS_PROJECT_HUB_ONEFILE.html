@@ -586,14 +586,6 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
 <!-- LANDING PAGE -->
 <!-- ══════════════════════════════════════════════ -->
 <div class="landing" id="landing-page">
-  <div style="position:absolute;top:24px;right:24px;z-index:2">
-    <button onclick="openAdminLoginModal()" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 22px;border-radius:99px;border:1px solid rgba(45,196,168,0.35);background:rgba(255,255,255,0.84);color:#0D5C63;font-size:13px;font-weight:700;font-family:var(--font-desc);cursor:pointer;transition:all 0.2s;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(26,85,201,0.08)"
-      onmouseover="this.style.background='rgba(255,255,255,0.96)';this.style.borderColor='rgba(12,141,122,0.5)'"
-      onmouseout="this.style.background='rgba(255,255,255,0.84)';this.style.borderColor='rgba(45,196,168,0.35)'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="m17 5-5-4-5 4"/><path d="m17 19-5 4-5-4"/><path d="M3 12h18"/><path d="m7 7-4 5 4 5"/><path d="m17 7 4 5-4 5"/></svg>
-      Admin Login
-    </button>
-  </div>
 
   <div class="landing-shell">
     <div class="landing-left">
@@ -612,7 +604,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
           Book Meeting with Applied Research CESGS
         </button>
       </div>
-      <div class="signin-helper-link">Need the modal version instead? <button type="button" onclick="openLoginModal()">Open partner/client popup login</button></div>
+      
     </div>
 
     <div class="landing-right">
@@ -620,23 +612,15 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
         <div class="signin-top">
           <div class="signin-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Client / Partner Login
+            Unified Login
           </div>
         </div>
         <div class="signin-title">Sign in to your dashboard</div>
-        <div class="signin-sub">Use your email and password to access the assigned project workspace. If your account covers multiple projects, you can choose the dashboard after signing in.</div>
+        <div class="signin-sub">Gunakan satu login yang sama untuk semua role. Setelah masuk, sistem akan otomatis mengarahkan Anda ke dashboard yang sesuai sebagai Client / Partner, Staff / Expert / Project Manager, atau Admin / Superadmin.</div>
 
-        <div class="signin-demo">
-          <div class="signin-demo-title">Demo Access</div>
-          <div class="signin-demo-body">
-            Email: <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfaeaba6bbb6aeadaea8aebcf7f98fa8a2aea6a3e1aca0a2">[email&#160;protected]</a></b><br/>
-            Password: <b>PLTS2026</b><br/>
-            Access: <b>PLTS Terapung</b> and <b>Blue Building</b> dashboards
-          </div>
-        </div>
 
         <div id="landing-login-project-select-wrap" class="signin-project-wrap">
-          <div class="signin-sub" style="margin-bottom:0">Your account has access to the following dashboards. Choose one to continue.</div>
+          <div class="signin-sub" style="margin-bottom:0">Akun Anda terhubung ke beberapa project. Pilih dashboard project yang ingin dibuka.</div>
           <div id="landing-login-project-list" class="signin-project-list"></div>
         </div>
 
@@ -650,11 +634,10 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
             <input class="signin-input" id="landing-login-password" type="password" placeholder="••••••••" autocomplete="off"/>
           </div>
           <div class="signin-err" id="landing-login-err"></div>
-          <button class="signin-action" type="button" onclick="doLandingLogin()">Login to Dashboard</button>
-          <button class="signin-secondary" type="button" onclick="prefillLandingDemo()" style="margin-top:10px">Use Demo Account</button>
+          <button class="signin-action" type="button" onclick="doLandingLogin()">Login</button>
         </div>
 
-        <div class="signin-note">Primary admin access is available from the top-right corner. After login, admin, superadmin, project manager, and staff now open the integrated project management dashboard inside this same HTML file.</div>
+        <div class="signin-note">Satu tombol login ini berlaku untuk seluruh akun. Dashboard tujuan akan menyesuaikan otomatis dengan role pemilik akun.</div>
       </div>
     </div>
   </div>
@@ -798,18 +781,10 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
     <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#0B8C7A,#2DC4A8);display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
-    <div class="pw-box-title">Login as Partner / Client</div>
-    <div class="pw-box-sub">Enter your email and password to access the project workspace.</div>
-    <div style="margin-bottom:18px;padding:12px 14px;border-radius:12px;background:rgba(45,196,168,0.12);border:1px solid rgba(45,196,168,0.24);text-align:left">
-      <div style="font-size:11px;color:#2DC4A8;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:6px">Demo Partner Access</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.78);line-height:1.65">
-        Email: <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d6b7b2bfa2afb7b4b7b1b7a5eee096b1bbb7bfbaf8b5b9bb">[email&#160;protected]</a></b><br/>
-        Password: <b>PLTS2026</b><br/>
-        Access: <b>PLTS Terapung</b> and <b>Blue Building</b> dashboards
-      </div>
-    </div>
+    <div class="pw-box-title">Login</div>
+    <div class="pw-box-sub">Masuk sekali saja. Sistem akan membuka dashboard sesuai role akun Anda.</div>
     <div id="login-project-select-wrap" style="display:none;margin-bottom:16px">
-      <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:10px">Your account is registered for the following projects. Choose the one you want to access:</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:10px">Akun Anda terdaftar pada beberapa project. Pilih workspace yang ingin dibuka:</div>
       <div id="login-project-list" style="display:flex;flex-direction:column;gap:8px"></div>
     </div>
     <div id="login-form-wrap">
@@ -822,7 +797,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
         <input class="pw-inp" id="login-password" type="password" placeholder="••••••••" autocomplete="off" style="letter-spacing:2px;text-align:left"/>
       </div>
       <div class="pw-err" id="login-err"></div>
-      <button class="pw-btn" onclick="doLogin()">Enter ke Workspace →</button>
+      <button class="pw-btn" onclick="doLogin()">Login →</button>
     </div>
     <button class="pw-back" onclick="closeLoginModal()">← Back to Home</button>
   </div>
@@ -838,10 +813,10 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
     <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#0B8C7A,#1A55C9);display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="m17 5-5-4-5 4"/><path d="m17 19-5 4-5-4"/><path d="M3 12h18"/><path d="m7 7-4 5 4 5"/><path d="m17 7 4 5-4 5"/></svg>
     </div>
-    <div class="pw-box-title">Admin Login</div>
-    <div class="pw-box-sub">Masuk sebagai <b>Admin / Superadmin / Project Manager / Staff</b> untuk langsung membuka <b>project dashboard management</b> di file HTML ini. Demo superadmin: <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5534313c212c3437343234266d63153238343c397b363a38">[email&#160;protected]</a></b> / <b>CESGS2026</b> · demo project manager: <b>pm@cesgs.id</b> / <b>PM2026</b>.</div>
+    <div class="pw-box-title">Unified Login</div>
+    <div class="pw-box-sub">Gunakan login terpadu untuk semua role. Halaman yang dibuka akan mengikuti role akun: client / partner, staff / expert / project manager, atau admin / superadmin.</div>
     <div style="margin-bottom:12px;text-align:left">
-      <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:6px;font-weight:600">Admin Email</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:6px;font-weight:600">Email</div>
       <input class="pw-inp" id="admin-login-email" type="email" placeholder="admin@example.com" autocomplete="off" style="letter-spacing:normal;text-align:left"/>
     </div>
     <div style="margin-bottom:4px;text-align:left">
@@ -850,8 +825,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
     </div>
     <div class="pw-err" id="admin-login-err"></div>
     <div style="display:flex;flex-direction:column;gap:10px">
-      <button class="pw-btn" onclick="doAdminLogin()">Open Project Management Dashboard →</button>
-      <button class="signin-secondary" type="button" onclick="openPrimaryAdminUIDemo()">Use Demo Superadmin Account</button>
+      <button class="pw-btn" onclick="doAdminLogin()">Login →</button>
     </div>
     <button class="pw-back" onclick="closeAdminLoginModal()">← Back to Home</button>
   </div>
@@ -1079,8 +1053,11 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
       <button class="tab" onclick="setDocTab('report',this)">Report</button>
       <button class="tab" onclick="setDocTab('reference',this)">Reference</button>
     </div>
-    <button class="btn btn-teal" onclick="openAddDocModal()">+ Add Document</button>
+    <div id="add-doc-btn-wrap" style="display:none">
+      <button class="btn btn-teal" onclick="openAddDocModal()">+ Upload Document</button>
+    </div>
   </div>
+  <div id="doc-manager-notice" style="display:none;margin-bottom:14px"></div>
   <div id="docs-list"></div>
 </div>
 
@@ -1092,7 +1069,9 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
     <div class="page-desc">Formal records of each meeting — decisions, action items, attendees.</div>
   </div>
   <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
-    <button class="btn btn-teal" onclick="openAddMoMModal()">+ New MoM</button>
+    <div id="add-mom-btn-wrap" style="display:none">
+      <button class="btn btn-teal" onclick="openAddMoMModal()">+ New MoM</button>
+    </div>
   </div>
   <div id="mom-list"></div>
 </div>
@@ -1144,6 +1123,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
     <div class="collab-list" id="collab-list"></div>
   </div>
 </div>
+<input id="json-backup-import-input" type="file" accept="application/json,.json" style="display:none" onchange="handleJsonBackupImport(event)"/>
 
 
 <!-- PAGE: PROFILE -->
@@ -1167,7 +1147,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
       <div class="card card-pad">
         <div class="section-label">Send Message to Project Team</div>
         <div class="form-row"><label class="inp-label">Subject</label><input class="inp" id="profile-message-subject" placeholder="Update or question for the project team"/></div>
-        <div class="form-row"><label class="inp-label">Message</label><textarea class="textarea" id="profile-message-body" placeholder="Write a short project update, question, or clarification for admin / project manager."></textarea></div>
+        <div class="form-row"><label class="inp-label">Message</label><textarea class="textarea" id="profile-message-body" placeholder="Write a short project update, question, or clarification for admin / expert / project manager / staff."></textarea></div>
         <div class="manager-form-actions">
           <button class="btn btn-outline" type="button" onclick="clearProfileMessage()">Clear</button>
           <button class="btn btn-teal" type="button" onclick="sendProfileMessage()">Send Message</button>
@@ -1180,6 +1160,14 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
         <div id="profile-summary-cards"></div>
       </div>
       <div class="card card-pad">
+        <div class="section-label">Management Profile &amp; CV</div>
+        <div id="profile-management-cv"></div>
+      </div>
+      <div class="card card-pad">
+        <div class="section-label">JSON Backup</div>
+        <div id="profile-backup-tools"></div>
+      </div>
+      <div class="card card-pad">
         <div class="section-label">My Open Tasks</div>
         <div id="profile-task-preview"></div>
       </div>
@@ -1187,6 +1175,30 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
         <div class="section-label">Latest Notifications</div>
         <div id="profile-notification-preview"></div>
       </div>
+    </div>
+  </div>
+  <div class="card card-pad" style="margin-top:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap">
+      <div class="section-label" style="margin-bottom:0">Assigned Project Team</div>
+      <div class="helper-text" style="margin-top:0">Profil tim Expert, Project Manager, dan Staff yang terhubung ke proyek ini akan tampil di sini untuk client maupun tim internal.</div>
+    </div>
+    <div id="profile-assigned-team"></div>
+  </div>
+  <!-- Documents & MoM panel — populated by renderProfilePage() -->
+  <div class="grid-2" style="margin-top:16px;gap:16px">
+    <div class="card card-pad">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="section-label" style="margin-bottom:0">📄 Project Documents</div>
+        <button class="btn btn-outline btn-sm" type="button" onclick="showPage('documents')">See All</button>
+      </div>
+      <div id="profile-docs-preview"></div>
+    </div>
+    <div class="card card-pad">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="section-label" style="margin-bottom:0">🗒️ Minutes of Meeting</div>
+        <button class="btn btn-outline btn-sm" type="button" onclick="showPage('mom')">See All</button>
+      </div>
+      <div id="profile-mom-preview"></div>
     </div>
   </div>
 </div>
@@ -1246,7 +1258,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
   <div class="page-header">
     <div class="page-eyebrow">Management</div>
     <div class="page-title">Project Control Center</div>
-    <div class="page-desc">Admin, superadmin, project manager, and staff can update project status, timeline activities, last update dates, and estimated deadlines here.</div>
+    <div class="page-desc">Admin, superadmin, expert, project manager, and staff can update project status, timeline activities, last update dates, and estimated deadlines here.</div>
   </div>
   <div id="project-control-container"></div>
 </div>
@@ -1256,7 +1268,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
   <div class="page-header">
     <div class="page-eyebrow">Superadmin</div>
     <div class="page-title">Account Management</div>
-    <div class="page-desc">Tambahkan akun client maupun akun pengelola seperti project manager, staff, dan admin dari satu tempat.</div>
+    <div class="page-desc">Tambahkan akun client maupun akun pengelola seperti expert, project manager, staff, dan admin dari satu tempat.</div>
   </div>
   <div id="account-management-container"></div>
 </div>
@@ -1330,7 +1342,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ═══════════════════════════════════
    PROJECT DEFINITIONS
 ═══════════════════════════════════ */
@@ -1414,7 +1426,7 @@ let currentProjectId=null;
 let projectData={};
 let currentProjectMode='project';
 const DEFAULT_ADMIN_STATE={
-  admins:[{email:'adityabagas86@gmail.com',password:'CESGS2026',name:'Aditya Bagas',isPrimary:true}],
+  admins:[{email:'adityabagas.official@gmail.com',password:'CESGS2026',name:'Aditya Bagas',isPrimary:true}],
   customProjects:{},
   bookingConfig:{start:'08:00',end:'16:30',weekdays:[1,2,3,4,5],durations:[30,60,90]},
   bookingRequests:[]
@@ -2074,13 +2086,42 @@ function saveDoc(){
 }
 function deleteDoc(id){const s=getState();if(!s)return;s.documents=s.documents.filter(d=>d.id!==id);renderDocs();refreshDashboard();saveAll();toast('Removed')}
 function renderDocs(){
-  const s=getState();if(!s)return;const el=document.getElementById('docs-list');
+  const s=getState();if(!s)return;
+  const el=document.getElementById('docs-list');
+  const canManage=userCanManage();
+
+  // Show/hide add button & manager notice
+  const addBtn=document.getElementById('add-doc-btn-wrap');
+  const managerNotice=document.getElementById('doc-manager-notice');
+  if(addBtn) addBtn.style.display=canManage?'block':'none';
+  if(managerNotice){
+    if(canManage){
+      managerNotice.style.display='block';
+      managerNotice.innerHTML=`<div class="note-box">📤 <strong>Upload mode aktif.</strong> Dokumen yang Anda tambahkan akan langsung terlihat oleh client/partner di dashboard mereka dan di halaman Profile proyek.</div>`;
+    } else {
+      managerNotice.style.display='none';
+    }
+  }
+
   const list=activeDocTab==='all'?s.documents:s.documents.filter(d=>d.cat===activeDocTab);
-  if(!list.length){el.innerHTML=`<div style="color:var(--ink3);font-size:14px;text-align:center;padding:48px;background:#fff;border-radius:var(--radius);border:1px solid var(--border)">No documents.</div>`;return}
+  if(!list.length){
+    el.innerHTML=`<div style="color:var(--ink3);font-size:14px;text-align:center;padding:48px;background:#fff;border-radius:var(--radius);border:1px solid var(--border)">No documents yet.${canManage?' Click "+ Upload Document" to add one.':''}</div>`;
+    return;
+  }
   el.innerHTML=list.map(d=>`<div class="doc-card">
     <div class="doc-icon" style="background:var(--cream);font-size:20px">${DOC_ICONS[d.cat]||'📎'}</div>
-    <div class="doc-info"><div class="doc-title">${d.title}</div><div class="doc-meta">${d.author?d.author+' · ':''}<span class="badge ${DOC_COLORS[d.cat]||'badge-ink'}" style="font-size:10px;padding:2px 8px">${d.cat}</span></div></div>
-    <div class="doc-actions">${d.url?`<a href="${d.url}" target="_blank" class="btn btn-sm btn-teal">Open ↗</a>`:''}<button class="btn btn-sm btn-outline" onclick="deleteDoc(${d.id})">Remove</button></div>
+    <div class="doc-info">
+      <div class="doc-title">${d.title}</div>
+      <div class="doc-meta">${d.author?`<span style="font-weight:600">${d.author}</span> · `:''}
+        <span class="badge ${DOC_COLORS[d.cat]||'badge-ink'}" style="font-size:10px;padding:2px 8px">${d.cat}</span>
+        ${d.date?`<span style="font-size:11px;color:var(--ink3);margin-left:4px">· ${fmtDate(d.date)}</span>`:''}
+      </div>
+      ${d.desc?`<div style="font-size:12px;color:var(--ink3);margin-top:4px;line-height:1.5">${d.desc}</div>`:''}
+    </div>
+    <div class="doc-actions">
+      ${d.url?`<a href="${d.url}" target="_blank" class="btn btn-sm btn-teal">Open ↗</a>`:''}
+      ${canManage?`<button class="btn btn-sm btn-red" onclick="deleteDoc(${d.id})">Remove</button>`:''}
+    </div>
   </div>`).join('');
 }
 
@@ -2125,6 +2166,12 @@ function toggleAction(momId,idx){
 }
 function renderMoMs(){
   const s=getState();if(!s)return;const el=document.getElementById('mom-list');
+  const canManage=userCanManage();
+
+  // Show/hide add MoM button
+  const addMomBtn=document.getElementById('add-mom-btn-wrap');
+  if(addMomBtn) addMomBtn.style.display=canManage?'flex':'none';
+
   if(!s.moms.length){el.innerHTML='<div class="card card-pad" style="color:var(--ink3);font-size:14px;text-align:center;padding:48px">No minutes yet.</div>';return}
   el.innerHTML=s.moms.map((m,mi)=>{
     const[y,mo,d]=m.date.split('-').map(Number);
@@ -2138,7 +2185,8 @@ function renderMoMs(){
       <div class="mom-header"><div><div class="mom-num">MoM #${s.moms.length-mi} · ${d} ${MONTHS[mo-1]} ${y}</div>
         <div class="mom-title">${m.title}</div>
         <div class="mom-meta">${m.time?`<span>🕐 ${m.time}</span>`:''}${m.location?`<span>📍 ${m.location}</span>`:''}${m.next?`<span>Next: ${m.next}</span>`:''}</div></div>
-        <button class="btn btn-sm btn-outline" onclick="deleteMoM(${m.id})">Delete</button></div>
+        ${canManage?`<button class="btn btn-sm btn-red" onclick="deleteMoM(${m.id})">Delete</button>`:''}
+      </div>
       <div class="mom-body">
         ${m.attendees.length?`<div class="mom-section-title">Attendees</div><div class="attendee-chips" style="margin-bottom:4px">${attHtml}</div>`:''}
         ${m.summary?`<div class="mom-section-title">Summary</div><div style="font-size:13px;color:var(--ink2);line-height:1.7;white-space:pre-line">${m.summary}</div>`:''}
@@ -2323,7 +2371,7 @@ let bkMeetingDuration = 30;
 const CESGS_TIMEZONE='Asia/Jakarta';
 const CESGS_TIMEZONE_LABEL='WIB (UTC+7)';
 const USER_TIMEZONE=(Intl.DateTimeFormat().resolvedOptions().timeZone||'Local time').replace(/_/g,' ');
-const BOOKING_RECIPIENT='adityabagas86@gmail.com';
+const BOOKING_RECIPIENT='adityabagas.official@gmail.com';
 let bkYear, bkMonth, bkSelectedDate=null, bkActiveFilter=null, bkSelectedPreferences=[];
 
 function getWibDateObject(dateKey,time){
@@ -2651,9 +2699,9 @@ function submitBooking(){
 ═══════════════════════════════════ */
 const USER_ACCOUNTS_FALLBACK = [
   {
-    email: 'adityabagas86@gmail.com',
+    email: 'client@cesgs.id',
     password: 'PLTS2026',
-    name: 'Aditya Bagas',
+    name: 'CESGS Client',
     role: 'Client / Partner',
     projects: ['plts', 'bi']
   }
@@ -2795,11 +2843,11 @@ function doLandingLogin() {
 }
 
 function prefillLandingDemo() {
-  document.getElementById('landing-login-email').value = 'adityabagas86@gmail.com';
-  document.getElementById('landing-login-password').value = 'PLTS2026';
+  document.getElementById('landing-login-email').value = 'adityabagas.official@gmail.com';
+  document.getElementById('landing-login-password').value = 'CESGS2026';
   resetLandingLoginState();
-  document.getElementById('landing-login-email').value = 'adityabagas86@gmail.com';
-  document.getElementById('landing-login-password').value = 'PLTS2026';
+  document.getElementById('landing-login-email').value = 'adityabagas.official@gmail.com';
+  document.getElementById('landing-login-password').value = 'CESGS2026';
   document.getElementById('landing-login-password').focus();
 }
 
@@ -2827,18 +2875,18 @@ if (document.getElementById('landing-login-email')) {
 ═══════════════════════════════════ */
 function getAdminByEmail(email){return (adminState.admins||[]).find(a=>a.email.toLowerCase()===String(email||'').toLowerCase())}
 function isPrimaryAdmin(){const adm=getAdminByEmail(currentAdminEmail);return !!adm&&!!adm.isPrimary}
-function openAdminLoginModal(){document.getElementById('admin-login-email').value='';document.getElementById('admin-login-password').value='';document.getElementById('admin-login-err').textContent='';document.getElementById('admin-login-overlay').classList.add('show');setTimeout(()=>document.getElementById('admin-login-email').focus(),200)}
-function closeAdminLoginModal(){document.getElementById('admin-login-overlay').classList.remove('show')}
+function openAdminLoginModal(){openLoginModal()}
+function closeAdminLoginModal(){closeLoginModal()}
 document.getElementById('admin-login-password').addEventListener('keydown',e=>{if(e.key==='Enter')doAdminLogin()});
 function doAdminLogin(){
   const email=document.getElementById('admin-login-email').value.trim().toLowerCase();
   const password=document.getElementById('admin-login-password').value;
   const err=document.getElementById('admin-login-err');
   err.textContent='';
-  if(!email){err.textContent='Enter your management email.';document.getElementById('admin-login-email').focus();return}
+  if(!email){err.textContent='Enter your email.';document.getElementById('admin-login-email').focus();return}
   if(!password){err.textContent='Enter your password.';document.getElementById('admin-login-password').focus();return}
   const user = authenticateUser(email, password);
-  if(!user || !user.canManage){err.textContent='This login is only for admin, superadmin, or project manager accounts.';return}
+  if(!user){err.textContent='Incorrect email or password. Please try again.';return}
   currentUserSession = normalizeUserSession(user);
   currentUserSession.projects.forEach(pid => { authenticatedProjects[pid] = true; ensureProjectStateById(pid); });
   const admin = getAdminByEmail(email);
@@ -2854,12 +2902,11 @@ function doAdminLogin(){
   const preferredProject = (currentProjectId && currentUserSession.projects.includes(currentProjectId)) ? currentProjectId : currentUserSession.projects[0];
   if(preferredProject){
     enterProject(preferredProject);
-    showPage('dashboard');
     return;
   }
   renderLanding();
 }
-function openPrimaryAdminUIDemo(){document.getElementById('admin-login-email').value='adityabagas86@gmail.com';document.getElementById('admin-login-password').value='CESGS2026';doAdminLogin()}
+function openPrimaryAdminUIDemo(){document.getElementById('admin-login-email').value='adityabagas.official@gmail.com';document.getElementById('admin-login-password').value='CESGS2026';doAdminLogin()}
 function openAdminConsole(){document.getElementById('admin-console').style.display='block';renderAdminConsole()}
 function closeAdminConsole(){document.getElementById('admin-console').style.display='none';currentAdminEmail=''}
 function getAllConfirmedMeetings(){return Object.entries(projectData).flatMap(([pid,data])=>(data.meetings||[]).map(m=>({...m,projectId:pid,projectName:PROJECTS[pid]?.name||pid}))).sort((a,b)=>`${a.date} ${a.time||''}`.localeCompare(`${b.date} ${b.time||''}`))}
@@ -2881,7 +2928,7 @@ You have been invited as an admin for Applied Research CESGS.
 Admin email: ${email}
 Password: ${password}
 
-Use these credentials in the Admin Login screen of the CESGS Project Hub HTML file.
+Use these credentials in the unified Login screen of the CESGS Project Hub HTML file.
 
 Regards,
 ${currentAdminEmail}`;window.location.href=`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;document.getElementById('admin-invite-email').value='';document.getElementById('admin-invite-password').value='';renderAdminAccess();toast('Admin invitation draft opened')}
@@ -2909,18 +2956,26 @@ function buildBaseProjectState(pid){
     timeline:[],tasks:[],notifications:[],messages:[]
   };
 }
+function isManagementRole(role){ return /admin|manager|super|staff|expert/i.test(String(role || '')); }
+function hasGlobalProjectAccess(user){
+  const normalized = String((user && user.role) || (currentUserSession && currentUserSession.role) || '').toLowerCase();
+  return normalized === 'admin' || normalized.includes('super');
+}
+function isProjectDeliveryRole(role){ return /manager|staff|expert/i.test(String(role || '')); }
 function normalizeUserSession(user){
   const role = user && user.role ? user.role : 'Client / Partner';
-  const canManage = !!(user && user.canManage) || /admin|manager|super|staff/i.test(role);
+  const canManage = !!(user && user.canManage) || isManagementRole(role);
   let projects = Array.isArray(user && user.projects) ? user.projects.filter(pid => !!PROJECTS[pid]) : [];
-  if (canManage && !projects.length) projects = Object.keys(PROJECTS);
+  if (canManage && !projects.length) projects = hasGlobalProjectAccess({role}) ? Object.keys(PROJECTS) : [];
   return {
     email: String(user && user.email || '').toLowerCase(),
     password: user && user.password ? user.password : '',
     name: user && user.name ? user.name : ((user && user.email) ? user.email.split('@')[0] : 'Project User'),
     role,
     projects:[...new Set(projects)],
-    canManage
+    canManage,
+    cv: String(user && user.cv || ''),
+    profileLink: sanitizeProfileLink(user && user.profileLink || '')
   };
 }
 function createAnonymousSession(pid){
@@ -2930,9 +2985,24 @@ function userCanManage(){return !!(currentUserSession && currentUserSession.canM
 function isSuperadminSession(){return !!(currentUserSession && /super/i.test(String(currentUserSession.role||'')))}
 function currentUserEmail(){return String(currentUserSession && currentUserSession.email || '').toLowerCase()}
 function currentUserName(){return String(currentUserSession && currentUserSession.name || 'Project User')}
+function currentUserCanAccessProject(pid){
+  if(!(pid && PROJECTS[pid])) return false;
+  if(!currentUserSession) return true;
+  if(hasGlobalProjectAccess(currentUserSession)) return true;
+  return Array.isArray(currentUserSession.projects) && currentUserSession.projects.includes(pid);
+}
+function getDefaultWorkspacePage(user){
+  const role = String((user && user.role) || '').toLowerCase();
+  if(role.includes('super')) return 'account-management';
+  if(role === 'admin' || (role.includes('admin') && !role.includes('super'))) return 'project-control';
+  if(/manager|staff|expert/.test(role)) return 'dashboard';
+  return 'profile';
+}
 function getSessionProjects(){
-  if (userCanManage()) return Object.keys(PROJECTS);
-  return currentUserSession && Array.isArray(currentUserSession.projects) ? currentUserSession.projects.filter(pid => !!PROJECTS[pid]) : (currentProjectId ? [currentProjectId] : []);
+  if (!currentUserSession) return currentProjectId && PROJECTS[currentProjectId] ? [currentProjectId] : [];
+  const assigned = Array.isArray(currentUserSession.projects) ? currentUserSession.projects.filter(pid => !!PROJECTS[pid]) : [];
+  if (hasGlobalProjectAccess(currentUserSession)) return Object.keys(PROJECTS);
+  return assigned.length ? assigned : (currentProjectId && PROJECTS[currentProjectId] ? [currentProjectId] : []);
 }
 function ensureEnhancedProjectState(state,pid){
   if(!state) return state;
@@ -2968,7 +3038,9 @@ const __baseGetState = getState;
 getState = function(){ const s = __baseGetState(); return s ? ensureEnhancedProjectState(s,currentProjectId) : s; };
 
 const MANAGEMENT_DEMO_ACCOUNTS = [
-  {email:'pm@cesgs.id',password:'PM2026',name:'Project Manager CESGS',role:'Project Manager',projects:Object.keys(PROJECTS),canManage:true}
+  {email:'pm@cesgs.id',password:'PM2026',name:'Project Manager CESGS',role:'Project Manager',projects:Object.keys(PROJECTS),canManage:true,cv:'Project manager with experience coordinating multi-stakeholder research delivery, milestone monitoring, reporting, and client communication.',profileLink:'https://www.linkedin.com/'},
+  {email:'expert@cesgs.id',password:'EXPERT2026',name:'Expert CESGS',role:'Expert',projects:Object.keys(PROJECTS),canManage:true,cv:'Subject matter expert supporting research design, technical review, methodology refinement, and strategic recommendations for CESGS projects.',profileLink:'https://scholar.google.com/'},
+  {email:'staff@cesgs.id',password:'STAFF2026',name:'Project Staff CESGS',role:'Staff',projects:Object.keys(PROJECTS),canManage:true,cv:'Project operations staff handling coordination, documentation, follow-up actions, scheduling, and day-to-day execution support.',profileLink:'https://www.linkedin.com/'}
 ];
 function getUserAccounts(){
   const accounts = [];
@@ -2979,7 +3051,9 @@ function getUserAccounts(){
       name:admin.name || `Admin ${idx+1}`,
       role:admin.isPrimary ? 'Superadmin' : (admin.role || 'Admin'),
       projects:Array.isArray(admin.projects) && admin.projects.length ? admin.projects.filter(pid => !!PROJECTS[pid]) : Object.keys(PROJECTS),
-      canManage:true
+      canManage:true,
+      cv:admin.cv || '',
+      profileLink:admin.profileLink || ''
     }));
   });
   MANAGEMENT_DEMO_ACCOUNTS.forEach(acc=>accounts.push(normalizeUserSession({...acc, projects:Object.keys(PROJECTS)})));
@@ -2995,7 +3069,7 @@ function getUserAccounts(){
       if(!email || seenStored.has(email)) return;
       seenStored.add(email);
       const role = client.role || 'Client / Partner';
-      const canManage = /admin|manager|super|staff/i.test(role);
+      const canManage = isManagementRole(role);
       let projects = Array.isArray(client.projects) ? client.projects.filter(pid => !!PROJECTS[pid]) : [];
       if (canManage && !projects.length) projects = Object.keys(PROJECTS);
       if (client.email && client.password && projects.length) {
@@ -3005,7 +3079,9 @@ function getUserAccounts(){
           name:client.name || client.email.split('@')[0] || `Client ${idx+1}`,
           role,
           projects,
-          canManage
+          canManage,
+          cv:client.cv || '',
+          profileLink:client.profileLink || ''
         }));
       }
     });
@@ -3034,6 +3110,15 @@ function performUserLogin(email, password, mode) {
   }
   currentUserSession = normalizeUserSession(user);
   currentUserSession.projects.forEach(pid => { authenticatedProjects[pid] = true; ensureProjectStateById(pid); });
+  const admin = getAdminByEmail(email);
+  currentAdminEmail = admin ? admin.email : '';
+  try{
+    if(admin){
+      localStorage.setItem(SUPERADMIN_LOGIN_BRIDGE_KEY, JSON.stringify({email:admin.email,password:admin.password,at:Date.now(),source:'project-hub'}));
+    } else {
+      localStorage.removeItem(SUPERADMIN_LOGIN_BRIDGE_KEY);
+    }
+  }catch(e){}
   saveAll();
   if (currentUserSession.projects.length === 1) {
     if (!isLanding) closeLoginModal();
@@ -3185,6 +3270,77 @@ function getRecentMessages(state, limit){
   return [...(state.messages||[])].sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0, limit || 4);
 }
 
+function getCurrentAccountProfile(){
+  const email = currentUserEmail();
+  if(!email) return currentUserSession || null;
+  return getUserAccounts().find(acc => String(acc.email || '').toLowerCase() === email) || currentUserSession || null;
+}
+function updateStoredAccountProfile(email, fields){
+  const normalizedEmail = String(email || '').toLowerCase();
+  if(!normalizedEmail) return false;
+  let updated = false;
+  (adminState.admins || []).forEach(adm => {
+    if(String(adm.email || '').toLowerCase() === normalizedEmail){
+      Object.assign(adm, fields);
+      updated = true;
+    }
+  });
+  const superState = parseJSONSafe(SUPERADMIN_STORAGE_KEY, {}) || {};
+  if(!Array.isArray(superState.userAccounts)) superState.userAccounts = [];
+  ['userAccounts','clients'].forEach(pool => {
+    if(!Array.isArray(superState[pool])) return;
+    superState[pool].forEach(acc => {
+      if(String(acc.email || '').toLowerCase() === normalizedEmail){
+        Object.assign(acc, fields);
+        updated = true;
+      }
+    });
+  });
+  if(!updated && currentUserSession && String(currentUserSession.email || '').toLowerCase() === normalizedEmail){
+    const base = getCurrentAccountProfile() || currentUserSession;
+    superState.userAccounts.unshift({
+      id:`u-${Date.now()}`,
+      name:base.name || currentUserName(),
+      email:normalizedEmail,
+      password:base.password || '',
+      role:base.role || 'Staff',
+      projects:Array.isArray(base.projects) ? base.projects.filter(pid => !!PROJECTS[pid]) : [],
+      status:'active',
+      createdAt:new Date().toISOString().slice(0,10),
+      ...fields
+    });
+    updated = true;
+  }
+  localStorage.setItem(SUPERADMIN_STORAGE_KEY, JSON.stringify(superState));
+  if(currentUserSession && String(currentUserSession.email || '').toLowerCase() === normalizedEmail){
+    currentUserSession = normalizeUserSession({...currentUserSession, ...fields});
+  }
+  if(updated) saveAll();
+  return updated;
+}
+function saveCurrentUserCv(){
+  if(!userCanManage()) return toast('Only management users can save a CV');
+  const input = document.getElementById('profile-cv-input');
+  const linkInput = document.getElementById('profile-link-input');
+  if(!input) return;
+  const cv = input.value.trim();
+  const profileLink = sanitizeProfileLink(linkInput?.value.trim() || '');
+  const ok = updateStoredAccountProfile(currentUserEmail(), {cv, profileLink});
+  if(!ok) return toast('Management profile account not found');
+  renderProfilePage();
+  toast('CV profile saved');
+}
+function getAssignedManagementProfilesForProject(pid){
+  return getUserAccounts()
+    .filter(acc => (acc.projects || []).includes(pid) && isProjectDeliveryRole(acc.role))
+    .sort((a,b) => {
+      const order = { 'Project Manager':1, 'Expert':2, 'Staff':3 };
+      const aRank = order[a.role] || 9;
+      const bRank = order[b.role] || 9;
+      return aRank - bRank || String(a.name || '').localeCompare(String(b.name || ''));
+    });
+}
+
 function getAssignableTargetsForProject(pid){
   const options = [{value:'All Clients / Partners', label:'All Clients / Partners'}];
   getUserAccounts().filter(acc => (acc.projects||[]).includes(pid) && !acc.canManage).forEach(acc => {
@@ -3252,8 +3408,12 @@ function renderRoleAwareSidebar(){
 
 const __baseEnterProject = enterProject;
 enterProject = function(pid){
+  if (currentUserSession && !currentUserCanAccessProject(pid)) {
+    toast('You do not have access to this project');
+    return;
+  }
   if (!currentUserSession) currentUserSession = createAnonymousSession(pid);
-  currentUserSession = normalizeUserSession({...currentUserSession, projects:[...new Set([...(currentUserSession.projects||[]), pid])]});
+  currentUserSession = normalizeUserSession(currentUserSession);
   ensureProjectStateById(pid);
   __baseEnterProject(pid);
   renderRoleAwareSidebar();
@@ -3263,8 +3423,8 @@ enterProject = function(pid){
   renderNotificationsPage();
   renderTimelinePage();
   renderProjectControlPage();
-  if (userCanManage()) showPage('dashboard');
-  else showPage('profile');
+  const defaultPage = getDefaultWorkspacePage(currentUserSession);
+  showPage(defaultPage);
 };
 const __baseGoToLanding = goToLanding;
 goToLanding = function(){ __baseGoToLanding(); updateSidebarContext(); };
@@ -3327,7 +3487,45 @@ function renderProfilePage(){
         <div class="info-row"><span>Role</span><strong>${currentUserSession?.role || 'Client / Partner'}</strong></div>
         <div class="info-row"><span>Last update</span><strong>${formatDateFancy(progress.lastUpdate)}</strong></div>
         <div class="info-row"><span>Estimated deadline</span><strong>${formatDateFancy(progress.estimatedDeadline)}</strong></div>
+        <div class="info-row"><span>Assigned project team</span><strong>${getAssignedManagementProfilesForProject(currentProjectId).length}</strong></div>
       </div>`;
+  }
+  const managementCvEl = document.getElementById('profile-management-cv');
+  if (managementCvEl) {
+    if (userCanManage()) {
+      const account = getCurrentAccountProfile() || currentUserSession || {};
+      const assignedProjects = (account.projects || []).map(pid => PROJECTS[pid]?.name || pid).join(', ') || 'No project assigned yet';
+      managementCvEl.innerHTML = `
+        <div class="info-list">
+          <div class="info-row"><span>Name</span><strong>${escapeHtml(account.name || currentUserName())}</strong></div>
+          <div class="info-row"><span>Role</span><strong>${escapeHtml(account.role || currentUserSession?.role || 'Management')}</strong></div>
+          <div class="info-row"><span>Email</span><strong>${escapeHtml(account.email || currentUserEmail() || '-')}</strong></div>
+          <div class="info-row"><span>Assigned projects</span><strong>${escapeHtml(assignedProjects)}</strong></div>
+          <div class="info-row"><span>Current profile link</span><strong>${sanitizeProfileLink(account.profileLink || '') ? `<a href="${escapeHtml(sanitizeProfileLink(account.profileLink || ''))}" target="_blank" rel="noopener noreferrer">${escapeHtml(sanitizeProfileLink(account.profileLink || ''))}</a>` : 'Belum ditambahkan'}</strong></div>
+        </div>
+        <div class="helper-text" style="margin:14px 0 10px">CV dan link profil ini akan tampil pada halaman Profile project di dashboard client untuk proyek yang Anda tangani.</div>
+        <div class="form-row" style="margin-bottom:10px"><label class="inp-label">Professional CV</label><textarea class="textarea" id="profile-cv-input" placeholder="Tuliskan ringkasan CV, keahlian, pengalaman, atau posisi profesional Anda.">${escapeHtml(account.cv || '')}</textarea></div>
+        <div class="form-row" style="margin-bottom:10px"><label class="inp-label">Link Profil</label><input class="inp" id="profile-link-input" type="url" placeholder="Contoh: linkedin.com/in/nama-anda" value="${escapeHtml(account.profileLink || '')}"/></div>
+        <div class="manager-form-actions"><button class="btn btn-teal" type="button" onclick="saveCurrentUserCv()">Save Profile</button></div>`;
+    } else {
+      managementCvEl.innerHTML = '<div class="empty-state">Client/partner dapat melihat CV tim yang ditugaskan pada panel Assigned Project Team di bawah.</div>';
+    }
+  }
+  const backupToolsEl = document.getElementById('profile-backup-tools');
+  if (backupToolsEl) backupToolsEl.innerHTML = renderBackupTools();
+  const teamProfileEl = document.getElementById('profile-assigned-team');
+  if (teamProfileEl) {
+    const team = getAssignedManagementProfilesForProject(currentProjectId);
+    teamProfileEl.innerHTML = team.length ? `<div class="profile-stack">${team.map(member => `
+      <div class="project-card-mini" style="align-items:flex-start">
+        <div style="flex:1">
+          <strong>${escapeHtml(member.name || member.email || 'Management User')}</strong>
+          <span>${escapeHtml(member.role || 'Management')} · ${escapeHtml(member.email || '-')}</span>
+          <div class="helper-text" style="margin-top:8px;color:var(--ink2)">${escapeHtml(member.cv || 'CV belum ditambahkan.')}</div>
+          <div style="margin-top:10px">${renderProfileLinkButton(member.profileLink)}</div>
+        </div>
+        <span class="badge badge-teal">${escapeHtml(member.role || 'Management')}</span>
+      </div>`).join('')}</div>` : '<div class="empty-state">Belum ada Expert, Project Manager, atau Staff yang di-assign ke proyek ini.</div>';
   }
   const timelineEl = document.getElementById('profile-timeline-summary');
   if (timelineEl) {
@@ -3336,7 +3534,7 @@ function renderProfilePage(){
       <div class="timeline-item">
         <div class="timeline-head"><div><div class="timeline-title">${item.title}</div><div class="timeline-sub">${item.note || 'No detail added yet.'}</div></div><span class="badge ${statusBadgeClass(item.status)}">${item.status || 'planned'}</span></div>
         <div class="timeline-meta"><span class="readonly-pill">Date: ${formatDateFancy(item.date)}</span><span class="readonly-pill">Updated: ${formatDateFancy(item.updatedAt)}</span><span class="readonly-pill">Deadline: ${formatDateFancy(item.deadline)}</span></div>
-      </div>`).join('')}</div>` : '<div class="empty-state">Timeline belum diisi. Admin / project manager bisa menambahkan aktivitas dari Project Control.</div>';
+      </div>`).join('')}</div>` : '<div class="empty-state">Timeline belum diisi. Admin / expert / project manager / staff bisa menambahkan aktivitas dari Project Control.</div>';
   }
   const taskPreview = document.getElementById('profile-task-preview');
   if (taskPreview) {
@@ -3349,6 +3547,54 @@ function renderProfilePage(){
     const notes = getProjectNotifications(state).slice(0,4);
     notePreview.innerHTML = notes.length ? `<div class="notification-list">${notes.map(note => `
       <div class="notification-card"><div class="notification-icon">${note.icon || notificationIcon(note.type)}</div><div class="notification-body"><div class="notification-title">${note.title || 'Project update'}</div><div class="notification-text">${note.message}</div><div class="notification-meta">${formatDateFancy(String(note.createdAt||'').slice(0,10))} · ${audienceLabel(note.audience)}</div></div></div>`).join('')}</div>` : '<div class="empty-state">No visible notifications yet.</div>';
+  }
+
+  // ── Documents preview ──────────────────────────────────
+  const docsPreview = document.getElementById('profile-docs-preview');
+  if (docsPreview) {
+    const recentDocs = (state.documents || []).slice(0, 4);
+    if (!recentDocs.length) {
+      docsPreview.innerHTML = '<div class="empty-state" style="padding:20px">Belum ada dokumen. Admin / expert / project manager / staff dapat mengupload dokumen dari menu Documents.</div>';
+    } else {
+      docsPreview.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px">${recentDocs.map(d => `
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--cream)">
+          <div style="font-size:18px;flex-shrink:0">${DOC_ICONS[d.cat]||'📎'}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.title}</div>
+            <div style="font-size:11px;color:var(--ink3);margin-top:2px">${d.author||''}${d.author&&d.date?' · ':''}${d.date?fmtDate(d.date):''}</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0">
+            <span class="badge ${DOC_COLORS[d.cat]||'badge-ink'}" style="font-size:10px">${d.cat}</span>
+            ${d.url?`<a href="${d.url}" target="_blank" class="btn btn-sm btn-teal" style="height:26px;font-size:11px">↗</a>`:''}
+          </div>
+        </div>`).join('')}</div>`;
+    }
+  }
+
+  // ── MoM preview ────────────────────────────────────────
+  const momPreview = document.getElementById('profile-mom-preview');
+  if (momPreview) {
+    const recentMoms = (state.moms || []).slice(0, 3);
+    if (!recentMoms.length) {
+      momPreview.innerHTML = '<div class="empty-state" style="padding:20px">Belum ada MoM. Admin / expert / project manager / staff dapat menambahkan dari menu Minutes of Meeting.</div>';
+    } else {
+      momPreview.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">${recentMoms.map((m, mi) => {
+        const [y,mo,d] = m.date.split('-').map(Number);
+        const doneCount = (m.actions||[]).filter(a=>a.done).length;
+        const totalActions = (m.actions||[]).length;
+        return `<div style="padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--cream)">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+            <div>
+              <div style="font-size:12px;color:var(--ink3);font-weight:600">MoM #${state.moms.length - mi} · ${d} ${MONTHS[mo-1]} ${y}</div>
+              <div style="font-size:13px;font-weight:700;color:var(--ink);margin-top:2px">${m.title}</div>
+              ${m.location||m.time?`<div style="font-size:11px;color:var(--ink3);margin-top:3px">${m.time?`🕐 ${m.time} `:''}${m.location?`📍 ${m.location}`:''}</div>`:''}
+            </div>
+            ${totalActions?`<div style="text-align:right;flex-shrink:0"><div style="font-size:11px;font-weight:700;color:${doneCount===totalActions?'var(--teal)':'var(--gold)'}">${doneCount}/${totalActions} actions</div></div>`:''}
+          </div>
+          ${m.summary?`<div style="font-size:12px;color:var(--ink2);margin-top:8px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${m.summary}</div>`:''}
+        </div>`;
+      }).join('')}</div>`;
+    }
   }
 }
 function clearProfileMessage(){ document.getElementById('profile-message-subject').value=''; document.getElementById('profile-message-body').value=''; }
@@ -3384,7 +3630,7 @@ function populateTaskAssigneeOptions(){
   select.innerHTML = opts.map(opt => `<option value="${opt.value}">${opt.label}</option>`).join('');
 }
 function saveTaskAssignment(){
-  const state = getState(); if(!state || !userCanManage()) return toast('Only admin / project manager / staff can assign tasks');
+  const state = getState(); if(!state || !userCanManage()) return toast('Only admin / expert / project manager / staff can assign tasks');
   const title = document.getElementById('task-title').value.trim();
   const assignedTo = document.getElementById('task-assignee').value;
   const type = document.getElementById('task-type').value;
@@ -3513,7 +3759,7 @@ function renderTimelinePage(){
   const state = getState(); if(!state) return;
   const container = document.getElementById('timeline-page-container'); if(!container) return;
   const items = [...(state.timeline||[])].sort((a,b)=>String(b.updatedAt||b.date||'').localeCompare(String(a.updatedAt||a.date||'')));
-  if(!items.length){ container.innerHTML = '<div class="empty-state">Timeline belum tersedia. Admin / project manager dapat menambahkan aktivitas pada Project Control.</div>'; return; }
+  if(!items.length){ container.innerHTML = '<div class="empty-state">Timeline belum tersedia. Admin / expert / project manager / staff dapat menambahkan aktivitas pada Project Control.</div>'; return; }
   container.innerHTML = `<div class="timeline-list">${items.map(item => `
     <div class="timeline-item">
       <div class="timeline-head"><div><div class="timeline-title">${item.title}</div><div class="timeline-sub">${item.note || 'No additional note.'}</div></div><span class="badge ${statusBadgeClass(item.status)}">${item.status || 'planned'}</span></div>
@@ -3529,7 +3775,7 @@ function resetTimelineForm(){
   document.getElementById('tl-note').value='';
 }
 function saveProjectMetaForm(){
-  const state = getState(); if(!state || !userCanManage()) return toast('Only admin / project manager / staff can update project status');
+  const state = getState(); if(!state || !userCanManage()) return toast('Only admin / expert / project manager / staff can update project status');
   state.projectMeta.status = document.getElementById('pc-project-status').value;
   state.projectMeta.lastUpdate = document.getElementById('pc-last-update').value || new Date().toISOString().slice(0,10);
   state.projectMeta.estimatedDeadline = document.getElementById('pc-est-deadline').value;
@@ -3543,7 +3789,7 @@ function saveProjectMetaForm(){
   toast('Project status saved');
 }
 function saveTimelineItem(){
-  const state = getState(); if(!state || !userCanManage()) return toast('Only admin / project manager / staff can manage timeline');
+  const state = getState(); if(!state || !userCanManage()) return toast('Only admin / expert / project manager / staff can manage timeline');
   const title = document.getElementById('tl-title').value.trim();
   const type = document.getElementById('tl-type').value;
   const status = document.getElementById('tl-status').value;
@@ -3608,7 +3854,7 @@ function renderProjectControlPage(){
   const state = getState(); if(!state) return;
   const container = document.getElementById('project-control-container'); if(!container) return;
   if(!userCanManage()){
-    container.innerHTML = '<div class="empty-state">Only admin, superadmin, project manager, and staff can access this page.</div>';
+    container.innerHTML = '<div class="empty-state">Only admin, superadmin, expert, project manager, and staff can access this page.</div>';
     return;
   }
   const manageableProjects = getSessionProjects();
@@ -3686,7 +3932,7 @@ saveDoc = function(){
   const next = getState();
   if(next && next.documents.length > before){
     const doc = next.documents[next.documents.length-1];
-    addProjectNotification(`Document uploaded: ${doc.title}.`, userCanManage() ? 'all' : 'admin', 'document');
+    addProjectNotification(`Document uploaded: ${doc.title}.`, 'all', 'document');
     renderNotificationsPage(); renderProfilePage();
   }
 };
@@ -3762,9 +4008,9 @@ function renderDashboardManagerShell(){
         <div class="card card-pad">
           <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
             <div>
-              <div class="section-label">Admin Project Control Center</div>
+              <div class="section-label">Management Project Control Center</div>
               <div style="margin-top:8px;display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(11,140,122,0.08);border:1px solid rgba(11,140,122,0.18);font-size:12px;color:var(--teal);font-weight:700">Management dashboard active · edit timeline, assign tasks, track notifications, and sync client progress</div>
-              <div class="helper-text">Admin, superadmin, dan project manager bisa mengedit timeline, mengubah status proyek, mengisi tanggal update, estimasi deadline, serta menjaga progress client tetap sinkron dari satu tempat.</div>
+              <div class="helper-text">Admin, superadmin, expert, project manager, dan staff bisa mengedit timeline, mengubah status proyek, mengisi tanggal update, estimasi deadline, serta menjaga progress client tetap sinkron dari satu tempat.</div>
             </div>
             <span class="badge ${statusBadgeClass(progress.status)}">${progress.status}</span>
           </div>
@@ -3820,6 +4066,8 @@ function renderDashboardManagerShell(){
           <div class="manager-form-actions" style="margin-top:14px">
             <button class="btn btn-teal" type="button" onclick="showPage('tasks');document.getElementById('task-title')?.focus()">Assign Task</button>
             <button class="btn btn-outline" type="button" onclick="showPage('documents')">Open Documents</button>
+            <button class="btn btn-gold" type="button" onclick="showPage('documents');setTimeout(()=>openAddDocModal(),120)">+ Upload Doc</button>
+            <button class="btn btn-outline" type="button" onclick="showPage('mom');setTimeout(()=>openAddMoMModal(),120)">+ Add MoM</button>
           </div>
         </div>
         <div class="card card-pad">
@@ -3851,24 +4099,169 @@ function renderDashboardManagerShell(){
 function escapeHtml(value){
   return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
+function sanitizeProfileLink(value){
+  const raw = String(value ?? '').trim();
+  if(!raw) return '';
+  const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw.replace(/^\/+/, '')}`;
+  try {
+    const parsed = new URL(withProtocol);
+    if(!/^https?:$/i.test(parsed.protocol)) return '';
+    return parsed.toString();
+  } catch(err){
+    return '';
+  }
+}
+function renderProfileLinkButton(url, label='Lihat Profil ↗'){
+  const safeUrl = sanitizeProfileLink(url);
+  if(!safeUrl) return '<span class="readonly-pill">Link profil belum ditambahkan</span>';
+  return `<a class="btn btn-outline btn-sm" href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+}
+
+const JSON_BACKUP_TYPE = 'cesgs_project_hub_backup';
+const JSON_BACKUP_VERSION = 1;
+function buildJsonBackupPayload(){
+  return {
+    backupType: JSON_BACKUP_TYPE,
+    version: JSON_BACKUP_VERSION,
+    exportedAt: new Date().toISOString(),
+    currentProjectId: currentProjectId || '',
+    sessionHint: currentUserSession ? {
+      email: currentUserSession.email || '',
+      password: currentUserSession.password || '',
+      role: currentUserSession.role || ''
+    } : null,
+    data: {
+      projectData: JSON.parse(JSON.stringify(projectData || {})),
+      authenticatedProjects: JSON.parse(JSON.stringify(authenticatedProjects || {})),
+      adminState: JSON.parse(JSON.stringify(adminState || DEFAULT_ADMIN_STATE)),
+      superadminState: parseJSONSafe(SUPERADMIN_STORAGE_KEY, null)
+    }
+  };
+}
+function exportJsonBackup(){
+  try{
+    const payload = buildJsonBackupPayload();
+    const stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+    const roleSlug = String(currentUserSession?.role || 'user').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'user';
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `cesgs-project-hub-backup-${roleSlug}-${stamp}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    toast('Backup JSON exported');
+  }catch(err){
+    toast('Backup export failed');
+  }
+}
+function triggerJsonBackupImport(){
+  const input = document.getElementById('json-backup-import-input');
+  if(!input) return;
+  input.value = '';
+  input.click();
+}
+function applyJsonBackupPayload(payload){
+  const data = payload && payload.backupType === JSON_BACKUP_TYPE ? (payload.data || {}) : payload;
+  if(!data || typeof data !== 'object') throw new Error('INVALID_BACKUP');
+  if(!('projectData' in data) && !('adminState' in data) && !('superadminState' in data) && !('authenticatedProjects' in data)) throw new Error('INVALID_BACKUP');
+
+  if('projectData' in data) localStorage.setItem('cesgs_hub_data', JSON.stringify(data.projectData || {}));
+  if('authenticatedProjects' in data) localStorage.setItem('cesgs_hub_auth', JSON.stringify(data.authenticatedProjects || {}));
+  if('adminState' in data) localStorage.setItem('cesgs_admin_state', JSON.stringify(data.adminState || DEFAULT_ADMIN_STATE));
+  if('superadminState' in data){
+    if(data.superadminState === null) localStorage.removeItem(SUPERADMIN_STORAGE_KEY);
+    else localStorage.setItem(SUPERADMIN_STORAGE_KEY, JSON.stringify(data.superadminState));
+  }
+
+  loadAll();
+  ensureAllProjectEnhancements();
+
+  const currentHint = currentUserSession ? {email: currentUserSession.email || '', password: currentUserSession.password || ''} : null;
+  const candidates = [payload?.sessionHint, data?.sessionHint, currentHint].filter(Boolean);
+  let restoredUser = null;
+  for(const hint of candidates){
+    const email = String(hint.email || '').trim().toLowerCase();
+    const password = String(hint.password || '');
+    if(!email || !password) continue;
+    restoredUser = authenticateUser(email, password);
+    if(restoredUser) break;
+  }
+
+  if(restoredUser){
+    currentUserSession = normalizeUserSession(restoredUser);
+    currentAdminEmail = getAdminByEmail(restoredUser.email)?.email || '';
+  } else {
+    currentUserSession = null;
+    currentAdminEmail = '';
+  }
+
+  const preferredProject = [payload?.currentProjectId, data?.currentProjectId, currentProjectId]
+    .find(pid => pid && PROJECTS[pid] && (!currentUserSession || currentUserCanAccessProject(pid)));
+
+  if(restoredUser){
+    const targetProject = preferredProject || getSessionProjects()[0];
+    if(targetProject) enterProject(targetProject);
+    else renderLanding();
+  } else {
+    if(document.getElementById('app')) document.getElementById('app').style.display='none';
+    if(document.getElementById('landing')) document.getElementById('landing').style.display='block';
+    updateSidebarContext();
+    renderLanding();
+  }
+  saveAll();
+}
+async function handleJsonBackupImport(event){
+  const file = event?.target?.files?.[0];
+  if(!file) return;
+  try{
+    const text = await file.text();
+    const payload = JSON.parse(text);
+    applyJsonBackupPayload(payload);
+    toast('Backup JSON imported');
+  }catch(err){
+    toast('Backup JSON is not valid');
+  }finally{
+    if(event?.target) event.target.value='';
+  }
+}
+function renderBackupTools(){
+  const role = currentUserSession?.role || 'User';
+  return `
+    <div class="helper-text" style="margin-bottom:12px">Export atau import backup JSON dari browser ini. Fitur ini tersedia untuk semua role, dan file backup bisa dipakai untuk restore data saat file HTML dipindahkan ke device lain.</div>
+    <div class="info-list" style="margin-bottom:14px">
+      <div class="info-row"><span>Signed in as</span><strong>${escapeHtml(role)}</strong></div>
+      <div class="info-row"><span>Active project</span><strong>${escapeHtml(PROJECTS[currentProjectId]?.name || currentProjectId || 'General workspace')}</strong></div>
+      <div class="info-row"><span>Backup scope</span><strong>Projects, accounts, tasks, timeline, documents, notifications</strong></div>
+    </div>
+    <div class="manager-form-actions">
+      <button class="btn btn-teal" type="button" onclick="exportJsonBackup()">Export JSON</button>
+      <button class="btn btn-outline" type="button" onclick="triggerJsonBackupImport()">Import JSON</button>
+    </div>
+    <div class="helper-text" style="margin-top:12px">Import akan menimpa data lokal pada browser ini dengan isi file backup.</div>`;
+}
 function accountTypeFromRole(role){
   const normalized = String(role || '').toLowerCase();
   if(normalized.includes('super')) return 'superadmin';
   if(normalized.includes('admin')) return 'admin';
   if(normalized.includes('manager')) return 'project_manager';
+  if(normalized.includes('expert')) return 'expert';
   if(normalized.includes('staff')) return 'staff';
   return 'client';
 }
 function accountRoleLabel(type){
   if(type === 'admin') return 'Admin';
   if(type === 'project_manager') return 'Project Manager';
+  if(type === 'expert') return 'Expert';
   if(type === 'staff') return 'Staff';
   return 'Client / Partner';
 }
 function buildAccountInvitationDraft(account){
-  const isManagement = /admin|manager|staff|super/i.test(String(account.role||''));
+  const isManagement = /admin|manager|staff|super|expert/i.test(String(account.role||''));
   const subject = `[CESGS Project Hub] ${account.role} account invitation`;
-  const body = `Hello ${account.name || 'User'},\n\nYour ${account.role} account has been created in the CESGS Project Hub.\n\nLogin email: ${account.email}\nPassword: ${account.password}\nAccess type: ${isManagement ? 'Management dashboard' : 'Client dashboard'}\nProjects: ${(account.projects || []).map(pid => PROJECTS[pid]?.name || pid).join(', ') || '-'}\n\nPlease login using the integrated HTML dashboard provided by CESGS.\n\nRegards,\nCESGS Superadmin`;
+  const body = `Hello ${account.name || 'User'},\n\nYour ${account.role} account has been created in the CESGS Project Hub.\n\nLogin email: ${account.email}\nPassword: ${account.password}\nAccess type: ${isManagement ? 'Management dashboard' : 'Client dashboard'}\nProjects: ${(account.projects || []).map(pid => PROJECTS[pid]?.name || pid).join(', ') || '-'}${account.profileLink ? `\nProfile link: ${sanitizeProfileLink(account.profileLink)}` : ''}\n\nPlease login using the integrated HTML dashboard provided by CESGS.\n\nRegards,\nCESGS Superadmin`;
   return {subject, body};
 }
 function getAccountManagementRows(){
@@ -3885,6 +4278,8 @@ function getAccountManagementRows(){
       projects:Array.isArray(adm.projects) && adm.projects.length ? adm.projects.filter(pid => !!PROJECTS[pid]) : Object.keys(PROJECTS),
       status:'active',
       locked:!!adm.isPrimary,
+      cv:adm.cv || '',
+      profileLink:adm.profileLink || '',
       ref:adm
     });
   });
@@ -3909,6 +4304,8 @@ function getAccountManagementRows(){
         projects:Array.isArray(acc.projects) ? acc.projects.filter(pid => !!PROJECTS[pid]) : [],
         status:acc.status || 'active',
         locked:false,
+        cv:acc.cv || '',
+        profileLink:acc.profileLink || '',
         ref:acc
       });
     });
@@ -3952,11 +4349,15 @@ function resetManagedAccountForm(){
   const passEl = document.getElementById('managed-account-password');
   const typeEl = document.getElementById('managed-account-type');
   const sendEl = document.getElementById('managed-account-send-email');
+  const cvEl = document.getElementById('managed-account-cv');
+  const profileLinkEl = document.getElementById('managed-account-profile-link');
   if(nameEl) nameEl.value = '';
   if(emailEl) emailEl.value = '';
   if(passEl) passEl.value = '';
   if(typeEl) typeEl.value = 'client';
   if(sendEl) sendEl.checked = false;
+  if(cvEl) cvEl.value = '';
+  if(profileLinkEl) profileLinkEl.value = '';
   document.querySelectorAll('input[name="managed-account-project"]').forEach(el => { el.checked = false; });
   if(currentProjectId){
     const current = document.querySelector(`input[name="managed-account-project"][value="${currentProjectId}"]`);
@@ -3969,9 +4370,10 @@ function updateManagedAccountRoleHint(){
   const hintEl = document.getElementById('managed-account-role-hint');
   if(!hintEl) return;
   const messages = {
-    client:'Client akan login ke dashboard client untuk melihat progress proyek, tugas, dokumen, dan notifikasi.',
-    project_manager:'Project manager bisa masuk ke dashboard project untuk mengelola timeline, tasks, dan aktivitas proyek.',
-    staff:'Staff pengelola juga bisa masuk ke dashboard project dan membantu operasional proyek harian.',
+    client:'Client akan login ke dashboard client untuk melihat progress proyek, tugas, dokumen, notifikasi, dan profil tim yang diassign.',
+    project_manager:'Project manager bisa masuk ke dashboard project untuk mengelola timeline, tasks, aktivitas proyek, dan CV profilnya.',
+    expert:'Expert bisa masuk ke dashboard project yang sama seperti admin untuk memberikan masukan substansi, melihat progress, dan menampilkan CV pada profil client.',
+    staff:'Staff pengelola juga bisa masuk ke dashboard project yang sama seperti admin dan membantu operasional proyek harian sekaligus menampilkan CV pada profil client.',
     admin:'Admin bisa masuk ke dashboard management dan berpindah antar proyek sesuai akses yang diberikan.'
   };
   hintEl.textContent = messages[type] || messages.client;
@@ -3994,6 +4396,8 @@ function upsertManagedUserAccount(roleLabel, payload){
     password:payload.password,
     role:roleLabel,
     projects:payload.projects,
+    cv:payload.cv || (idx >= 0 ? superState.userAccounts[idx].cv : '') || '',
+    profileLink:sanitizeProfileLink(payload.profileLink || (idx >= 0 ? superState.userAccounts[idx].profileLink : '') || ''),
     status:'active',
     createdAt:(idx >= 0 ? superState.userAccounts[idx].createdAt : new Date().toISOString().slice(0,10))
   };
@@ -4007,6 +4411,8 @@ function saveManagedAccount(){
   const email = document.getElementById('managed-account-email')?.value.trim().toLowerCase() || '';
   const password = document.getElementById('managed-account-password')?.value.trim() || '';
   const type = document.getElementById('managed-account-type')?.value || 'client';
+  const cv = document.getElementById('managed-account-cv')?.value.trim() || '';
+  const profileLink = sanitizeProfileLink(document.getElementById('managed-account-profile-link')?.value.trim() || '');
   const projects = collectManagedAccountProjects();
   const sendEmail = !!document.getElementById('managed-account-send-email')?.checked;
   const originalRow = editingManagedAccountKey ? getAccountManagementRows().find(item => item.key === editingManagedAccountKey) : null;
@@ -4036,8 +4442,10 @@ function saveManagedAccount(){
       existing.password = password;
       existing.role = 'Admin';
       existing.projects = projects;
+      existing.cv = cv;
+      existing.profileLink = profileLink;
     } else {
-      adminState.admins.push({id:`adm-${Date.now()}`,name,email,password,role:'Admin',projects,isPrimary:false,createdAt:new Date().toISOString().slice(0,10)});
+      adminState.admins.push({id:`adm-${Date.now()}`,name,email,password,role:'Admin',projects,cv,profileLink,isPrimary:false,createdAt:new Date().toISOString().slice(0,10)});
     }
     const superState = parseJSONSafe(SUPERADMIN_STORAGE_KEY, {}) || {};
     if(Array.isArray(superState.userAccounts)) superState.userAccounts = superState.userAccounts.filter(acc => String(acc.email || '').toLowerCase() !== email);
@@ -4047,7 +4455,7 @@ function saveManagedAccount(){
     if(Array.isArray(adminState.admins)){
       adminState.admins = adminState.admins.filter(adm => String(adm.email || '').toLowerCase() !== email || !!adm.isPrimary);
     }
-    upsertManagedUserAccount(accountRoleLabel(type), {name,email,password,projects});
+    upsertManagedUserAccount(accountRoleLabel(type), {name,email,password,projects,cv,profileLink});
   }
 
   saveAll();
@@ -4070,6 +4478,8 @@ function editManagedAccount(key){
   document.getElementById('managed-account-email').value = row.email || '';
   document.getElementById('managed-account-password').value = row.password || '';
   document.getElementById('managed-account-type').value = accountTypeFromRole(row.role);
+  document.getElementById('managed-account-cv').value = row.cv || '';
+  document.getElementById('managed-account-profile-link').value = row.profileLink || '';
   document.querySelectorAll('input[name="managed-account-project"]').forEach(el => {
     el.checked = (row.projects || []).includes(el.value);
   });
@@ -4116,14 +4526,14 @@ function renderAccountManagementPage(){
     return;
   }
   const rows = getAccountManagementRows();
-  const clients = rows.filter(row => !/admin|manager|staff|super/i.test(String(row.role || '')));
-  const managers = rows.filter(row => /admin|manager|staff|super/i.test(String(row.role || '')));
+  const clients = rows.filter(row => !/admin|manager|staff|super|expert/i.test(String(row.role || '')));
+  const managers = rows.filter(row => /admin|manager|staff|super|expert/i.test(String(row.role || '')));
   container.innerHTML = `
     <div class="manager-grid">
       <div class="profile-stack">
         <div class="card card-pad">
           <div class="section-label">Add / Update Account</div>
-          <div class="helper-text">Khusus superadmin: tambahkan akun client atau akun pengelola (project manager, staff, admin), tetapkan proyek yang bisa diakses, lalu kirimkan draft email undangan bila diperlukan.</div>
+          <div class="helper-text">Khusus superadmin: tambahkan akun client atau akun pengelola (expert, project manager, staff, admin), tetapkan proyek yang bisa diakses, isi CV profesional, lalu kirimkan draft email undangan bila diperlukan.</div>
           <div class="kpi-row" style="margin-top:14px">
             <div class="kpi-card"><strong>${rows.length}</strong><span>Total accounts</span></div>
             <div class="kpi-card"><strong>${clients.length}</strong><span>Client accounts</span></div>
@@ -4134,10 +4544,12 @@ function renderAccountManagementPage(){
             <div class="form-row"><label class="inp-label">Full Name</label><input class="inp" id="managed-account-name" placeholder="Nama akun"/></div>
             <div class="form-row"><label class="inp-label">Email</label><input class="inp" id="managed-account-email" placeholder="nama@domain.com"/></div>
             <div class="form-row"><label class="inp-label">Password</label><input class="inp" id="managed-account-password" type="text" placeholder="Buat password"/></div>
-            <div class="form-row"><label class="inp-label">Account Type</label><select class="inp" id="managed-account-type" onchange="updateManagedAccountRoleHint()"><option value="client">Client / Partner</option><option value="project_manager">Project Manager</option><option value="staff">Staff</option><option value="admin">Admin</option></select></div>
+            <div class="form-row"><label class="inp-label">Account Type</label><select class="inp" id="managed-account-type" onchange="updateManagedAccountRoleHint()"><option value="client">Client / Partner</option><option value="expert">Expert</option><option value="project_manager">Project Manager</option><option value="staff">Staff</option><option value="admin">Admin</option></select></div>
             <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Assigned Projects</label>${renderAccountProjectPicker(getSessionProjects().length === 1 ? getSessionProjects() : (currentProjectId ? [currentProjectId] : []))}</div>
+            <div class="form-row" style="grid-column:1/-1"><label class="inp-label">CV / Professional Profile</label><textarea class="textarea" id="managed-account-cv" placeholder="Ringkasan CV, keahlian, jabatan, pengalaman, atau bio profesional yang akan tampil pada profil proyek client."></textarea></div>
+            <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Link Profil</label><input class="inp" id="managed-account-profile-link" type="url" placeholder="Contoh: linkedin.com/in/nama, scholar.google.com, portfolio pribadi, dll."/></div>
           </div>
-          <div class="helper-text" id="managed-account-role-hint" style="margin-top:10px">Client akan login ke dashboard client untuk melihat progress proyek, tugas, dokumen, dan notifikasi.</div>
+          <div class="helper-text" id="managed-account-role-hint" style="margin-top:10px">Client akan login ke dashboard client untuk melihat progress proyek, tugas, dokumen, notifikasi, dan profil tim yang diassign.</div>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);margin:14px 0 0"><input type="checkbox" id="managed-account-send-email"/> Buka draft email undangan setelah akun disimpan</label>
           <div class="manager-form-actions" style="margin-top:16px">
             <button class="btn btn-outline" type="button" onclick="resetManagedAccountForm()">Reset</button>
@@ -4154,6 +4566,7 @@ function renderAccountManagementPage(){
                 <strong>${escapeHtml(row.name)}</strong>
                 <span>${escapeHtml(row.role)} · ${escapeHtml(row.email)}</span>
                 <span style="display:block;font-size:11px;color:var(--ink3);margin-top:4px">Projects: ${(row.projects || []).map(pid => escapeHtml(PROJECTS[pid]?.name || pid)).join(', ') || '-'}</span>
+                <span style="display:block;font-size:11px;color:var(--ink3);margin-top:4px">CV: ${row.cv ? 'Ready to show on client profile' : 'Not added yet'}</span><span style="display:block;font-size:11px;color:var(--ink3);margin-top:4px">Profile link: ${row.profileLink ? 'Ready to open by client' : 'Not added yet'}</span>
               </div>
               <div class="inline-actions">
                 ${row.locked ? `<span class="readonly-pill">Primary</span>` : `<button class="btn btn-outline btn-sm" type="button" onclick="editManagedAccount('${esc(row.key)}')">Edit</button><button class="btn btn-red btn-sm" type="button" onclick="deleteManagedAccount('${esc(row.key)}')">Delete</button>`}
@@ -4169,6 +4582,7 @@ function renderAccountManagementPage(){
                 <strong>${escapeHtml(row.name)}</strong>
                 <span>${escapeHtml(row.role)} · ${escapeHtml(row.email)}</span>
                 <span style="display:block;font-size:11px;color:var(--ink3);margin-top:4px">Projects: ${(row.projects || []).map(pid => escapeHtml(PROJECTS[pid]?.name || pid)).join(', ') || '-'}</span>
+                <span style="display:block;font-size:11px;color:var(--ink3);margin-top:4px">CV: ${row.cv ? 'Ready to show on client profile' : 'Not added yet'}</span><span style="display:block;font-size:11px;color:var(--ink3);margin-top:4px">Profile link: ${row.profileLink ? 'Ready to open by client' : 'Not added yet'}</span>
               </div>
               <div class="inline-actions">
                 <button class="btn btn-outline btn-sm" type="button" onclick="editManagedAccount('${esc(row.key)}')">Edit</button>
@@ -4203,7 +4617,7 @@ setTimeout(() => {
   const demo = document.querySelector('.signin-demo-body');
   if (demo && !demo.dataset.extendedAccounts) {
     demo.dataset.extendedAccounts = '1';
-    demo.innerHTML += '<br/><br/><b>Project manager demo</b>: <code>pm@cesgs.id</code> · password <code>PM2026</code>';
+    demo.innerHTML += '<br/><br/><b>Project manager demo</b>: <code>pm@cesgs.id</code> · password <code>PM2026</code><br/><b>Expert demo</b>: <code>expert@cesgs.id</code> · password <code>EXPERT2026</code><br/><b>Staff demo</b>: <code>staff@cesgs.id</code> · password <code>STAFF2026</code>';
   }
 }, 0);
 
@@ -4251,7 +4665,7 @@ function renderTaskCenter(){
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
         <div>
           <div class="section-label">Manager Task Console</div>
-          <div class="helper-text">Admin, superadmin, dan project manager bisa mengirim task ke client / partner, meminta upload dokumen, menambahkan form link, dan memantau deadline dari sini.</div>
+          <div class="helper-text">Admin, superadmin, expert, project manager, dan staff bisa mengirim task ke client / partner, meminta upload dokumen, menambahkan form link, dan memantau deadline dari sini.</div>
         </div>
         <div class="switcher-inline">${projectSwitchSelectHtml('task-project-select', currentProjectId, 'tasks')}</div>
       </div>
@@ -4311,7 +4725,7 @@ function renderTimelinePage(){
       </div>
     </div>` : '';
   if(!items.length){
-    container.innerHTML = managerTools + '<div class="empty-state">Timeline belum tersedia. Admin / project manager dapat menambahkan aktivitas pada Project Control.</div>';
+    container.innerHTML = managerTools + '<div class="empty-state">Timeline belum tersedia. Admin / expert / project manager / staff dapat menambahkan aktivitas pada Project Control.</div>';
     return;
   }
   container.innerHTML = managerTools + `<div class="timeline-list">${items.map(item => `
@@ -4393,11 +4807,4 @@ window.addEventListener('storage', (e) => {
 <!-- ══════════════════════════════════════════════ -->
 <div id="superadmin-shell" class="superadmin-shell" aria-hidden="true">
   <button type="button" class="superadmin-back-btn" onclick="closeIntegratedSuperAdmin()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    Back to Project Hub
-  </button>
-  <iframe id="superadmin-embed-frame" class="superadmin-embed-frame" title="CESGS Super Admin"></iframe>
-</div>
-
-</body>
-</html>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2
