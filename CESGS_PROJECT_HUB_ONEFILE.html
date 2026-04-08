@@ -2093,13 +2093,14 @@ let authenticatedProjects={};
 function renderLanding(){
   const grid=document.getElementById('project-grid');
   if(!grid) return;
-  grid.innerHTML=Object.values(PROJECTS).map(p=>{
+  const disabled = typeof getProjectDisabledList === 'function' ? getProjectDisabledList() : [];
+  grid.innerHTML=Object.values(PROJECTS).filter(p => !disabled.includes(p.id)).map(p=>{
     const data=projectData[p.id];
     const collabCount=data?data.collaborators.length:0;
     const docCount=data?data.documents.length:p.seedDocs.length;
     const meetCount=data?data.meetings.length:0;
     const avColors=['#7C3AED','#DB2777','#059669','#D97706','#2563EB'];
-    return`<div class="project-card" onclick="requestAccess('${p.id}')">
+    return`<div class="project-card" data-project-id="${p.id}" onclick="requestAccess('${p.id}')">
       <div class="pc-accent" style="background:linear-gradient(90deg,${p.accent},${p.accent}88)"></div>
       <div class="pc-body">
         <div class="pc-icon" style="background:${p.accent}18">${p.icon}</div>
@@ -5327,8 +5328,122 @@ function renderProjectControlPage(){
     <div class="card card-pad" style="margin-top:16px">
       <div class="section-label">Current Timeline</div>
       <div class="timeline-list">${state.timeline.length ? [...state.timeline].sort((a,b)=>String(b.updatedAt||b.date||'').localeCompare(String(a.updatedAt||a.date||''))).map(item => `<div class="timeline-item"><div class="timeline-head"><div><div class="timeline-title">${item.title}</div><div class="timeline-sub">${item.note || 'No note.'}</div></div><div class="inline-actions"><span class="badge ${statusBadgeClass(item.status)}">${item.status || 'planned'}</span>${canManageTimeline ? `<button class="btn btn-outline btn-sm" type="button" onclick="editTimelineItem(${item.id})">Edit</button><button class="btn btn-red btn-sm" type="button" onclick="deleteTimelineItem(${item.id})">Delete</button>` : ''}</div></div><div class="timeline-meta"><span class="readonly-pill">Type: ${item.type || 'activity'}</span><span class="readonly-pill">Date: ${formatDateFancy(item.date)}</span><span class="readonly-pill">Updated: ${formatDateFancy(item.updatedAt)}</span><span class="readonly-pill">Deadline: ${formatDateFancy(item.deadline)}</span></div></div>`).join('') : '<div class="empty-state">No timeline items yet.</div>'}</div>
+    </div>
+    ${isSuperadminSession() ? renderSuperadminProjectManagementCard() : ''}`;
+}
+
+/* ═══════════════════════════════════════════════════
+   SUPERADMIN — PROJECT MANAGEMENT (Delete / Toggle)
+═══════════════════════════════════════════════════ */
+const BUILT_IN_PROJECT_IDS = ['plts','bi','cbhe'];
+
+function isBuiltInProject(pid){
+  return BUILT_IN_PROJECT_IDS.includes(String(pid));
+}
+
+function getProjectDisabledList(){
+  try{
+    const raw = localStorage.getItem('cesgs_disabled_projects');
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+
+function setProjectDisabledList(list){
+  try{ localStorage.setItem('cesgs_disabled_projects', JSON.stringify(list)); }catch(e){}
+}
+
+function isProjectDisabled(pid){
+  return getProjectDisabledList().includes(String(pid));
+}
+
+function renderSuperadminProjectManagementCard(){
+  const allProjects = Object.values(PROJECTS);
+  const disabled = getProjectDisabledList();
+  const rows = allProjects.map(p => {
+    const isDisabled = disabled.includes(p.id);
+    const isBuiltIn = isBuiltInProject(p.id);
+    const statusBadge = isDisabled
+      ? `<span class="badge badge-red">Nonaktif</span>`
+      : `<span class="badge badge-teal">Aktif</span>`;
+    const toggleBtn = isDisabled
+      ? `<button class="btn btn-teal btn-sm" type="button" onclick="superadminToggleProject('${p.id}',false)">Aktifkan</button>`
+      : `<button class="btn btn-gold btn-sm" type="button" onclick="superadminToggleProject('${p.id}',true)">Nonaktifkan</button>`;
+    const deleteBtn = isBuiltIn
+      ? `<button class="btn btn-sm" style="background:rgba(13,10,30,0.05);color:var(--ink3);cursor:not-allowed;border:1px solid var(--border2)" disabled title="Project bawaan tidak bisa dihapus">Hapus</button>`
+      : `<button class="btn btn-red btn-sm" type="button" onclick="superadminDeleteProject('${p.id}')">Hapus</button>`;
+    return `
+      <div class="admin-row" style="align-items:center">
+        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+          <div style="width:36px;height:36px;border-radius:10px;background:${p.accent}22;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${p.icon}</div>
+          <div>
+            <div class="admin-row-title" style="${isDisabled?'color:var(--ink3);text-decoration:line-through':''}">${p.name}</div>
+            <div class="admin-row-sub">${p.org} · <code style="font-size:10px">${p.id}</code>${isBuiltIn?' · <span style="color:var(--teal);font-weight:600;font-size:10px">built-in</span>':''}</div>
+          </div>
+        </div>
+        <div class="inline-actions" style="flex-shrink:0">
+          ${statusBadge}
+          ${toggleBtn}
+          ${deleteBtn}
+        </div>
+      </div>`;
+  }).join('');
+  return `
+    <div class="card card-pad" style="margin-top:16px;border:1.5px solid rgba(201,137,26,0.22);background:linear-gradient(135deg,#fffbf0 0%,#fff8e6 100%)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <span style="font-size:18px">🛡️</span>
+        <div class="section-label" style="margin-bottom:0;color:var(--gold)">Superadmin — Kelola Project</div>
+      </div>
+      <div class="helper-text" style="margin-bottom:14px">Hanya superadmin yang dapat mengaktifkan, menonaktifkan, atau menghapus project. Project bawaan (built-in) tidak bisa dihapus, tapi bisa dinonaktifkan agar tidak muncul di landing page.</div>
+      <div class="admin-list">${rows}</div>
     </div>`;
 }
+
+function superadminToggleProject(pid, disable){
+  if(!isSuperadminSession()) return toast('Hanya superadmin yang dapat mengubah status project');
+  let list = getProjectDisabledList();
+  if(disable){
+    if(!list.includes(pid)) list.push(pid);
+    toast(`Project "${PROJECTS[pid]?.name || pid}" dinonaktifkan`);
+  } else {
+    list = list.filter(id => id !== pid);
+    toast(`Project "${PROJECTS[pid]?.name || pid}" diaktifkan kembali`);
+  }
+  setProjectDisabledList(list);
+  renderLanding();
+  renderProjectControlPage();
+  if(currentProjectId) refreshDashboard();
+}
+
+function superadminDeleteProject(pid){
+  if(!isSuperadminSession()) return toast('Hanya superadmin yang dapat menghapus project');
+  if(isBuiltInProject(pid)) return toast('Project bawaan tidak dapat dihapus');
+  const p = PROJECTS[pid];
+  if(!p) return toast('Project tidak ditemukan');
+  const confirmMsg = `Hapus project "${p.name}"?\n\nSemua data project ini (timeline, task, dokumen, meeting) akan dihapus permanen. Tindakan ini tidak bisa dibatalkan.`;
+  if(!confirm(confirmMsg)) return;
+  // Remove from PROJECTS registry
+  delete PROJECTS[pid];
+  // Remove from customProjects
+  if(adminState.customProjects) delete adminState.customProjects[pid];
+  // Remove from projectData
+  if(projectData[pid]) delete projectData[pid];
+  // Remove from disabled list if present
+  setProjectDisabledList(getProjectDisabledList().filter(id => id !== pid));
+  // If currently viewing this project, go back to hub
+  if(currentProjectId === pid){
+    currentProjectId = null;
+    document.getElementById('landing-page').style.display = '';
+    document.getElementById('sidebar').style.display = 'none';
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('hamburger-btn').style.display = 'none';
+  }
+  saveAll();
+  renderLanding();
+  toast(`Project "${p.name}" berhasil dihapus`);
+}
+
+
+
 const __baseSaveMeeting = saveMeeting;
 saveMeeting = function(){
   const state = getState();
