@@ -1287,7 +1287,8 @@ input:checked+.toggle-slider::before{transform:translateX(20px)}
     <div class="adm-panel active" id="adm-panel-projects">
       <div class="admin-grid admin-main-grid">
         <div class="card card-pad">
-          <div class="section-label">Tambah Project Baru</div>
+          <div class="section-label" id="admin-project-form-title">Tambah Project Baru</div>
+          <input type="hidden" id="admin-project-edit-id" value=""/>
           <div class="admin-form-grid">
             <div class="form-row"><label class="inp-label">Nama Project *</label><input class="inp" id="admin-project-name" placeholder="Applied Research Project"/></div>
             <div class="form-row"><label class="inp-label">Partner / Organisasi *</label><input class="inp" id="admin-project-org" placeholder="Nama partner"/></div>
@@ -1299,14 +1300,15 @@ input:checked+.toggle-slider::before{transform:translateX(20px)}
           <!-- Account assignment section -->
           <div class="ap-assign-section">
             <div class="section-label" style="margin-bottom:4px">Assign Anggota ke Project Ini</div>
-            <div class="admin-inline-note">Centang akun yang ingin diassign ke project baru ini, lalu pilih role-nya. Bisa pilih lebih dari satu.</div>
+            <div class="admin-inline-note">Bisa dipakai saat membuat project baru maupun saat mengedit project yang sudah berjalan.</div>
             <div id="ap-assign-grid" class="ap-assign-grid"></div>
           </div>
           <div style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-teal" onclick="adminAddProjectWithAssignments()">+ Tambah Project</button>
+            <button class="btn btn-teal" id="admin-project-submit-btn" onclick="adminAddProjectWithAssignments()">+ Tambah Project</button>
+            <button class="btn btn-outline" onclick="adminResetProjectForm()">Reset Form</button>
             <button class="btn btn-outline" onclick="renderApAssignGrid()">↺ Refresh Daftar Akun</button>
           </div>
-          <div class="admin-inline-note" style="margin-top:10px">Project baru akan langsung muncul di landing page dan di daftar project anggota yang diassign.</div>
+          <div class="admin-inline-note" style="margin-top:10px">Project baru akan langsung muncul di landing page dan di daftar project anggota yang diassign. Jika Anda sedang mengedit project, tombol simpan akan memperbarui project yang sama tanpa membuat project baru.</div>
         </div>
         <div class="card card-pad">
           <div class="section-label">Daftar Project</div>
@@ -1317,6 +1319,22 @@ input:checked+.toggle-slider::before{transform:translateX(20px)}
 
     <!-- PANEL: ACCOUNT MANAGEMENT -->
     <div class="adm-panel" id="adm-panel-accounts">
+      <div class="card card-pad" style="margin-bottom:16px">
+        <div class="section-label" style="margin-bottom:2px">Buat Akun Baru</div>
+        <div class="admin-inline-note">Buat akun pengguna baru langsung dari Admin Console, lalu assign ke satu atau beberapa project aktif.</div>
+        <div class="admin-form-grid" style="margin-top:14px">
+          <div class="form-row"><label class="inp-label">Nama Lengkap *</label><input class="inp" id="admin-new-account-name" placeholder="Nama akun"/></div>
+          <div class="form-row"><label class="inp-label">Email *</label><input class="inp" id="admin-new-account-email" type="email" placeholder="nama@domain.com"/></div>
+          <div class="form-row"><label class="inp-label">Password *</label><input class="inp" id="admin-new-account-password" type="text" placeholder="Password akun"/></div>
+          <div class="form-row"><label class="inp-label">Role *</label><select class="inp" id="admin-new-account-role"><option value="client">Client / Partner</option><option value="staff">Staff</option><option value="expert">Expert</option><option value="project_manager">Project Manager</option><option value="admin">Admin</option></select></div>
+          <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Institution</label><input class="inp" id="admin-new-account-institution" placeholder="Instansi / organisasi"/></div>
+          <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Assigned Projects *</label><div id="admin-new-account-projects"></div></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button class="btn btn-teal" onclick="adminConsoleCreateAccount()">+ Buat Akun</button>
+          <button class="btn btn-outline" onclick="resetAdminConsoleAccountForm()">Reset Form</button>
+        </div>
+      </div>
       <div class="card card-pad" style="margin-bottom:16px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
           <div>
@@ -4054,6 +4072,88 @@ function doAdminLogin(){
 function openPrimaryAdminUIDemo(){document.getElementById('admin-login-email').value='adityabagas.official@gmail.com';document.getElementById('admin-login-password').value='CESGS2026';doAdminLogin()}
 function openAdminConsole(){document.getElementById('admin-console').style.display='block';renderAdminConsole()}
 function closeAdminConsole(){document.getElementById('admin-console').style.display='none';currentAdminEmail=''}
+
+function adminResetProjectForm(){
+  const titleEl=document.getElementById('admin-project-form-title');
+  const editIdEl=document.getElementById('admin-project-edit-id');
+  const submitEl=document.getElementById('admin-project-submit-btn');
+  if(titleEl) titleEl.textContent='Tambah Project Baru';
+  if(editIdEl) editIdEl.value='';
+  if(submitEl) submitEl.textContent='+ Tambah Project';
+  ['admin-project-name','admin-project-org','admin-project-password','admin-project-icon','admin-project-desc'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  const accentEl=document.getElementById('admin-project-accent');
+  if(accentEl) accentEl.value='#0B8C7A';
+  renderApAssignGrid();
+}
+
+function adminEditProject(pid){
+  const p=PROJECTS[pid];
+  if(!p) return toast('Project tidak ditemukan');
+  const titleEl=document.getElementById('admin-project-form-title');
+  const editIdEl=document.getElementById('admin-project-edit-id');
+  const submitEl=document.getElementById('admin-project-submit-btn');
+  if(titleEl) titleEl.textContent='Edit Project';
+  if(editIdEl) editIdEl.value=pid;
+  if(submitEl) submitEl.textContent='Simpan Perubahan Project';
+  const setVal=(id,val)=>{ const el=document.getElementById(id); if(el) el.value=val||''; };
+  setVal('admin-project-name',p.name);
+  setVal('admin-project-org',p.org);
+  setVal('admin-project-password',p.password);
+  setVal('admin-project-accent',p.accent||'#0B8C7A');
+  setVal('admin-project-icon',p.icon||'🔬');
+  setVal('admin-project-desc',p.sub||'');
+  renderApAssignGrid(pid);
+  switchAdmTab('projects');
+  try{ document.getElementById('admin-console').scrollTo({top:0,behavior:'smooth'}); }catch(e){}
+}
+
+function renderAdminNewAccountProjectPicker(selectedProjects){
+  const root=document.getElementById('admin-new-account-projects');
+  if(!root) return;
+  const selected=new Set(Array.isArray(selectedProjects)?selectedProjects:[]);
+  const pids=Object.keys(PROJECTS);
+  if(!pids.length){ root.innerHTML='<div class="admin-inline-note">Belum ada project aktif.</div>'; return; }
+  root.innerHTML='<div class="acm-proj-checklist">'+pids.map(pid=>`<label class="acm-proj-item ${selected.has(pid)?'checked':''}"><input type="checkbox" name="admin-new-account-project" value="${pid}" ${selected.has(pid)?'checked':''} onchange="this.closest('label').classList.toggle('checked',this.checked)"/><span class="acm-proj-icon">${PROJECTS[pid]?.icon||'📁'}</span><span class="acm-proj-label">${escapeHtml(PROJECTS[pid]?.name||pid)}</span></label>`).join('')+'</div>';
+}
+
+function collectAdminNewAccountProjects(){
+  return [...document.querySelectorAll('input[name="admin-new-account-project"]:checked')].map(el=>el.value).filter(pid=>!!PROJECTS[pid]);
+}
+
+function resetAdminConsoleAccountForm(){
+  ['admin-new-account-name','admin-new-account-email','admin-new-account-password','admin-new-account-institution'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  const roleEl=document.getElementById('admin-new-account-role');
+  if(roleEl) roleEl.value='client';
+  renderAdminNewAccountProjectPicker([]);
+}
+
+function adminConsoleCreateAccount(){
+  if(!isSuperadminSession()) return toast('Hanya superadmin yang dapat membuat akun baru');
+  const name=document.getElementById('admin-new-account-name')?.value.trim()||'';
+  const email=document.getElementById('admin-new-account-email')?.value.trim().toLowerCase()||'';
+  const password=document.getElementById('admin-new-account-password')?.value.trim()||'';
+  const roleKey=document.getElementById('admin-new-account-role')?.value||'client';
+  const institution=document.getElementById('admin-new-account-institution')?.value.trim()||'';
+  const projects=collectAdminNewAccountProjects();
+  if(!name) return toast('Masukkan nama akun terlebih dahulu');
+  if(!email || !email.includes('@')) return toast('Masukkan email yang valid');
+  if(!password) return toast('Masukkan password akun');
+  if(!projects.length) return toast('Pilih minimal satu project');
+  const exists=getUserAccounts().some(acc=>String(acc.email||'').toLowerCase()===email);
+  if(exists) return toast('Email akun sudah terdaftar. Gunakan Edit pada akun yang sudah ada.');
+  if(roleKey==='admin'){
+    adminState.admins = adminState.admins || [];
+    adminState.admins.push({id:`adm-${Date.now()}`,name,email,password,role:'Admin',projects,cv:'',institution,profileLink:'',photoUrl:'',isPrimary:false,createdAt:new Date().toISOString().slice(0,10)});
+  } else {
+    upsertManagedUserAccount(accountRoleLabel(roleKey), {name,email,password,projects,cv:'',institution,profileLink:'',photoUrl:''});
+  }
+  saveAll();
+  resetAdminConsoleAccountForm();
+  renderAdminAccountManager();
+  renderApAssignGrid();
+  renderAdminStatGrid();
+  toast(`Akun ${name} berhasil dibuat`);
+}
 function getAllConfirmedMeetings(){return Object.entries(projectData).flatMap(([pid,data])=>(data.meetings||[]).map(m=>({...m,projectId:pid,projectName:PROJECTS[pid]?.name||pid}))).sort((a,b)=>`${a.date} ${a.time||''}`.localeCompare(`${b.date} ${b.time||''}`))}
 function renderAdminStatGrid(){const requests=(adminState.bookingRequests||[]).length;const projects=Object.keys(PROJECTS).length;const meetings=getAllConfirmedMeetings().length;const admins=(adminState.admins||[]).length;document.getElementById('admin-stat-grid').innerHTML=`<div class="stat-tile st-teal"><div class="st-num">${projects}</div><div class="st-label">Projects</div></div><div class="stat-tile st-blue"><div class="st-num">${requests}</div><div class="st-label">Booking Requests</div></div><div class="stat-tile st-gold"><div class="st-num">${meetings}</div><div class="st-label">Confirmed Meetings</div></div><div class="stat-tile st-ink"><div class="st-num">${admins}</div><div class="st-label">Admins</div></div>`}
 function renderAdminBookingRequests(){const el=document.getElementById('admin-booking-requests');const requests=adminState.bookingRequests||[];if(!requests.length){el.innerHTML='<div class="admin-inline-note">No booking requests yet.</div>';return}el.innerHTML='<div class="admin-list">'+requests.map(req=>{const prefHtml=(req.preferences||[]).map(pref=>`<button class="btn btn-outline btn-sm" onclick="confirmBookingRequest(${req.id},'${pref.date}','${pref.time}')">Confirm ${formatWibPreferenceLabel(pref.date,pref.time,req.duration||30)}</button>`).join('');return `<div class="admin-row"><div><div class="admin-row-title">${req.name} · ${req.projectName||req.project||'General Consultation'}</div><div class="admin-row-sub">${req.email}${req.org?` · ${req.org}`:''} · ${req.duration||30} minutes<br/>${req.agenda||'-'}</div><div class="admin-request-pref">${prefHtml}</div></div><div class="admin-actions"><span class="badge badge-blue">${req.status||'requested'}</span></div></div>`}).join('')+'</div>'}
@@ -4084,7 +4184,7 @@ function openNextMeetingInGoogleCalendar(){const next=getAllConfirmedMeetings().
 function buildICSContent(){const meetings=getAllConfirmedMeetings();const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Applied Research CESGS//Project Hub//EN'];meetings.forEach((meeting,idx)=>{const range=(meeting.time||'').match(/(\d{2}:\d{2})\s*[–-]\s*(\d{2}:\d{2})/);const start=range?range[1]:'09:00';const end=range?range[2]:minutesToTime(timeToMinutes(start)+(meeting.duration||30));const startUtc=new Date(`${meeting.date}T${start}:00+07:00`).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');const endUtc=new Date(`${meeting.date}T${end}:00+07:00`).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');lines.push('BEGIN:VEVENT');lines.push(`UID:cesgs-${idx}-${meeting.id||Date.now()}@projecthub`);lines.push(`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z')}`);lines.push(`DTSTART:${startUtc}`);lines.push(`DTEND:${endUtc}`);lines.push(`SUMMARY:${String(meeting.title||'CESGS Meeting').replace(/,/g,'\\,')}`);lines.push(`DESCRIPTION:${String(meeting.agenda||'').replace(/\n/g,'\\n').replace(/,/g,'\\,')}`);lines.push(`LOCATION:${String(meeting.location||'Google Meet / CESGS').replace(/,/g,'\\,')}`);lines.push('END:VEVENT')});lines.push('END:VCALENDAR');return lines.join('\r\n')}
 function downloadMeetingsICS(){const content=buildICSContent();const blob=new Blob([content],{type:'text/calendar;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='applied-research-cesgs-meetings.ics';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
 function renderAdminConfirmedMeetings(){const el=document.getElementById('admin-confirmed-meetings');const meetings=getAllConfirmedMeetings();if(!meetings.length){el.innerHTML='<div class="admin-inline-note">No confirmed meetings yet.</div>';return}el.innerHTML='<div class="admin-list">'+meetings.slice(0,8).map(meeting=>`<div class="admin-row"><div><div class="admin-row-title">${meeting.title}</div><div class="admin-row-sub">${meeting.projectName||''} · ${meeting.date} · ${meeting.time||''}</div></div><div class="admin-actions"><button class="btn btn-outline btn-sm" onclick="openMeetingById('${meeting.projectId}','${meeting.id}')">Google Calendar</button></div></div>`).join('')+'</div>'}
-function renderAdminConsole(){document.getElementById('admin-console-subtitle').textContent=`Signed in as ${currentAdminEmail}. Manage projects, accounts, CESGS booking availability, and admin access.`;document.getElementById('admin-start-time').value=adminState.bookingConfig.start||'08:00';document.getElementById('admin-end-time').value=adminState.bookingConfig.end||'16:30';renderAdminStatGrid();renderAdminBookingRequests();renderAdminProjectList();renderWeekdayChips();renderDurationChips();renderAdminAccess();renderAdminConfirmedMeetings();renderAdminAccountManager();renderApAssignGrid();}
+function renderAdminConsole(){document.getElementById('admin-console-subtitle').textContent=`Signed in as ${currentAdminEmail}. Manage projects, accounts, CESGS booking availability, and admin access.`;document.getElementById('admin-start-time').value=adminState.bookingConfig.start||'08:00';document.getElementById('admin-end-time').value=adminState.bookingConfig.end||'16:30';renderAdminStatGrid();renderAdminBookingRequests();renderAdminProjectList();renderWeekdayChips();renderDurationChips();renderAdminAccess();renderAdminConfirmedMeetings();renderAdminAccountManager();renderApAssignGrid(document.getElementById('admin-project-edit-id')?.value||'');renderAdminNewAccountProjectPicker();}
 
 /* ── Admin Console Tab switching ── */
 function switchAdmTab(tab){
@@ -4099,7 +4199,7 @@ function switchAdmTab(tab){
 }
 
 /* ── Add Project with Account Assignment ── */
-function renderApAssignGrid(){
+function renderApAssignGrid(selectedPid){
   const grid=document.getElementById('ap-assign-grid');
   if(!grid) return;
   const accounts=getUserAccounts().filter(a=>a&&a.email);
@@ -4108,9 +4208,11 @@ function renderApAssignGrid(){
   grid.innerHTML=accounts.map((acc,i)=>{
     const clr=colors[i%colors.length];
     const initials=ini(acc.name||acc.email||'?');
-    return `<div class="ap-assign-item" id="ap-item-${i}" onclick="toggleApItem(${i})">
+    const isAssigned=!!(selectedPid && Array.isArray(acc.projects) && acc.projects.includes(selectedPid));
+    const roleValue=normalizeManagedRoleKey(acc.role || 'client');
+    return `<div class="ap-assign-item ${isAssigned?'checked':''}" id="ap-item-${i}" onclick="toggleApItem(${i})">
       <div class="ap-assign-header">
-        <input type="checkbox" id="ap-chk-${i}" onclick="event.stopPropagation()" onchange="syncApItemClass(${i})">
+        <input type="checkbox" id="ap-chk-${i}" ${isAssigned?'checked':''} onclick="event.stopPropagation()" onchange="syncApItemClass(${i})">
         <div class="ap-assign-avatar" style="background:${clr}">${initials}</div>
         <div>
           <div class="ap-assign-name">${escapeHtml(acc.name||acc.email)}</div>
@@ -4118,11 +4220,11 @@ function renderApAssignGrid(){
         </div>
       </div>
       <select class="ap-assign-role" id="ap-role-${i}" onclick="event.stopPropagation()">
-        <option value="Client / Partner">Client / Partner</option>
-        <option value="Staff">Staff</option>
-        <option value="Expert">Expert</option>
-        <option value="Project Manager">Project Manager</option>
-        <option value="Admin">Admin</option>
+        <option value="Client / Partner" ${roleValue==='client'?'selected':''}>Client / Partner</option>
+        <option value="Staff" ${roleValue==='staff'?'selected':''}>Staff</option>
+        <option value="Expert" ${roleValue==='expert'?'selected':''}>Expert</option>
+        <option value="Project Manager" ${roleValue==='project_manager'?'selected':''}>Project Manager</option>
+        <option value="Admin" ${roleValue==='admin'?'selected':''}>Admin</option>
       </select>
     </div>`;
   }).join('');
@@ -4142,6 +4244,7 @@ function syncApItemClass(i){
 }
 
 function adminAddProjectWithAssignments(){
+  const editPid=document.getElementById('admin-project-edit-id')?.value.trim()||'';
   const name=document.getElementById('admin-project-name').value.trim();
   const org=document.getElementById('admin-project-org').value.trim();
   const password=document.getElementById('admin-project-password').value.trim();
@@ -4149,28 +4252,29 @@ function adminAddProjectWithAssignments(){
   const accent=document.getElementById('admin-project-accent').value||'#0B8C7A';
   const icon=document.getElementById('admin-project-icon').value.trim()||'🔬';
   const desc=document.getElementById('admin-project-desc').value.trim()||'Project workspace for Applied Research CESGS.';
-  const pid=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,18)||`project-${Date.now()}`;
-  PROJECTS[pid]={id:pid,name,org,password,accent,icon,iconBg:'#EAF9F6',orgColor:'var(--teal)',statusBg:'var(--teal-light)',statusColor:'var(--teal)',tag:`${name} · ${org}`,title:`${name} Hub`,sub:desc,teamName:'Applied Research CESGS Team',teamOrg:'Universitas Airlangga',links:[{label:'Shared Google Drive',url:'https://drive.google.com',icon:'📁',bg:'#FDF3E0'},{label:'Google Meet',url:'https://meet.google.com',icon:'🎥',bg:'#E5EEFF'}],seedDocs:[]};
+  const pid=editPid || name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,18)||`project-${Date.now()}`;
+  if(!editPid && PROJECTS[pid]){toast('ID project sudah ada. Ubah nama project atau gunakan mode edit.');return;}
+  PROJECTS[pid]={...(PROJECTS[pid]||{}),id:pid,name,org,password,accent,icon,iconBg:'#EAF9F6',orgColor:'var(--teal)',statusBg:'var(--teal-light)',statusColor:'var(--teal)',tag:`${name} · ${org}`,title:`${name} Hub`,sub:desc,teamName:'Applied Research CESGS Team',teamOrg:'Universitas Airlangga',links:(PROJECTS[pid]?.links||[{label:'Shared Google Drive',url:'https://drive.google.com',icon:'📁',bg:'#FDF3E0'},{label:'Google Meet',url:'https://meet.google.com',icon:'🎥',bg:'#E5EEFF'}]),seedDocs:(PROJECTS[pid]?.seedDocs||[])};
+  adminState.customProjects=adminState.customProjects||{};
   adminState.customProjects[pid]=PROJECTS[pid];
-  /* Assign checked accounts */
   const accounts=getUserAccounts().filter(a=>a&&a.email);
   let assignedCount=0;
   accounts.forEach((acc,i)=>{
     const chk=document.getElementById('ap-chk-'+i);
-    if(!chk||!chk.checked) return;
+    if(!chk) return;
     const roleEl=document.getElementById('ap-role-'+i);
     const newRole=roleEl?roleEl.value:acc.role;
-    const updatedProjects=[...new Set([...(acc.projects||[]),pid])];
-    updateStoredAccountProfile(acc.email,{projects:updatedProjects,role:newRole});
-    assignedCount++;
+    const existingProjects=Array.isArray(acc.projects)?acc.projects.filter(p=>!!PROJECTS[p]):[];
+    const updatedProjects=chk.checked ? [...new Set([...existingProjects,pid])] : existingProjects.filter(p=>p!==pid);
+    if(String(updatedProjects.sort())!==String(existingProjects.sort()) || String(newRole||'')!==String(acc.role||'')){
+      updateStoredAccountProfile(acc.email,{projects:updatedProjects,role:newRole});
+      if(chk.checked) assignedCount++;
+    }
   });
   saveAll();renderLanding();renderAdminConsole();
-  ['admin-project-name','admin-project-org','admin-project-password','admin-project-icon','admin-project-desc'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('admin-project-accent').value='#0B8C7A';
-  toast(`Project "${name}" ditambahkan${assignedCount?` · ${assignedCount} akun diassign`:''}`);
-}
-
-/* ── Admin Console Account Manager ── */
+  toast(editPid?`Project "${name}" diperbarui`:`Project "${name}" ditambahkan${assignedCount?` · ${assignedCount} akun diassign`:''}`);
+  adminResetProjectForm();
+}/* ── Admin Console Account Manager ── */
 let acmEditingEmail=null;
 
 function renderAdminAccountManager(){
@@ -5612,6 +5716,54 @@ function openProjectDashboardAsManager(pid){
   enterProject(pid);
   showPage('project-control');
 }
+function populateProjectAccountAssignmentOptions(){
+  const select=document.getElementById('pc-add-account-select');
+  const roleSelect=document.getElementById('pc-add-account-role');
+  const help=document.getElementById('pc-add-account-help');
+  if(!select) return;
+  const accounts=getUserAccounts().filter(acc=>acc&&acc.email);
+  const assigned=accounts.filter(acc=>Array.isArray(acc.projects)&&acc.projects.includes(currentProjectId));
+  const available=accounts.filter(acc=>!Array.isArray(acc.projects)||!acc.projects.includes(currentProjectId));
+  if(!available.length){
+    select.innerHTML='<option value="">Semua akun sudah terhubung ke project ini</option>';
+    select.disabled=true;
+    if(help) help.textContent=`Saat ini ada ${assigned.length} akun yang sudah terhubung ke project ini.`;
+    return;
+  }
+  select.disabled=false;
+  select.innerHTML='<option value="">Pilih akun…</option>'+available.map(acc=>`<option value="${escapeHtml(acc.email)}" data-role="${escapeHtml(normalizeManagedRoleKey(acc.role||'client'))}">${escapeHtml(acc.name||acc.email)} · ${escapeHtml(acc.email)} · ${escapeHtml(acc.role||'Member')}</option>`).join('');
+  const first=available[0];
+  if(roleSelect && first) roleSelect.value=managedRoleLabel(normalizeManagedRoleKey(first.role||'client'));
+  if(help) help.textContent=`${assigned.length} akun sudah terhubung ke project ini. Anda dapat menambahkan akun lain dari daftar di atas.`;
+}
+
+function handleProjectAccountSelectionChange(){
+  const select=document.getElementById('pc-add-account-select');
+  const roleSelect=document.getElementById('pc-add-account-role');
+  if(!select || !roleSelect) return;
+  const opt=select.options[select.selectedIndex];
+  if(opt && opt.dataset && opt.dataset.role){ roleSelect.value=managedRoleLabel(opt.dataset.role); }
+}
+
+function assignSelectedAccountToCurrentProject(){
+  if(!currentProjectId || !PROJECTS[currentProjectId]) return toast('Project aktif tidak ditemukan');
+  const select=document.getElementById('pc-add-account-select');
+  const roleSelect=document.getElementById('pc-add-account-role');
+  if(!select) return;
+  const email=String(select.value||'').trim().toLowerCase();
+  const role=roleSelect?.value||'Staff';
+  if(!email) return toast('Pilih akun terlebih dahulu');
+  const acc=getUserAccounts().find(item=>String(item.email||'').toLowerCase()===email);
+  if(!acc) return toast('Akun tidak ditemukan');
+  const projects=[...new Set([...(Array.isArray(acc.projects)?acc.projects:[]),currentProjectId])];
+  const ok=updateStoredAccountProfile(email,{projects,role});
+  if(!ok) return toast('Gagal menambahkan akun ke project');
+  populateProjectAccountAssignmentOptions();
+  renderAdminAccountManager();
+  renderUserHubPage();
+  toast(`Akun ${acc.name||acc.email} ditambahkan ke project ini`);
+}
+
 function renderProjectControlPage(){
   const state = getState(); if(!state) return;
   const container = document.getElementById('project-control-container'); if(!container) return;
@@ -5672,6 +5824,16 @@ function renderProjectControlPage(){
       </div>
       <div class="profile-stack">
         <div class="card card-pad">
+          <div class="section-label">Tambah Akun ke Project Ini</div>
+          <div class="helper-text">Tambahkan akun existing ke project yang sedang berjalan langsung dari dashboard project. Untuk membuat akun baru, gunakan Admin Console.</div>
+          <div class="form-grid-2" style="margin-top:14px">
+            <div class="form-row"><label class="inp-label">Pilih Akun Existing</label><select class="inp" id="pc-add-account-select"></select></div>
+            <div class="form-row"><label class="inp-label">Role di Project Ini</label><select class="inp" id="pc-add-account-role"><option value="Client / Partner">Client / Partner</option><option value="Staff">Staff</option><option value="Expert">Expert</option><option value="Project Manager">Project Manager</option><option value="Admin">Admin</option></select></div>
+          </div>
+          <div class="manager-form-actions"><button class="btn btn-teal" type="button" onclick="assignSelectedAccountToCurrentProject()">+ Tambahkan ke Project</button><button class="btn btn-outline" type="button" onclick="populateProjectAccountAssignmentOptions()">Refresh</button></div>
+          <div class="helper-text" id="pc-add-account-help" style="margin-top:10px"></div>
+        </div>
+        <div class="card card-pad">
           <div class="section-label">Manager Overview</div>
           <div class="kpi-row">
             <div class="kpi-card"><strong>${state.timeline.length}</strong><span>Timeline items</span></div>
@@ -5696,6 +5858,9 @@ function renderProjectControlPage(){
       <div class="timeline-list">${state.timeline.length ? [...state.timeline].sort((a,b)=>String(b.updatedAt||b.date||'').localeCompare(String(a.updatedAt||a.date||''))).map(item => `<div class="timeline-item"><div class="timeline-head"><div><div class="timeline-title">${item.title}</div><div class="timeline-sub">${item.note || 'No note.'}</div></div><div class="inline-actions"><span class="badge ${statusBadgeClass(item.status)}">${item.status || 'planned'}</span>${canManageTimeline ? `<button class="btn btn-outline btn-sm" type="button" onclick="editTimelineItem(${item.id})">Edit</button><button class="btn btn-red btn-sm" type="button" onclick="deleteTimelineItem(${item.id})">Delete</button>` : ''}</div></div><div class="timeline-meta"><span class="readonly-pill">Type: ${item.type || 'activity'}</span><span class="readonly-pill">Date: ${formatDateFancy(item.date)}</span><span class="readonly-pill">Updated: ${formatDateFancy(item.updatedAt)}</span><span class="readonly-pill">Deadline: ${formatDateFancy(item.deadline)}</span></div></div>`).join('') : '<div class="empty-state">No timeline items yet.</div>'}</div>
     </div>
     ${isSuperadminSession() ? renderSuperadminProjectManagementCard() : ''}`;
+  populateProjectAccountAssignmentOptions();
+  const accountSelect=document.getElementById('pc-add-account-select');
+  if(accountSelect) accountSelect.onchange=handleProjectAccountSelectionChange;
 }
 
 /* ═══════════════════════════════════════════════════
