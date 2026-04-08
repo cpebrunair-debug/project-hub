@@ -5531,7 +5531,7 @@ function renderProfileInternalCalendar(){
   const wrap = document.getElementById('profile-calendar-sync');
   const actions = document.getElementById('profile-calendar-actions');
   if(!wrap) return;
-  if(actions) actions.innerHTML = '<button class="btn btn-outline btn-sm" type="button" onclick="showPage('schedule')">Buka halaman agenda →</button>';
+  if(actions) actions.innerHTML = `<button class="btn btn-outline btn-sm" type="button" onclick="showPage('schedule')">Buka halaman agenda →</button>`;
   const ownerLabel = currentUserName() || 'Project User';
   const allItems = getRelevantScheduleAgendaItems();
   const nowCutoff = new Date().toISOString().slice(0,16).replace('T',' ');
