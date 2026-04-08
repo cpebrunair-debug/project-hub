@@ -1339,10 +1339,13 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
 
       <div class="card card-pad">
         <div class="section-label">Import iCal Calendar</div>
-        <div class="helper-text" style="margin-bottom:12px">Pilih tepat 1 akun dari daftar nama pengguna di atas, lalu upload file .ics/.ical. Semua event di file kalender akan otomatis dimasukkan ke kalender pemilik akun yang dipilih.</div>
+        <div class="helper-text" style="margin-bottom:12px">Pilih tepat 1 akun dari daftar nama pengguna di atas, lalu upload file .ics/.ical. Semua event di file kalender akan otomatis dimasukkan ke kalender pemilik akun yang dipilih. Jika ingin mengganti file kalender, hapus dulu kalender impor yang lama lalu upload file baru.</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn btn-outline" onclick="triggerCalendarImport()">Import Calendar File</button>
+          <button class="btn btn-red" onclick="removeImportedCalendarForSelectedOwner()">Hapus Kalender Impor</button>
+          <button class="btn btn-gold" onclick="replaceImportedCalendarForSelectedOwner()">Ganti dengan File Baru</button>
         </div>
+        <div class="helper-text" id="sched-calendar-import-status" style="margin-top:10px">Hanya event dengan source import yang akan dihapus. Event manual tetap aman.</div>
         <input id="sched-calendar-import" type="file" accept=".ics,.ical,.ifb,text/calendar" style="display:none" onchange="handleCalendarImport(event)"/>
       </div>
     </div>
@@ -1701,7 +1704,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ═══════════════════════════════════
    PROJECT DEFINITIONS
 ═══════════════════════════════════ */
@@ -2828,6 +2831,53 @@ function triggerCalendarImport(){
   if(input){ input.value=''; input.click(); }
 }
 
+function getSelectedImportedCalendarOwner(){
+  populateScheduleOwnerOptions();
+  const owners=getSelectedScheduleOwners();
+  if(!owners.length){ toast('Pilih 1 akun pemilik kalender terlebih dulu'); return null; }
+  if(owners.length>1){ toast('Pilih tepat 1 akun pemilik kalender'); return null; }
+  return owners[0] || null;
+}
+
+function countImportedCalendarEventsForOwner(state, owner){
+  ensureCalendarState(state);
+  return (state.calendarEvents||[]).filter(ev=>ev && ev.source==='import' && ownerMatchesName(ev.owner, owner)).length;
+}
+
+function removeImportedCalendarForSelectedOwner(skipConfirm){
+  const owner=getSelectedImportedCalendarOwner();
+  if(!owner) return false;
+  const s=getState(); if(!s) return false;
+  ensureCalendarState(s);
+  const total=countImportedCalendarEventsForOwner(s, owner);
+  if(!total){ toast(`Belum ada kalender impor untuk akun ${owner}`); return false; }
+  if(!skipConfirm){
+    const ok=window.confirm(`Hapus ${total} event hasil import untuk akun ${owner}? Event manual tidak akan ikut terhapus.`);
+    if(!ok) return false;
+  }
+  s.calendarEvents=(s.calendarEvents||[]).filter(ev=>!(ev && ev.source==='import' && ownerMatchesName(ev.owner, owner)));
+  renderChips(); renderCalendar(); refreshDashboard(); renderNotificationsPage(); saveAll();
+  const status=document.getElementById('sched-calendar-import-status');
+  if(status) status.textContent=`Kalender impor milik ${owner} sudah dihapus. Anda bisa import file baru sekarang.`;
+  toast(`${total} event kalender impor milik ${owner} berhasil dihapus`);
+  return true;
+}
+
+function replaceImportedCalendarForSelectedOwner(){
+  const owner=getSelectedImportedCalendarOwner();
+  if(!owner) return;
+  const s=getState(); if(!s) return;
+  ensureCalendarState(s);
+  const total=countImportedCalendarEventsForOwner(s, owner);
+  if(total){
+    const removed=removeImportedCalendarForSelectedOwner(true);
+    if(!removed) return;
+  }
+  const status=document.getElementById('sched-calendar-import-status');
+  if(status) status.textContent=`Silakan pilih file kalender baru untuk akun ${owner}.`;
+  triggerCalendarImport();
+}
+
 function addCalendarEventManual(){
   const s=getState(); if(!s) return;
   ensureCalendarState(s);
@@ -2896,6 +2946,8 @@ function handleCalendarImport(event){
     });
     event.target.value='';
     renderChips(); renderCalendar(); refreshDashboard(); renderNotificationsPage(); saveAll();
+    const status=document.getElementById('sched-calendar-import-status');
+    if(status) status.textContent=added?`${added} event dari file kalender aktif untuk akun ${owner}. Anda bisa hapus kalender impor ini kapan saja lalu ganti dengan file baru.`:`Tidak ada event yang terbaca dari file kalender.`;
     toast(added?`${added} event dari file kalender berhasil dimasukkan ke kalender akun ${owner}`:'Tidak ada event yang terbaca dari file kalender');
   };
   reader.readAsText(file);
@@ -3759,21 +3811,6 @@ const USER_ACCOUNTS_FALLBACK = [
     projects: ['plts']
   }
 ];
-function getUserAccounts() {
-  const superState = parseJSONSafe(SUPERADMIN_STORAGE_KEY, null);
-  if (superState && Array.isArray(superState.clients) && superState.clients.length) {
-    const activeClients = superState.clients.filter(c => (c.status || 'active') !== 'inactive').map((client, idx) => ({
-      email: client.email,
-      password: client.password,
-      name: client.name || (client.email ? client.email.split('@')[0] : `Client ${idx + 1}`),
-      role: 'Client / Partner',
-      projects: Array.isArray(client.projects) ? client.projects.filter(pid => !!PROJECTS[pid]) : [],
-      institution: client.institution || ''
-    })).filter(client => client.email && client.password && client.projects.length);
-    if (activeClients.length) return activeClients;
-  }
-  return USER_ACCOUNTS_FALLBACK;
-}
 
 function resetModalLoginState() {
   document.getElementById('login-email').value = '';
@@ -3807,100 +3844,6 @@ function closeLoginModal() {
   document.getElementById('login-overlay').classList.remove('show');
 }
 
-function authenticateUser(email, password) {
-  const normalizedEmail = String(email || '').trim().toLowerCase();
-  const pass = String(password || '');
-  const account = getUserAccounts().find(u => u.email.toLowerCase() === normalizedEmail && u.password === pass);
-  if(account) return account;
-  const forcedAdmin = (adminState.admins || []).find(a => String(a && a.email || '').toLowerCase() === normalizedEmail && String(a && a.password || '') === pass);
-  if(forcedAdmin){
-    return normalizeUserSession({
-      email:forcedAdmin.email,
-      password:forcedAdmin.password,
-      name:forcedAdmin.name || 'Aditya Bagas',
-      role:forcedAdmin.isPrimary ? 'Superadmin' : (forcedAdmin.role || 'Admin'),
-      projects:Array.isArray(forcedAdmin.projects) && forcedAdmin.projects.length ? forcedAdmin.projects.filter(pid => !!PROJECTS[pid]) : Object.keys(PROJECTS),
-      canManage:true,
-      cv:forcedAdmin.cv || '',
-      profileLink:forcedAdmin.profileLink || '',
-      photoUrl:forcedAdmin.photoUrl || ''
-    });
-  }
-  return null;
-}
-
-function renderUserProjectPicker(user, mode) {
-  const isLanding = mode === 'landing';
-  const formWrap = document.getElementById(isLanding ? 'landing-login-form-wrap' : 'login-form-wrap');
-  const pickerWrap = document.getElementById(isLanding ? 'landing-login-project-select-wrap' : 'login-project-select-wrap');
-  const listEl = document.getElementById(isLanding ? 'landing-login-project-list' : 'login-project-list');
-  if (!formWrap || !pickerWrap || !listEl) return;
-
-  formWrap.style.display = 'none';
-  listEl.innerHTML = user.projects.map(pid => {
-    const p = PROJECTS[pid];
-    if (!p) return '';
-    if (isLanding) {
-      return `<button class="signin-project-btn" onclick="enterProject('${pid}')">
-        <div style="width:42px;height:42px;border-radius:12px;background:${p.accent}22;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${p.icon}</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;margin-bottom:2px">${p.name}</div>
-          <div style="font-size:12px;color:${p.orgColor || 'var(--ink3)'}">${p.org}</div>
-        </div>
-        <div class="arrow">›</div>
-      </button>`;
-    }
-    return `<button onclick="closeLoginModal();enterProject('${pid}')" style="
-      display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;
-      border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);
-      color:#fff;font-family:var(--font-desc);cursor:pointer;width:100%;
-      text-align:left;transition:all 0.15s;
-    " onmouseover="this.style.background='rgba(45,196,168,0.12)';this.style.borderColor='rgba(45,196,168,0.4)'"
-       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.1)'">
-      <div style="width:40px;height:40px;border-radius:10px;background:${p.accent}22;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${p.icon}</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;margin-bottom:2px">${p.name}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.4)">${p.org}</div>
-      </div>
-      <div style="margin-left:auto;color:rgba(45,196,168,0.7);font-size:20px">›</div>
-    </button>`;
-  }).join('');
-  pickerWrap.style.display = 'block';
-}
-
-function performUserLogin(email, password, mode) {
-  const isLanding = mode === 'landing';
-  const errEl = document.getElementById(isLanding ? 'landing-login-err' : 'login-err');
-  const emailEl = document.getElementById(isLanding ? 'landing-login-email' : 'login-email');
-  const passwordEl = document.getElementById(isLanding ? 'landing-login-password' : 'login-password');
-  errEl.textContent = '';
-
-  if (!email) { errEl.textContent = 'Enter your email.'; emailEl.focus(); return; }
-  if (!password) { errEl.textContent = 'Enter your password.'; passwordEl.focus(); return; }
-
-  const user = authenticateUser(email, password);
-  if (!user) {
-    errEl.textContent = 'Incorrect email or password. Please try again.';
-    emailEl.classList.add('error');
-    passwordEl.classList.add('error');
-    setTimeout(() => {
-      emailEl.classList.remove('error');
-      passwordEl.classList.remove('error');
-    }, 500);
-    return;
-  }
-
-  user.projects.forEach(pid => { authenticatedProjects[pid] = true; });
-  saveAll();
-
-  if (user.projects.length === 1) {
-    if (!isLanding) closeLoginModal();
-    enterProject(user.projects[0]);
-    return;
-  }
-
-  renderUserProjectPicker(user, mode);
-}
 
 function doLogin() {
   const email = document.getElementById('login-email').value.trim().toLowerCase();
@@ -5191,18 +5134,6 @@ function toggleTaskStatus(taskId){
   renderNotificationsPage();
   toast(`Task ${task.status}`);
 }
-function renderTaskCenter(){
-  const state = getState(); if(!state) return;
-  const panel = document.getElementById('task-manager-panel');
-  if(panel){ panel.style.display = userCanManage() ? 'block' : 'none'; }
-  if(userCanManage()) populateTaskAssigneeOptions();
-  const list = document.getElementById('task-list-container');
-  const tasks = (userCanManage() ? [...state.tasks] : getVisibleTasks(state)).sort((a,b)=>String(b.updatedAt||b.createdAt||'').localeCompare(String(a.updatedAt||a.createdAt||'')));
-  if(!list) return;
-  if(!tasks.length){ list.innerHTML = '<div class="empty-state">No tasks available for this project yet.</div>'; return; }
-  list.innerHTML = `<div class="task-list">${tasks.map(task => renderTaskCard(task)).join('')}</div>`;
-  scrollToHighlightedTask();
-}
 function markVisibleNotificationsRead(){
   const state = getState(); if(!state) return;
   const visibleIds = new Set(getVisibleExplicitNotifications(state).map(note => String(note.id)));
@@ -5229,17 +5160,6 @@ function renderNotificationsPage(){
       </div>
     </div>`;
   }).join('')}</div>`;
-}
-function renderTimelinePage(){
-  const state = getState(); if(!state) return;
-  const container = document.getElementById('timeline-page-container'); if(!container) return;
-  const items = [...(state.timeline||[])].sort((a,b)=>String(b.updatedAt||b.date||'').localeCompare(String(a.updatedAt||a.date||'')));
-  if(!items.length){ container.innerHTML = '<div class="empty-state">Timeline belum tersedia. Admin / expert / project manager / staff dapat menambahkan aktivitas pada Project Control.</div>'; return; }
-  container.innerHTML = `<div class="timeline-list">${items.map(item => `
-    <div class="timeline-item">
-      <div class="timeline-head"><div><div class="timeline-title">${item.title}</div><div class="timeline-sub">${item.note || 'No additional note.'}</div></div><span class="badge ${statusBadgeClass(item.status)}">${item.status || 'planned'}</span></div>
-      <div class="timeline-meta"><span class="readonly-pill">Type: ${item.type || 'activity'}</span><span class="readonly-pill">Activity date: ${formatDateFancy(item.date)}</span><span class="readonly-pill">Updated: ${formatDateFancy(item.updatedAt)}</span><span class="readonly-pill">Deadline: ${formatDateFancy(item.deadline)}</span></div>
-    </div>`).join('')}</div>`;
 }
 let editingTimelineId = null;
 function resetTimelineForm(){
@@ -6317,20 +6237,13 @@ function renderAccountManagementPage(){
 const __baseRefreshDashboard = refreshDashboard;
 refreshDashboard = function(){
   __baseRefreshDashboard();
-  renderDashboardManagerShell();
+  const dashPage = document.getElementById('page-dashboard');
+  if(dashPage && dashPage.classList.contains('active')){
+    renderDashboardManagerShell();
+  }
   updateSidebarContext();
 };
-window.addEventListener('storage', () => {
-  if(currentProjectId){
-    ensureProjectStateById(currentProjectId);
-    updateSidebarContext();
-    renderProfilePage();
-    renderTaskCenter();
-    renderNotificationsPage();
-    renderTimelinePage();
-    renderProjectControlPage();
-  }
-});
+/* storage listener consolidated below — see window.addEventListener("storage",...) at bottom */
 setTimeout(() => {
   const demo = document.querySelector('.signin-demo-body');
   if (demo && !demo.dataset.extendedAccounts) {
@@ -6645,8 +6558,19 @@ function renderUserProjectPicker(user, mode) {
   pickerWrap.style.display = 'block';
 }
 
+/* ── Clear all calendar events from all projects ── */
+function clearAllCalendarEvents(){
+  try{
+    Object.keys(projectData).forEach(pid=>{
+      if(projectData[pid]) projectData[pid].calendarEvents=[];
+    });
+    localStorage.setItem('cesgs_hub_data',JSON.stringify(projectData));
+  }catch(e){}
+}
+
 ensureSeedManagedAccounts();
 loadAll();
+clearAllCalendarEvents();
 pushProjectHubToSuperState();
 renderLanding();
 populateScheduleOwnerOptions();
@@ -6660,9 +6584,16 @@ window.addEventListener('storage', (e) => {
   renderLanding();
   if (adminOpen) renderAdminConsole();
   if (currentProjectId) {
+    ensureProjectStateById(currentProjectId);
     refreshDashboard();
     renderMeetingsList();
     renderCalendar();
+    updateSidebarContext();
+    renderProfilePage();
+    renderTaskCenter();
+    renderNotificationsPage();
+    renderTimelinePage();
+    renderProjectControlPage();
   }
 });
 </script>
