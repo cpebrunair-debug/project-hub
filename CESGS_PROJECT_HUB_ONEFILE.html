@@ -2284,6 +2284,10 @@ function saveAll(){
   try{localStorage.setItem('cesgs_hub_data',JSON.stringify(projectData))}catch(e){}
   try{localStorage.setItem('cesgs_hub_auth',JSON.stringify(authenticatedProjects))}catch(e){}
   try{localStorage.setItem('cesgs_admin_state',JSON.stringify(adminState))}catch(e){}
+  try{
+    if(currentUserSession) localStorage.setItem('cesgs_hub_session', JSON.stringify(currentUserSession));
+    else localStorage.removeItem('cesgs_hub_session');
+  }catch(e){}
   pushProjectHubToSuperState();
 }
 function ensurePrimarySuperadminAccount(state){
@@ -2325,8 +2329,19 @@ function loadAll(){
   try{const d=localStorage.getItem('cesgs_hub_data');if(d)projectData=JSON.parse(d)}catch(e){}
   try{const a=localStorage.getItem('cesgs_hub_auth');if(a)authenticatedProjects=JSON.parse(a)}catch(e){}
   try{const adm=localStorage.getItem('cesgs_admin_state');if(adm)mergeAdminState(JSON.parse(adm));else mergeAdminState(null)}catch(e){mergeAdminState(null)}
+  try{
+    const s=localStorage.getItem('cesgs_hub_session');
+    if(s){
+      const parsed=JSON.parse(s);
+      if(parsed && parsed.email) currentUserSession = normalizeUserSession(parsed);
+    }
+  }catch(e){}
   Object.values(adminState.customProjects||{}).forEach(p=>{PROJECTS[p.id]=p});
   pullSuperAdminState();
+  if(currentUserSession && currentUserSession.email){
+    const stored = getCurrentAccountProfile();
+    if(stored) currentUserSession = normalizeUserSession({...currentUserSession, ...stored});
+  }
 }
 
 let authenticatedProjects={};
@@ -5124,7 +5139,16 @@ function getRecentMessages(state, limit){
 function getCurrentAccountProfile(){
   const email = currentUserEmail();
   if(!email) return currentUserSession || null;
-  return getUserAccounts().find(acc => String(acc.email || '').toLowerCase() === email) || currentUserSession || null;
+  const pools = [
+    ...(Array.isArray(adminState?.admins) ? adminState.admins : []),
+    ...(Array.isArray(getUserAccounts()) ? getUserAccounts() : [])
+  ];
+  const superState = parseJSONSafe(SUPERADMIN_STORAGE_KEY, {}) || {};
+  ['userAccounts','clients'].forEach(pool => {
+    if(Array.isArray(superState?.[pool])) pools.push(...superState[pool]);
+  });
+  const found = pools.find(acc => String(acc?.email || '').toLowerCase() === email);
+  return found ? normalizeUserSession({...found}) : (currentUserSession || null);
 }
 function updateStoredAccountProfile(email, fields){
   const normalizedEmail = String(email || '').toLowerCase();
@@ -5165,7 +5189,7 @@ function updateStoredAccountProfile(email, fields){
   }
   localStorage.setItem(SUPERADMIN_STORAGE_KEY, JSON.stringify(superState));
   if(currentUserSession && String(currentUserSession.email || '').toLowerCase() === normalizedEmail){
-    currentUserSession = normalizeUserSession({...currentUserSession, ...fields});
+    currentUserSession = normalizeUserSession({...activeUser, ...fields});
   }
   if(updated) saveAll();
   return updated;
@@ -7261,7 +7285,7 @@ function renderAccountManagementPage(){
       <div class="profile-stack">
         <div class="card card-pad">
           <div class="section-label">Add / Update Account</div>
-          <div class="helper-text">Khusus superadmin: tambahkan akun client atau akun pengelola (expert, project manager, staff, admin), tetapkan proyek yang bisa diakses, isi CV profesional, lalu kirimkan draft email undangan bila diperlukan. Akun staff juga bisa diedit kembali kapan saja untuk mengganti assignment proyeknya.</div>
+          <div class="helper-text">Khusus superadmin: tambahkan akun client atau akun pengelola (expert, project manager, staff, admin), tetapkan proyek yang bisa diakses, isi CV profesional, ubah password, dan edit seluruh akun dari satu dashboard. Akun apa pun dapat diedit kembali kapan saja untuk mengganti assignment project, role, institusi, CV, link profil, dan foto.</div>
           <div class="kpi-row" style="margin-top:14px">
             <div class="kpi-card"><strong>${rows.length}</strong><span>Total accounts</span></div>
             <div class="kpi-card"><strong>${clients.length}</strong><span>Client accounts</span></div>
@@ -7881,11 +7905,37 @@ function renderHubCalendarSection(){
 }
 
 
+function resolveCurrentProfileEditIdentity(){
+  try{
+    if(!currentUserSession){
+      const raw = localStorage.getItem('cesgs_hub_session');
+      if(raw){
+        const parsed = JSON.parse(raw);
+        if(parsed && parsed.email) currentUserSession = normalizeUserSession(parsed);
+      }
+    }
+  }catch(e){}
+  const email = currentUserEmail();
+  let stored = null;
+  if(email){
+    stored = getCurrentAccountProfile();
+  }
+  const user = normalizeUserSession({
+    ...(currentUserSession || {}),
+    ...(stored || {})
+  });
+  if(user && user.email){
+    currentUserSession = user;
+    try{ localStorage.setItem('cesgs_hub_session', JSON.stringify(user)); }catch(e){}
+  }
+  return user;
+}
+
 function buildUserProfileEditPageHtml(){
-  if(!currentUserSession){
+  const user = resolveCurrentProfileEditIdentity();
+  if(!user || !user.email){
     return `<div class="card card-pad"><div class="empty-state">Silakan login terlebih dahulu untuk mengedit profil akun Anda.</div></div>`;
   }
-  const user = getCurrentAccountProfile() || currentUserSession || {};
   const initials = getAvatarInitials(user.name || user.email || 'User');
   const photoUrl = sanitizeMediaUrl(user.photoUrl || '');
   const avatarHtml = photoUrl
@@ -7899,29 +7949,25 @@ function buildUserProfileEditPageHtml(){
       <div class="profile-edit-form">
         <div class="card card-pad">
           <div class="section-label">Management Profile &amp; CV</div>
-          <div class="helper-text">Konten <b>Management Profile &amp; CV</b> kini dipindahkan dari dashboard project ke halaman <b>Edit Profil</b> di halaman selamat datang. Lengkapi nama, institusi, CV profesional, link profil, foto, lalu gunakan menu <b>Ganti Password</b> pada halaman yang sama.</div>
+          <div class="helper-text">Data identitas di bawah otomatis mengambil informasi akun yang sedang aktif. Pemilik akun hanya diizinkan mengubah <b>Nama</b>, <b>Deskripsi CV</b>, <b>Link Profil</b>, dan <b>Foto / Photo URL</b>. Informasi lain ditampilkan sebagai <b>read-only</b> dan hanya dapat diubah oleh <b>superadmin</b> melalui Admin Console.</div>
           <div class="form-grid-2" style="margin-top:16px">
             <div class="form-row"><label class="inp-label">Nama Lengkap</label><input class="inp" id="profile-page-name" value="${escapeHtml(user.name || '')}" placeholder="Nama lengkap"/></div>
             <div class="form-row"><label class="inp-label">Email Login</label><input class="inp" id="profile-page-email" value="${escapeHtml(user.email || '')}" placeholder="email@domain.com" readonly/></div>
-            <div class="form-row"><label class="inp-label">Institusi</label><input class="inp" id="profile-page-institution" value="${escapeHtml(user.institution || '')}" placeholder="Institusi / organisasi"/></div>
+            <div class="form-row"><label class="inp-label">Institusi</label><input class="inp" id="profile-page-institution" value="${escapeHtml(user.institution || '')}" readonly/></div>
             <div class="form-row"><label class="inp-label">Role Akun</label><input class="inp" id="profile-page-role" value="${escapeHtml(user.role || 'Account')}" readonly/></div>
             <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Deskripsi Profil / CV</label><textarea class="textarea" id="profile-page-cv" placeholder="Tuliskan profil singkat, posisi, bidang keahlian, atau CV profesional Anda">${escapeHtml(user.cv || '')}</textarea></div>
             <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Link Profil</label><input class="inp" id="profile-page-link" type="url" value="${escapeHtml(user.profileLink || '')}" placeholder="https://linkedin.com/in/... atau link profil lainnya"/></div>
             <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Photo URL</label><input class="inp" id="profile-page-photo" type="url" value="${escapeHtml(user.photoUrl || '')}" placeholder="https://.../foto-profil.jpg"/></div>
           </div>
-        </div>
-        <div class="card card-pad" style="margin-top:16px">
-          <div class="section-label">Ganti Password</div>
-          <div class="helper-text" style="margin-top:0">Tambahkan keamanan akun langsung dari halaman ini. Password hanya berubah bila kolom di bawah diisi.</div>
-          <div class="form-grid-2" style="margin-top:16px">
-            <div class="form-row"><label class="inp-label">Password Saat Ini</label><input class="inp" id="profile-page-current-password" type="password" placeholder="Masukkan password saat ini"/></div>
-            <div class="form-row"><label class="inp-label">Password Baru</label><input class="inp" id="profile-page-new-password" type="password" placeholder="Minimal 6 karakter"/></div>
-            <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Konfirmasi Password Baru</label><input class="inp" id="profile-page-confirm-password" type="password" placeholder="Ulangi password baru"/></div>
-          </div>
-          <div class="profile-edit-actions">
+          <div class="profile-edit-actions" style="margin-top:18px">
             <button class="btn btn-outline" type="button" onclick="closeProfileEditPage()">Batal</button>
             <button class="btn btn-teal" type="button" onclick="saveUserProfileEditPage()">Simpan Perubahan</button>
           </div>
+        </div>
+        <div class="card card-pad" style="margin-top:16px">
+          <div class="section-label">Hak Akses Perubahan</div>
+          <div class="helper-text" style="margin-top:0">Perubahan dari halaman ini akan disinkronkan ke seluruh tampilan pengguna yang memakai akun yang sama. Untuk keamanan, perubahan <b>password</b>, <b>role</b>, <b>institusi</b>, dan <b>assignment project</b> hanya dapat dilakukan oleh <b>superadmin</b> di <b>Admin Console</b>.</div>
+          <div class="profile-edit-note" style="margin-top:12px">Sinkronisasi ini memengaruhi kartu profil di User Hub, profil tim di project dashboard, daftar akun di admin console, dan tampilan kolaborator lain yang mengambil data dari akun yang sama.</div>
         </div>
       </div>
       <div class="profile-edit-preview">
@@ -7944,24 +7990,28 @@ function buildUserProfileEditPageHtml(){
           </div>
           <div class="helper-text" style="margin-top:12px">${isManagementUser ? 'CV profesional, foto, dan link profil yang Anda edit di halaman ini akan tampil pada profil tim/project yang dilihat client maupun rekan internal.' : 'Lengkapi profil Anda di halaman ini agar informasi akun dan identitas profesional tetap rapi pada dashboard.'}</div>
         </div>
-        <div class="profile-edit-stat"><div style="font-size:18px">🪪</div><div><strong>Data akun utama</strong><span>Nama, institusi, CV singkat, link profil, dan foto profil akan tersinkron ke kartu profil, user hub, dan workspace project yang memakai akun ini.</span></div></div>
-        <div class="profile-edit-stat"><div style="font-size:18px">🔐</div><div><strong>Fitur ganti password</strong><span>Isi password saat ini, lalu masukkan password baru dan konfirmasi password baru untuk memperbarui keamanan akun.</span></div></div>
+        <div class="profile-edit-stat"><div style="font-size:18px">🪪</div><div><strong>Data akun utama</strong><span>Nama, CV singkat, link profil, dan foto profil yang Anda ubah di sini akan tersinkron ke kartu profil, User Hub, profil tim project, dan daftar akun.</span></div></div>
+        <div class="profile-edit-stat"><div style="font-size:18px">🛡️</div><div><strong>Superadmin mengelola seluruh akun</strong><span>Superadmin dapat mengedit semua akun melalui Admin Console, termasuk password, role, institusi, dan assignment project tiap akun.</span></div></div>
       </div>
     </div>`;
 }
 function openProfileEditPage(){
-  if(!currentUserSession) return toast('Silakan login terlebih dahulu');
+  const user = resolveCurrentProfileEditIdentity();
+  if(!user || !user.email) return toast('Silakan login terlebih dahulu');
   const page=document.getElementById('user-profile-edit-page');
   if(page) page.classList.add('show');
   renderUserProfileEditPage();
-  requestAnimationFrame(renderUserProfileEditPage);
+  requestAnimationFrame(()=>{
+    hydrateUserProfileEditFallback();
+  });
 }
 function closeProfileEditPage(){
   document.getElementById('user-profile-edit-page')?.classList.remove('show');
+  try{ if(currentUserSession) localStorage.setItem('cesgs_hub_session', JSON.stringify(currentUserSession)); }catch(e){}
 }
 function hydrateUserProfileEditFallback(){
-  if(!currentUserSession) return;
-  const user = getCurrentAccountProfile() || currentUserSession || {};
+  const user = resolveCurrentProfileEditIdentity();
+  if(!user || !user.email) return;
   const map = {
     'profile-page-name': user.name || '',
     'profile-page-email': user.email || '',
@@ -7980,40 +8030,43 @@ function hydrateUserProfileEditFallback(){
 function renderUserProfileEditPage(){
   const container = document.getElementById('user-profile-edit-container');
   if(!container) return;
+  resolveCurrentProfileEditIdentity();
   container.innerHTML = buildUserProfileEditPageHtml();
   hydrateUserProfileEditFallback();
 }
 function saveUserProfileEditPage(){
-  if(!currentUserSession) return toast('Silakan login terlebih dahulu');
-  const currentPassword = document.getElementById('profile-page-current-password')?.value || '';
-  const newPassword = document.getElementById('profile-page-new-password')?.value || '';
-  const confirmPassword = document.getElementById('profile-page-confirm-password')?.value || '';
+  const activeUser = resolveCurrentProfileEditIdentity();
+  if(!activeUser || !activeUser.email) return toast('Silakan login terlebih dahulu');
   const fields = {
-    name: document.getElementById('profile-page-name')?.value.trim() || currentUserSession.name || '',
-    institution: document.getElementById('profile-page-institution')?.value.trim() || '',
+    name: document.getElementById('profile-page-name')?.value.trim() || activeUser.name || '',
     cv: document.getElementById('profile-page-cv')?.value.trim() || '',
     profileLink: sanitizeProfileLink(document.getElementById('profile-page-link')?.value.trim() || ''),
     photoUrl: sanitizeMediaUrl(document.getElementById('profile-page-photo')?.value.trim() || '')
   };
   if(!fields.name) return toast('Nama profil tidak boleh kosong');
-  if(newPassword || confirmPassword || currentPassword){
-    if(currentPassword !== String(currentUserSession.password || '')) return toast('Password saat ini tidak sesuai');
-    if(!newPassword) return toast('Masukkan password baru');
-    if(newPassword.length < 6) return toast('Password baru minimal 6 karakter');
-    if(newPassword !== confirmPassword) return toast('Konfirmasi password baru tidak cocok');
-    fields.password = newPassword;
-  }
-  const ok = updateStoredAccountProfile(currentUserEmail(), fields);
+  const ok = updateStoredAccountProfile(activeUser.email, fields);
   if(!ok){
-    currentUserSession = normalizeUserSession({...currentUserSession, ...fields});
+    currentUserSession = normalizeUserSession({...activeUser, ...fields});
     saveAll();
   }
   currentUserSession = normalizeUserSession({...currentUserSession, ...fields});
   renderUserProfileEditPage();
   renderUserHubPage();
-  if(currentProjectId) renderProfilePage();
   renderLanding();
-  toast(fields.password ? 'Profil dan password berhasil diperbarui' : 'Profil berhasil diperbarui');
+  if(currentProjectId){
+    refreshDashboard();
+    renderProfilePage();
+    renderMeetingsList();
+    renderTaskCenter();
+    renderNotificationsPage();
+    updateSidebarContext();
+  }
+  if(document.getElementById('admin-console')?.style.display === 'block'){
+    renderAdminConsole();
+    renderAccountManagementPage();
+    renderManagedAccountProfilePage();
+  }
+  toast('Profil berhasil diperbarui dan disinkronkan ke seluruh tampilan akun');
   closeProfileEditPage();
 }
 
