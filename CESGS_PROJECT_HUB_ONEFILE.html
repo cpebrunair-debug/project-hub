@@ -483,6 +483,109 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
 .bk-pref-chip button:hover{background:rgba(193,59,59,0.12);color:#C13B3B}
 .bk-pref-empty{padding:14px;border-radius:12px;border:1px dashed rgba(13,10,30,0.12);color:rgba(13,10,30,0.46);background:rgba(255,255,255,0.72)}
 .bk-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px}.bk-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(13,10,30,0.52)}.bk-legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* ═══ USER HUB PAGE ═══ */
+.user-hub-page{position:fixed;inset:0;background:linear-gradient(160deg,#f0fffe 0%,#eef8ff 50%,#f5f0ff 100%);z-index:500;display:none;overflow-y:auto;padding:40px 24px 60px}
+.user-hub-page.show{display:block}
+.hub-shell{max-width:980px;margin:0 auto}
+.hub-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
+.hub-logo-row{display:flex;align-items:center;gap:12px}
+.hub-logo-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0B8C7A,#2DC4A8);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(11,140,122,0.25)}
+.hub-logo-title{font-family:var(--font-title);font-size:20px;font-weight:700;color:var(--ink)}
+.hub-logo-sub{font-size:11px;color:var(--ink3);margin-top:2px}
+.hub-profile-card{background:rgba(255,255,255,0.92);border:1px solid rgba(45,196,168,0.2);border-radius:24px;padding:28px 32px;display:flex;gap:28px;align-items:flex-start;margin-bottom:28px;box-shadow:0 12px 48px rgba(26,85,201,0.08);backdrop-filter:blur(16px);position:relative;overflow:hidden}
+.hub-profile-card::before{content:'';position:absolute;top:-30px;right:-30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(45,196,168,0.1),transparent 70%);pointer-events:none}
+.hub-avatar-img{width:88px;height:88px;border-radius:50%;border:3px solid rgba(11,140,122,0.28);object-fit:cover;flex-shrink:0;box-shadow:0 6px 20px rgba(11,140,122,0.18)}
+.hub-avatar-initials{width:88px;height:88px;border-radius:50%;border:3px solid rgba(11,140,122,0.28);background:linear-gradient(135deg,#0B8C7A,#2DC4A8);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 6px 20px rgba(11,140,122,0.2)}
+.hub-profile-info{flex:1;min-width:0}
+.hub-greeting-tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:6px}
+.hub-name{font-family:var(--font-title);font-size:26px;font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:6px}
+.hub-role-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:99px;font-size:12px;font-weight:700;background:rgba(11,140,122,0.1);color:var(--teal);border:1px solid rgba(11,140,122,0.22);margin-bottom:12px}
+.hub-role-badge.sa{background:linear-gradient(135deg,rgba(201,137,26,0.12),rgba(11,140,122,0.08));color:#C9891A;border-color:rgba(201,137,26,0.25)}
+.hub-info-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.hub-info-pill{font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:5px;background:rgba(13,10,30,0.05);padding:5px 11px;border-radius:9px;border:1px solid rgba(13,10,30,0.06)}
+.hub-bio{font-size:13px;color:var(--ink3);line-height:1.75;max-width:560px;margin-bottom:14px;padding:12px 14px;background:rgba(11,140,122,0.04);border-radius:10px;border:1px solid rgba(11,140,122,0.1)}
+.hub-action-row{display:flex;gap:8px;flex-wrap:wrap}
+.hub-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:var(--font-desc);border:none}
+.hub-btn-logout{background:rgba(193,59,59,0.08);border:1.5px solid rgba(193,59,59,0.22);color:var(--red)}
+.hub-btn-logout:hover{background:var(--red);color:#fff}
+.hub-btn-console{background:rgba(11,140,122,0.08);border:1.5px solid rgba(11,140,122,0.22);color:var(--teal)}
+.hub-btn-console:hover{background:var(--teal);color:#fff}
+/* Section titles */
+.hub-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.hub-section-title{font-family:var(--font-title);font-size:18px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+/* Projects grid */
+.hub-projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-bottom:36px}
+.hub-project-card{background:rgba(255,255,255,0.9);border-radius:var(--radius);border:1px solid rgba(45,196,168,0.16);overflow:hidden;cursor:pointer;transition:all 0.25s;box-shadow:0 4px 18px rgba(26,85,201,0.06);backdrop-filter:blur(8px)}
+.hub-project-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(11,140,122,0.15);border-color:rgba(45,196,168,0.35);background:#fff}
+.hub-pc-accent{height:3px}
+.hub-pc-body{padding:22px}
+.hub-pc-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+.hub-pc-name{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.hub-pc-org{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px}
+.hub-pc-desc{font-size:12px;color:var(--ink3);line-height:1.65;margin-bottom:14px}
+.hub-pc-btn{width:100%;padding:10px 14px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;font-family:var(--font-desc);display:flex;align-items:center;justify-content:center;gap:6px}
+.hub-pc-btn:hover{opacity:0.88;transform:scale(0.98)}
+.hub-empty-msg{text-align:center;padding:48px 24px;color:var(--ink3);font-size:14px;background:rgba(255,255,255,0.7);border-radius:var(--radius);border:1.5px dashed rgba(13,10,30,0.1);line-height:1.7}
+/* Toggle switch */
+.toggle-switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;border-radius:24px;background:rgba(13,10,30,0.18);transition:all 0.25s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;border-radius:50%;background:#fff;transition:all 0.25s;box-shadow:0 1px 5px rgba(0,0,0,0.22)}
+input:checked+.toggle-slider{background:var(--teal)}
+input:checked+.toggle-slider::before{transform:translateX(20px)}
+/* Superadmin hub */
+.sadmin-hub{background:linear-gradient(135deg,rgba(255,255,255,0.95) 0%,rgba(240,255,252,0.95) 100%);border:1px solid rgba(11,140,122,0.14);border-radius:20px;padding:24px 28px;margin-bottom:24px;box-shadow:0 8px 36px rgba(26,85,201,0.07)}
+.sadmin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:700px){.sadmin-stats{grid-template-columns:repeat(2,1fr)}}
+.sadmin-sub{font-size:13px;color:var(--ink3);margin-bottom:20px;line-height:1.6}
+.sadmin-project-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:12px;border:1px solid rgba(13,10,30,0.08);background:#fff;margin-bottom:8px;transition:all 0.15s}
+.sadmin-project-row:hover{border-color:rgba(11,140,122,0.18);background:rgba(240,255,252,0.6)}
+.sadmin-project-row.inactive{opacity:0.55}
+.sadmin-proj-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sadmin-proj-meta{flex:1;min-width:0}
+.sadmin-proj-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.sadmin-proj-org{font-size:11px;color:var(--ink3);font-weight:600}
+.sadmin-status-label{font-size:11px;font-weight:700;letter-spacing:0.5px;flex-shrink:0}
+.sadmin-trash-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid rgba(193,59,59,0.2);background:rgba(193,59,59,0.06);color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;font-family:var(--font-desc)}
+.sadmin-trash-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* ═══ ADMIN CONSOLE TABS ═══ */
+.adm-tabs{display:flex;gap:4px;margin-bottom:20px;background:rgba(13,10,30,0.04);padding:4px;border-radius:12px;flex-wrap:wrap}
+.adm-tab{flex:1;min-width:100px;padding:9px 16px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.18s;font-family:var(--font-desc);color:var(--ink3);background:none;text-align:center}
+.adm-tab.active{background:#fff;color:var(--teal);box-shadow:0 2px 10px rgba(13,10,30,0.08)}
+.adm-tab:hover:not(.active){color:var(--ink);background:rgba(255,255,255,0.5)}
+.adm-panel{display:none}.adm-panel.active{display:block;animation:fadeUp 0.22s ease}
+/* Account manager in admin console */
+.acm-table{width:100%;border-collapse:collapse;font-size:13px}
+.acm-table th{padding:8px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);font-weight:700;border-bottom:2px solid var(--border)}
+.acm-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.acm-table tr:hover td{background:rgba(11,140,122,0.03)}
+.acm-role-pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:0.5px}
+.acm-proj-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;background:rgba(13,10,30,0.06);color:var(--ink2);margin:1px 2px}
+/* Inline edit panel */
+.acm-edit-panel{background:linear-gradient(135deg,rgba(240,255,252,0.95),rgba(240,245,255,0.95));border:1.5px solid rgba(45,196,168,0.25);border-radius:14px;padding:20px 22px;margin-top:8px;animation:fadeUp 0.2s ease}
+.acm-proj-checklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:8px}
+.acm-proj-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(13,10,30,0.08);background:#fff;cursor:pointer;transition:all 0.15s}
+.acm-proj-item:hover{border-color:rgba(11,140,122,0.25);background:rgba(240,255,252,0.7)}
+.acm-proj-item.checked{border-color:rgba(11,140,122,0.4);background:rgba(11,140,122,0.07)}
+.acm-proj-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--teal);flex-shrink:0}
+.acm-proj-icon{font-size:16px}
+.acm-proj-label{font-size:12px;font-weight:600;color:var(--ink)}
+.acm-proj-role{width:100%;margin-top:6px;padding:5px 8px;border-radius:7px;border:1px solid rgba(13,10,30,0.12);font-size:11px;font-family:var(--font-desc);background:#fff;display:none}
+.acm-proj-item.checked .acm-proj-role{display:block}
+/* Add project assignment section */
+.ap-assign-section{margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.ap-assign-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:10px;max-height:320px;overflow-y:auto;padding:4px}
+.ap-assign-item{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:10px;border:1px solid rgba(13,10,30,0.08);background:#fff;transition:all 0.15s}
+.ap-assign-item.checked{border-color:rgba(11,140,122,0.35);background:rgba(240,255,252,0.8)}
+.ap-assign-header{display:flex;align-items:center;gap:8px;cursor:pointer}
+.ap-assign-header input[type=checkbox]{width:15px;height:15px;accent-color:var(--teal)}
+.ap-assign-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.ap-assign-name{font-size:12px;font-weight:700;color:var(--ink);line-height:1.3}
+.ap-assign-email{font-size:10px;color:var(--ink3)}
+.ap-assign-role{width:100%;padding:5px 8px;border-radius:7px;border:1px solid rgba(13,10,30,0.12);font-size:11px;font-family:var(--font-desc);background:#fff;display:none;margin-top:2px}
+.ap-assign-item.checked .ap-assign-role{display:block}
 .admin-console{position:fixed;inset:0;background:rgba(236,247,247,0.82);backdrop-filter:blur(10px);z-index:1200;padding:22px;overflow:auto}
 .admin-shell{max-width:1360px;margin:0 auto;background:linear-gradient(180deg,#ffffff 0%,#f8fffd 52%,#f5faff 100%);border:1px solid rgba(11,140,122,0.1);border-radius:24px;box-shadow:0 24px 72px rgba(26,85,201,0.08);padding:24px}
 .admin-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}.admin-title{font-family:var(--font-title);font-size:30px;line-height:1.1;color:var(--ink)}.admin-subtitle{font-size:14px;color:var(--ink3);margin-top:6px}
@@ -1162,57 +1265,107 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
     <div class="admin-topbar">
       <div>
         <div class="admin-title">Applied Research CESGS Admin Console</div>
-        <div class="admin-subtitle" id="admin-console-subtitle">Manage projects, booking settings, and admin access.</div>
+        <div class="admin-subtitle" id="admin-console-subtitle">Manage projects, accounts, booking settings, and admin access.</div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn btn-outline" onclick="downloadMeetingsICS()">Download .ics</button>
-        <button class="btn btn-teal" onclick="closeAdminConsole()">Close Console</button>
+        <button class="btn btn-teal" onclick="closeAdminConsole()">✕ Tutup Console</button>
       </div>
     </div>
     <div class="admin-grid admin-stats" id="admin-stat-grid"></div>
-    <div class="admin-grid admin-main-grid">
+
+    <!-- TABS -->
+    <div class="adm-tabs">
+      <button class="adm-tab active" id="adm-tab-projects" onclick="switchAdmTab('projects')">📂 Projects</button>
+      <button class="adm-tab" id="adm-tab-accounts" onclick="switchAdmTab('accounts')">👥 Account Management</button>
+      <button class="adm-tab" id="adm-tab-booking" onclick="switchAdmTab('booking')">📅 Booking</button>
+      <button class="adm-tab" id="adm-tab-requests" onclick="switchAdmTab('requests')">📨 Requests</button>
+      <button class="adm-tab" id="adm-tab-admins" onclick="switchAdmTab('admins')">🛡️ Admin Access</button>
+    </div>
+
+    <!-- PANEL: PROJECTS -->
+    <div class="adm-panel active" id="adm-panel-projects">
+      <div class="admin-grid admin-main-grid">
+        <div class="card card-pad">
+          <div class="section-label">Tambah Project Baru</div>
+          <div class="admin-form-grid">
+            <div class="form-row"><label class="inp-label">Nama Project *</label><input class="inp" id="admin-project-name" placeholder="Applied Research Project"/></div>
+            <div class="form-row"><label class="inp-label">Partner / Organisasi *</label><input class="inp" id="admin-project-org" placeholder="Nama partner"/></div>
+            <div class="form-row"><label class="inp-label">Password Project *</label><input class="inp" id="admin-project-password" placeholder="Password project"/></div>
+            <div class="form-row"><label class="inp-label">Accent Color</label><input class="inp" id="admin-project-accent" type="color" value="#0B8C7A" style="padding:4px;height:44px"/></div>
+            <div class="form-row"><label class="inp-label">Icon (emoji)</label><input class="inp" id="admin-project-icon" placeholder="🔬" maxlength="2"/></div>
+            <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Deskripsi Singkat</label><textarea class="textarea" id="admin-project-desc" placeholder="Deskripsi singkat yang ditampilkan di landing page."></textarea></div>
+          </div>
+          <!-- Account assignment section -->
+          <div class="ap-assign-section">
+            <div class="section-label" style="margin-bottom:4px">Assign Anggota ke Project Ini</div>
+            <div class="admin-inline-note">Centang akun yang ingin diassign ke project baru ini, lalu pilih role-nya. Bisa pilih lebih dari satu.</div>
+            <div id="ap-assign-grid" class="ap-assign-grid"></div>
+          </div>
+          <div style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-teal" onclick="adminAddProjectWithAssignments()">+ Tambah Project</button>
+            <button class="btn btn-outline" onclick="renderApAssignGrid()">↺ Refresh Daftar Akun</button>
+          </div>
+          <div class="admin-inline-note" style="margin-top:10px">Project baru akan langsung muncul di landing page dan di daftar project anggota yang diassign.</div>
+        </div>
+        <div class="card card-pad">
+          <div class="section-label">Daftar Project</div>
+          <div id="admin-project-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL: ACCOUNT MANAGEMENT -->
+    <div class="adm-panel" id="adm-panel-accounts">
+      <div class="card card-pad" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <div>
+            <div class="section-label" style="margin-bottom:2px">Manajemen Akun</div>
+            <div class="admin-inline-note">Edit akun, ganti role, dan kelola assignment project akun yang ada. Klik Edit pada akun untuk membuka panel edit inline.</div>
+          </div>
+          <input class="inp" id="acm-search" placeholder="🔍 Cari nama / email..." style="width:220px;height:36px;font-size:12px" oninput="renderAdminAccountManager()"/>
+        </div>
+        <div id="acm-table-wrap" style="overflow-x:auto"></div>
+      </div>
+    </div>
+
+    <!-- PANEL: BOOKING -->
+    <div class="adm-panel" id="adm-panel-booking">
+      <div class="admin-grid admin-bottom-grid" style="grid-template-columns:1fr 1fr">
+        <div class="card card-pad">
+          <div class="section-label">CESGS Availability Template</div>
+          <div class="admin-form-grid">
+            <div class="form-row"><label class="inp-label">Start Time</label><input class="inp" id="admin-start-time" type="time"/></div>
+            <div class="form-row"><label class="inp-label">End Time</label><input class="inp" id="admin-end-time" type="time"/></div>
+            <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Working Days</label><div id="admin-weekday-list" class="admin-chip-wrap"></div></div>
+            <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Allowed Meeting Durations</label><div id="admin-duration-list" class="admin-chip-wrap"></div></div>
+          </div>
+          <button class="btn btn-teal" onclick="saveAdminBookingConfig()">Save Availability Template</button>
+          <div class="admin-inline-note">The booking calendar shows only dates and start times that fit this template. Default template: 08:00–16:30.</div>
+        </div>
+        <div class="card card-pad">
+          <div class="section-label">Google Calendar Tools</div>
+          <div class="admin-inline-note">This static HTML file opens Google Calendar event drafts and exports meetings as .ics files importable into Google Calendar.</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+            <button class="btn btn-outline" onclick="openNextMeetingInGoogleCalendar()">Open Next Meeting in Google Calendar</button>
+            <button class="btn btn-outline" onclick="downloadMeetingsICS()">Export Meetings as .ics</button>
+          </div>
+          <div class="section-label" style="margin-top:22px">Confirmed Meetings</div>
+          <div id="admin-confirmed-meetings"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL: REQUESTS -->
+    <div class="adm-panel" id="adm-panel-requests">
       <div class="card card-pad">
         <div class="section-label">Booking Requests</div>
         <div id="admin-booking-requests"></div>
       </div>
-      <div class="card card-pad">
-        <div class="section-label">Add Project</div>
-        <div class="admin-form-grid">
-          <div class="form-row"><label class="inp-label">Project Name *</label><input class="inp" id="admin-project-name" placeholder="Applied Research Project"/></div>
-          <div class="form-row"><label class="inp-label">Partner / Organization *</label><input class="inp" id="admin-project-org" placeholder="Partner name"/></div>
-          <div class="form-row"><label class="inp-label">Project Password *</label><input class="inp" id="admin-project-password" placeholder="Project password"/></div>
-          <div class="form-row"><label class="inp-label">Accent Color</label><input class="inp" id="admin-project-accent" type="color" value="#0B8C7A" style="padding:4px;height:44px"/></div>
-          <div class="form-row"><label class="inp-label">Icon (emoji)</label><input class="inp" id="admin-project-icon" placeholder="🔬" maxlength="2"/></div>
-          <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Short Description</label><textarea class="textarea" id="admin-project-desc" placeholder="Short description shown in the landing page."></textarea></div>
-        </div>
-        <button class="btn btn-teal" onclick="adminAddProject()">Add Project</button>
-        <div class="admin-inline-note">New projects appear on the landing page and in the meeting request project filter.</div>
-        <div class="section-label" style="margin-top:22px">Current Projects</div>
-        <div id="admin-project-list"></div>
-      </div>
     </div>
-    <div class="admin-grid admin-bottom-grid">
-      <div class="card card-pad">
-        <div class="section-label">CESGS Availability Template</div>
-        <div class="admin-form-grid">
-          <div class="form-row"><label class="inp-label">Start Time</label><input class="inp" id="admin-start-time" type="time"/></div>
-          <div class="form-row"><label class="inp-label">End Time</label><input class="inp" id="admin-end-time" type="time"/></div>
-          <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Working Days</label><div id="admin-weekday-list" class="admin-chip-wrap"></div></div>
-          <div class="form-row" style="grid-column:1/-1"><label class="inp-label">Allowed Meeting Durations</label><div id="admin-duration-list" class="admin-chip-wrap"></div></div>
-        </div>
-        <button class="btn btn-teal" onclick="saveAdminBookingConfig()">Save Availability Template</button>
-        <div class="admin-inline-note">The booking calendar shows only dates and start times that fit this template. Default template: 08:00–16:30.</div>
-      </div>
-      <div class="card card-pad">
-        <div class="section-label">Google Calendar Tools</div>
-        <div class="admin-inline-note">Because this is a static HTML file, the console cannot perform full Google Calendar OAuth sync. Instead, it can open Google Calendar event drafts and export meetings as .ics files that can be imported into Google Calendar.</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-          <button class="btn btn-outline" onclick="openNextMeetingInGoogleCalendar()">Open Next Meeting in Google Calendar</button>
-          <button class="btn btn-outline" onclick="downloadMeetingsICS()">Export Meetings as .ics</button>
-        </div>
-        <div class="section-label" style="margin-top:22px">Confirmed Meetings</div>
-        <div id="admin-confirmed-meetings"></div>
-      </div>
+
+    <!-- PANEL: ADMIN ACCESS -->
+    <div class="adm-panel" id="adm-panel-admins">
       <div class="card card-pad">
         <div class="section-label">Admin Access</div>
         <div id="admin-primary-note" class="admin-inline-note"></div>
@@ -1228,6 +1381,7 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
         <div id="admin-access-list"></div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -1709,26 +1863,6 @@ select.bk-inp option{background:#ffffff;color:#0D0A1E}
    PROJECT DEFINITIONS
 ═══════════════════════════════════ */
 const PROJECTS = {
-  plts: {
-    id:'plts', name:'Floating Solar PV Study', org:'PLN', password:'PLTST2026',
-    accent:'#0B8C7A', icon:'☀️', iconBg:'#E0F5F2',
-    orgColor:'var(--teal)', statusBg:'var(--teal-light)', statusColor:'var(--teal)',
-    tag:'PLTS Terapung · PLN',
-    title:'Floating Solar PV Study Hub',
-    sub:'Collaboration workspace for the floating solar power plant study with PLN. Coordinate schedules, documents, and decisions.',
-    teamName:'Floating Solar Study Team',
-    teamOrg:'CESGS — Universitas Airlangga',
-    links:[
-      {label:'PLN Portal',url:'https://www.pln.co.id',icon:'🔌',bg:'#E0F5F2'},
-      {label:'Shared Google Drive',url:'https://drive.google.com',icon:'📁',bg:'#FDF3E0'},
-      {label:'Zoom Meeting Room',url:'https://zoom.us',icon:'📹',bg:'var(--teal-light)'},
-    ],
-    seedDocs:[
-      {id:1,title:'Proposal Floating Solar PV Study v1.0',cat:'proposal',url:'https://drive.google.com',desc:'Draft proposal for the floating solar PV study.',author:'CESGS Team',date:'2026-01-15'},
-      {id:2,title:'Solar PV Technical Data — PLN',cat:'reference',url:'https://drive.google.com',desc:'Technical data from PLN for site evaluation.',author:'PLN',date:'2026-02-01'},
-      {id:3,title:'Studi Literatur Floating Solar',cat:'reference',url:'https://drive.google.com',desc:'Review literatur teknologi floating solar PV.',author:'CESGS Team',date:'2026-01-20'},
-    ]
-  },
   bi: {
     id:'bi', name:'Blue Building', org:'Bank Indonesia', password:'BlueBuilding2026',
     accent:'#1A55C9', icon:'🏛️', iconBg:'#E5EEFF',
@@ -2094,7 +2228,7 @@ function renderLanding(){
   const grid=document.getElementById('project-grid');
   if(!grid) return;
   const disabled = typeof getProjectDisabledList === 'function' ? getProjectDisabledList() : [];
-  grid.innerHTML=Object.values(PROJECTS).filter(p => !disabled.includes(p.id)).map(p=>{
+  grid.innerHTML=Object.values(PROJECTS).filter(p => !disabled.includes(p.id) && (typeof isProjectActive!=='function'||isProjectActive(p.id))).map(p=>{
     const data=projectData[p.id];
     const collabCount=data?data.collaborators.length:0;
     const docCount=data?data.documents.length:p.seedDocs.length;
@@ -3802,14 +3936,14 @@ const USER_ACCOUNTS_FALLBACK = [
     password: 'PLTS2026',
     name: 'CESGS Client',
     role: 'Client / Partner',
-    projects: ['plts', 'bi']
+    projects: ['bi', 'cbhe']
   },
   {
     email: 'vidy.pln@gmail.com',
     password: 'Vidy_2026',
     name: 'Vidy PLN',
     role: 'Client / Partner',
-    projects: ['plts']
+    projects: ['bi']
   }
 ];
 
@@ -3915,12 +4049,7 @@ function doAdminLogin(){
       localStorage.setItem(SUPERADMIN_LOGIN_BRIDGE_KEY, JSON.stringify({email:admin.email,password:admin.password,at:Date.now(),source:'project-hub'}));
     }
   }catch(e){}
-  const preferredProject = (currentProjectId && currentUserSession.projects.includes(currentProjectId)) ? currentProjectId : currentUserSession.projects[0];
-  if(preferredProject){
-    enterProject(preferredProject);
-    return;
-  }
-  renderLanding();
+  showUserHubPage();
 }
 function openPrimaryAdminUIDemo(){document.getElementById('admin-login-email').value='adityabagas.official@gmail.com';document.getElementById('admin-login-password').value='CESGS2026';doAdminLogin()}
 function openAdminConsole(){document.getElementById('admin-console').style.display='block';renderAdminConsole()}
@@ -3955,7 +4084,237 @@ function openNextMeetingInGoogleCalendar(){const next=getAllConfirmedMeetings().
 function buildICSContent(){const meetings=getAllConfirmedMeetings();const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Applied Research CESGS//Project Hub//EN'];meetings.forEach((meeting,idx)=>{const range=(meeting.time||'').match(/(\d{2}:\d{2})\s*[–-]\s*(\d{2}:\d{2})/);const start=range?range[1]:'09:00';const end=range?range[2]:minutesToTime(timeToMinutes(start)+(meeting.duration||30));const startUtc=new Date(`${meeting.date}T${start}:00+07:00`).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');const endUtc=new Date(`${meeting.date}T${end}:00+07:00`).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');lines.push('BEGIN:VEVENT');lines.push(`UID:cesgs-${idx}-${meeting.id||Date.now()}@projecthub`);lines.push(`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z')}`);lines.push(`DTSTART:${startUtc}`);lines.push(`DTEND:${endUtc}`);lines.push(`SUMMARY:${String(meeting.title||'CESGS Meeting').replace(/,/g,'\\,')}`);lines.push(`DESCRIPTION:${String(meeting.agenda||'').replace(/\n/g,'\\n').replace(/,/g,'\\,')}`);lines.push(`LOCATION:${String(meeting.location||'Google Meet / CESGS').replace(/,/g,'\\,')}`);lines.push('END:VEVENT')});lines.push('END:VCALENDAR');return lines.join('\r\n')}
 function downloadMeetingsICS(){const content=buildICSContent();const blob=new Blob([content],{type:'text/calendar;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='applied-research-cesgs-meetings.ics';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
 function renderAdminConfirmedMeetings(){const el=document.getElementById('admin-confirmed-meetings');const meetings=getAllConfirmedMeetings();if(!meetings.length){el.innerHTML='<div class="admin-inline-note">No confirmed meetings yet.</div>';return}el.innerHTML='<div class="admin-list">'+meetings.slice(0,8).map(meeting=>`<div class="admin-row"><div><div class="admin-row-title">${meeting.title}</div><div class="admin-row-sub">${meeting.projectName||''} · ${meeting.date} · ${meeting.time||''}</div></div><div class="admin-actions"><button class="btn btn-outline btn-sm" onclick="openMeetingById('${meeting.projectId}','${meeting.id}')">Google Calendar</button></div></div>`).join('')+'</div>'}
-function renderAdminConsole(){document.getElementById('admin-console-subtitle').textContent=`Signed in as ${currentAdminEmail}. Manage projects, CESGS booking availability, Google Calendar tools, and admin access.`;document.getElementById('admin-start-time').value=adminState.bookingConfig.start||'08:00';document.getElementById('admin-end-time').value=adminState.bookingConfig.end||'16:30';renderAdminStatGrid();renderAdminBookingRequests();renderAdminProjectList();renderWeekdayChips();renderDurationChips();renderAdminAccess();renderAdminConfirmedMeetings()}
+function renderAdminConsole(){document.getElementById('admin-console-subtitle').textContent=`Signed in as ${currentAdminEmail}. Manage projects, accounts, CESGS booking availability, and admin access.`;document.getElementById('admin-start-time').value=adminState.bookingConfig.start||'08:00';document.getElementById('admin-end-time').value=adminState.bookingConfig.end||'16:30';renderAdminStatGrid();renderAdminBookingRequests();renderAdminProjectList();renderWeekdayChips();renderDurationChips();renderAdminAccess();renderAdminConfirmedMeetings();renderAdminAccountManager();renderApAssignGrid();}
+
+/* ── Admin Console Tab switching ── */
+function switchAdmTab(tab){
+  document.querySelectorAll('.adm-tab').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.adm-panel').forEach(el=>el.classList.remove('active'));
+  const tabEl=document.getElementById('adm-tab-'+tab);
+  const panelEl=document.getElementById('adm-panel-'+tab);
+  if(tabEl) tabEl.classList.add('active');
+  if(panelEl) panelEl.classList.add('active');
+  if(tab==='accounts') renderAdminAccountManager();
+  if(tab==='projects'){renderAdminProjectList();renderApAssignGrid();}
+}
+
+/* ── Add Project with Account Assignment ── */
+function renderApAssignGrid(){
+  const grid=document.getElementById('ap-assign-grid');
+  if(!grid) return;
+  const accounts=getUserAccounts().filter(a=>a&&a.email);
+  const colors=['#7C3AED','#DB2777','#059669','#D97706','#2563EB','#DC2626','#9333EA','#0D9488'];
+  if(!accounts.length){grid.innerHTML='<div class="admin-inline-note">Belum ada akun tersimpan.</div>';return;}
+  grid.innerHTML=accounts.map((acc,i)=>{
+    const clr=colors[i%colors.length];
+    const initials=ini(acc.name||acc.email||'?');
+    return `<div class="ap-assign-item" id="ap-item-${i}" onclick="toggleApItem(${i})">
+      <div class="ap-assign-header">
+        <input type="checkbox" id="ap-chk-${i}" onclick="event.stopPropagation()" onchange="syncApItemClass(${i})">
+        <div class="ap-assign-avatar" style="background:${clr}">${initials}</div>
+        <div>
+          <div class="ap-assign-name">${escapeHtml(acc.name||acc.email)}</div>
+          <div class="ap-assign-email">${escapeHtml(acc.email)} · ${escapeHtml(acc.role||'Member')}</div>
+        </div>
+      </div>
+      <select class="ap-assign-role" id="ap-role-${i}" onclick="event.stopPropagation()">
+        <option value="Client / Partner">Client / Partner</option>
+        <option value="Staff">Staff</option>
+        <option value="Expert">Expert</option>
+        <option value="Project Manager">Project Manager</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </div>`;
+  }).join('');
+}
+
+function toggleApItem(i){
+  const chk=document.getElementById('ap-chk-'+i);
+  if(chk){chk.checked=!chk.checked;syncApItemClass(i);}
+}
+function syncApItemClass(i){
+  const chk=document.getElementById('ap-chk-'+i);
+  const item=document.getElementById('ap-item-'+i);
+  if(chk&&item){
+    if(chk.checked) item.classList.add('checked');
+    else item.classList.remove('checked');
+  }
+}
+
+function adminAddProjectWithAssignments(){
+  const name=document.getElementById('admin-project-name').value.trim();
+  const org=document.getElementById('admin-project-org').value.trim();
+  const password=document.getElementById('admin-project-password').value.trim();
+  if(!name||!org||!password){toast('Isi nama project, organisasi, dan password terlebih dahulu');return;}
+  const accent=document.getElementById('admin-project-accent').value||'#0B8C7A';
+  const icon=document.getElementById('admin-project-icon').value.trim()||'🔬';
+  const desc=document.getElementById('admin-project-desc').value.trim()||'Project workspace for Applied Research CESGS.';
+  const pid=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,18)||`project-${Date.now()}`;
+  PROJECTS[pid]={id:pid,name,org,password,accent,icon,iconBg:'#EAF9F6',orgColor:'var(--teal)',statusBg:'var(--teal-light)',statusColor:'var(--teal)',tag:`${name} · ${org}`,title:`${name} Hub`,sub:desc,teamName:'Applied Research CESGS Team',teamOrg:'Universitas Airlangga',links:[{label:'Shared Google Drive',url:'https://drive.google.com',icon:'📁',bg:'#FDF3E0'},{label:'Google Meet',url:'https://meet.google.com',icon:'🎥',bg:'#E5EEFF'}],seedDocs:[]};
+  adminState.customProjects[pid]=PROJECTS[pid];
+  /* Assign checked accounts */
+  const accounts=getUserAccounts().filter(a=>a&&a.email);
+  let assignedCount=0;
+  accounts.forEach((acc,i)=>{
+    const chk=document.getElementById('ap-chk-'+i);
+    if(!chk||!chk.checked) return;
+    const roleEl=document.getElementById('ap-role-'+i);
+    const newRole=roleEl?roleEl.value:acc.role;
+    const updatedProjects=[...new Set([...(acc.projects||[]),pid])];
+    updateStoredAccountProfile(acc.email,{projects:updatedProjects,role:newRole});
+    assignedCount++;
+  });
+  saveAll();renderLanding();renderAdminConsole();
+  ['admin-project-name','admin-project-org','admin-project-password','admin-project-icon','admin-project-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('admin-project-accent').value='#0B8C7A';
+  toast(`Project "${name}" ditambahkan${assignedCount?` · ${assignedCount} akun diassign`:''}`);
+}
+
+/* ── Admin Console Account Manager ── */
+let acmEditingEmail=null;
+
+function renderAdminAccountManager(){
+  const wrap=document.getElementById('acm-table-wrap');
+  if(!wrap) return;
+  const q=String((document.getElementById('acm-search')||{}).value||'').toLowerCase();
+  const accounts=getUserAccounts().filter(a=>a&&a.email).filter(a=>{
+    if(!q) return true;
+    return (a.name||'').toLowerCase().includes(q)||(a.email||'').toLowerCase().includes(q);
+  });
+  const roleColor={
+    'Superadmin':'#C9891A','Admin':'#1A55C9','Project Manager':'#0B8C7A',
+    'Expert':'#9333EA','Staff':'#059669','Client / Partner':'#3D3756'
+  };
+  if(!accounts.length){
+    wrap.innerHTML='<div class="empty-state">Tidak ada akun yang ditemukan.</div>';
+    return;
+  }
+  wrap.innerHTML=`
+    <table class="acm-table">
+      <thead>
+        <tr>
+          <th>Akun</th>
+          <th>Role</th>
+          <th>Project Aktif</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${accounts.map(acc=>{
+          const rc=roleColor[acc.role]||'var(--ink2)';
+          const projTags=(acc.projects||[]).filter(pid=>PROJECTS[pid]).map(pid=>`<span class="acm-proj-tag">${PROJECTS[pid]?.icon||'📁'} ${escapeHtml(PROJECTS[pid]?.name||pid)}</span>`).join('') || '<span style="color:var(--ink3);font-size:11px">—</span>';
+          const isEditing=acmEditingEmail===acc.email;
+          return `
+            <tr>
+              <td>
+                <div style="font-weight:700;font-size:13px;color:var(--ink)">${escapeHtml(acc.name||acc.email)}</div>
+                <div style="font-size:11px;color:var(--ink3)">${escapeHtml(acc.email)}</div>
+              </td>
+              <td><span class="acm-role-pill" style="background:${rc}18;color:${rc};border:1px solid ${rc}33">${escapeHtml(acc.role||'Member')}</span></td>
+              <td style="max-width:280px">${projTags}</td>
+              <td>
+                <button class="btn btn-outline btn-sm" onclick="acmToggleEdit('${esc(acc.email)}')">${isEditing?'✕ Tutup':'✏️ Edit'}</button>
+                ${!acc.locked?`<button class="btn btn-red btn-sm" onclick="acmDeleteAccount('${esc(acc.email)}')">🗑️</button>`:'<span class="readonly-pill">Primary</span>'}
+              </td>
+            </tr>
+            ${isEditing?`<tr><td colspan="4" style="padding:0 0 16px"><div class="acm-edit-panel" id="acm-edit-${esc(acc.email.replace('@','_').replace('.','_'))}">${renderAcmEditForm(acc)}</div></td></tr>`:''}`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+function renderAcmEditForm(acc){
+  const allProjects=Object.values(PROJECTS);
+  const currentProjects=acc.projects||[];
+  const roleOptions=['Client / Partner','Staff','Expert','Project Manager','Admin'].map(r=>`<option value="${r}" ${acc.role===r?'selected':''}>${r}</option>`).join('');
+  const projItems=allProjects.map(p=>{
+    const checked=currentProjects.includes(p.id);
+    return `<div class="acm-proj-item${checked?' checked':''}" id="acm-pi-${p.id}-${esc(acc.email.replace(/[@.]/g,'_'))}" onclick="acmToggleProjItem('${p.id}','${esc(acc.email)}')">
+      <input type="checkbox" id="acm-pc-${p.id}-${esc(acc.email.replace(/[@.]/g,'_'))}" ${checked?'checked':''} onclick="event.stopPropagation()">
+      <span class="acm-proj-icon">${p.icon}</span>
+      <span class="acm-proj-label">${escapeHtml(p.name)}<span style="display:block;font-size:9px;color:var(--ink3)">${escapeHtml(p.org)}</span></span>
+    </div>`;
+  }).join('');
+  return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div class="form-row"><label class="inp-label">Nama</label><input class="inp" id="acm-name-${esc(acc.email.replace(/[@.]/g,'_'))}" value="${escapeHtml(acc.name||'')}"/></div>
+      <div class="form-row"><label class="inp-label">Role</label><select class="inp" id="acm-role-${esc(acc.email.replace(/[@.]/g,'_'))}">${roleOptions}</select></div>
+      <div class="form-row"><label class="inp-label">Password</label><input class="inp" id="acm-pw-${esc(acc.email.replace(/[@.]/g,'_'))}" value="${escapeHtml(acc.password||'')}"/></div>
+      <div class="form-row"><label class="inp-label">Institusi</label><input class="inp" id="acm-inst-${esc(acc.email.replace(/[@.]/g,'_'))}" value="${escapeHtml(acc.institution||'')}"/></div>
+    </div>
+    <label class="inp-label">Assign ke Project (centang semua yang ingin diakses)</label>
+    <div class="acm-proj-checklist" style="margin-bottom:14px">${projItems||'<div class="admin-inline-note">Belum ada project.</div>'}</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-teal" onclick="acmSaveAccount('${esc(acc.email)}')">💾 Simpan Perubahan</button>
+      <button class="btn btn-outline" onclick="acmToggleEdit('${esc(acc.email)}')">Batal</button>
+    </div>`;
+}
+
+function acmToggleProjItem(pid,email){
+  const safeEmail=email.replace(/[@.]/g,'_');
+  const chkId=`acm-pc-${pid}-${safeEmail}`;
+  const itemId=`acm-pi-${pid}-${safeEmail}`;
+  const chk=document.getElementById(chkId);
+  const item=document.getElementById(itemId);
+  if(chk){chk.checked=!chk.checked;}
+  if(item){item.classList.toggle('checked',chk?chk.checked:false);}
+}
+
+function acmToggleEdit(email){
+  acmEditingEmail=(acmEditingEmail===email)?null:email;
+  renderAdminAccountManager();
+}
+
+function acmSaveAccount(email){
+  const safeEmail=email.replace(/[@.]/g,'_');
+  const nameEl=document.getElementById('acm-name-'+safeEmail);
+  const roleEl=document.getElementById('acm-role-'+safeEmail);
+  const pwEl=document.getElementById('acm-pw-'+safeEmail);
+  const instEl=document.getElementById('acm-inst-'+safeEmail);
+  const name=nameEl?nameEl.value.trim():'';
+  const role=roleEl?roleEl.value:'';
+  const password=pwEl?pwEl.value.trim():'';
+  const institution=instEl?instEl.value.trim():'';
+  /* Collect checked projects */
+  const assignedProjects=Object.keys(PROJECTS).filter(pid=>{
+    const chk=document.getElementById(`acm-pc-${pid}-${safeEmail}`);
+    return chk&&chk.checked;
+  });
+  const fields={};
+  if(name) fields.name=name;
+  if(role) fields.role=role;
+  if(password) fields.password=password;
+  if(institution!==undefined) fields.institution=institution;
+  fields.projects=assignedProjects;
+  fields.canManage=isManagementRole(role||'');
+  const ok=updateStoredAccountProfile(email,fields);
+  if(ok){
+    toast(`Akun ${name||email} berhasil disimpan · ${assignedProjects.length} project diassign`);
+    acmEditingEmail=null;
+    renderAdminAccountManager();
+    if(typeof renderUserHubPage==='function') renderUserHubPage();
+  } else {
+    toast('Gagal menyimpan akun. Akun tidak ditemukan di storage.');
+  }
+}
+
+function acmDeleteAccount(email){
+  const accounts=getUserAccounts();
+  const acc=accounts.find(a=>a.email===email);
+  if(!acc){toast('Akun tidak ditemukan');return;}
+  if(!confirm(`Hapus akun "${acc.name||email}"? Tindakan ini tidak bisa dibatalkan.`)) return;
+  try{
+    const superState=parseJSONSafe(SUPERADMIN_STORAGE_KEY,{})||{};
+    ['userAccounts','clients'].forEach(pool=>{
+      if(Array.isArray(superState[pool])) superState[pool]=superState[pool].filter(a=>String(a.email||'').toLowerCase()!==email.toLowerCase());
+    });
+    localStorage.setItem(SUPERADMIN_STORAGE_KEY,JSON.stringify(superState));
+    toast(`Akun ${acc.name||email} berhasil dihapus`);
+    if(acmEditingEmail===email) acmEditingEmail=null;
+    renderAdminAccountManager();
+    renderAdminStatGrid();
+  }catch(e){toast('Gagal menghapus akun')}
+}
 
 
 
@@ -4063,8 +4422,8 @@ const MANAGEMENT_DEMO_ACCOUNTS = [
   {email:'pm@cesgs.id',password:'PM2026',name:'Project Manager CESGS',role:'Project Manager',projects:Object.keys(PROJECTS),canManage:true,cv:'Project manager with experience coordinating multi-stakeholder research delivery, milestone monitoring, reporting, and client communication.',profileLink:'https://www.linkedin.com/',photoUrl:''},
   {email:'expert@cesgs.id',password:'EXPERT2026',name:'Expert CESGS',role:'Expert',projects:Object.keys(PROJECTS),canManage:true,cv:'Subject matter expert supporting research design, technical review, methodology refinement, and strategic recommendations for CESGS projects.',profileLink:'https://scholar.google.com/',photoUrl:''},
   {email:'staff@cesgs.id',password:'STAFF2026',name:'Project Staff CESGS',role:'Staff',projects:Object.keys(PROJECTS),canManage:true,cv:'Project operations staff handling coordination, documentation, follow-up actions, scheduling, and day-to-day execution support.',profileLink:'https://www.linkedin.com/',photoUrl:''},
-  {email:'bakdiyatulmukarromah@gmail.com',password:'Bakdi_2026',name:'Bakdiyatul Mukarromah',role:'Project Manager',projects:['plts'],canManage:true,cv:'Project manager for the PLN collaboration who coordinates scheduling, client communication, project monitoring, and milestone follow-up for the Floating Solar PV Study.',profileLink:'',photoUrl:''},
-  {email:'ghalyfarras0@gmail.com',password:'Farras_2026',name:'Ghaly Farras',role:'Staff',projects:['plts'],canManage:true,cv:'Project staff supporting the PLN project through documentation, task follow-up, meeting preparation, and day-to-day operational coordination.',profileLink:'',photoUrl:''},
+  {email:'bakdiyatulmukarromah@gmail.com',password:'Bakdi_2026',name:'Bakdiyatul Mukarromah',role:'Project Manager',projects:Object.keys(PROJECTS),canManage:true,cv:'Project manager yang berpengalaman mengkoordinasikan penjadwalan, komunikasi klien, monitoring proyek, dan milestone follow-up.',profileLink:'',photoUrl:''},
+  {email:'ghalyfarras0@gmail.com',password:'Farras_2026',name:'Ghaly Farras',role:'Staff',projects:Object.keys(PROJECTS),canManage:true,cv:'Project staff yang mendukung operasional proyek melalui dokumentasi, follow-up task, persiapan rapat, dan koordinasi harian.',profileLink:'',photoUrl:''},
   {email:'putra.fajar@feb.unair.ac.id',password:'Fajar_2026',name:'Fajar Kristanto',role:'Expert',projects:Object.keys(PROJECTS),canManage:true,cv:'Expert account for CESGS projects. Assigned projects can be adjusted anytime from the superadmin account management panel.',profileLink:'',photoUrl:''},
   {email:'harisdwi2020@mail.ugm.ac.id',password:'Haris_2026',name:'Haris Dwi CAhyo',role:'Staff',projects:Object.keys(PROJECTS),canManage:true,cv:'Staff account for CESGS projects. Assigned projects can be edited and switched anytime from the superadmin account management panel.',profileLink:'',photoUrl:''}
 ];
@@ -4207,12 +4566,8 @@ function performUserLogin(email, password, mode) {
     }
   }catch(e){}
   saveAll();
-  if (currentUserSession.projects.length === 1) {
-    if (!isLanding) closeLoginModal();
-    enterProject(currentUserSession.projects[0]);
-    return;
-  }
-  renderUserProjectPicker(currentUserSession, mode);
+  if (!isLanding) closeLoginModal();
+  showUserHubPage();
 }
 
 function statusBadgeClass(status){
@@ -4580,7 +4935,7 @@ function renderRoleAwareSidebar(){
   const nav = document.getElementById('sidebar-nav');
   if(!nav || !currentProjectId) return;
   nav.innerHTML = `
-    <button class="back-to-hub" onclick="goToLanding()" title="Kembali ke laman login">⌂ Home / Login</button>
+    <button class="back-to-hub" onclick="goToLanding()" title="Kembali ke profil / halaman utama">⌂ ${currentUserSession?'Profil / Hub':'Home / Login'}</button>
     <div class="nav-section">Workspace</div>
     ${navButton('profile','Profile','👤')}
     ${navButton('dashboard','Dashboard','▦')}
@@ -4621,7 +4976,18 @@ enterProject = function(pid){
   showPage(defaultPage);
 };
 const __baseGoToLanding = goToLanding;
-goToLanding = function(...args){ __baseGoToLanding(...args); updateSidebarContext(); };
+goToLanding = function(...args){
+  if(currentUserSession){
+    document.getElementById('sidebar').style.display='none';
+    document.getElementById('main-content').style.display='none';
+    document.getElementById('hamburger-btn').style.display='none';
+    document.getElementById('user-hub-page').classList.add('show');
+    renderUserHubPage();
+    return;
+  }
+  __baseGoToLanding(...args);
+  updateSidebarContext();
+};
 showPage = function(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
@@ -5335,7 +5701,7 @@ function renderProjectControlPage(){
 /* ═══════════════════════════════════════════════════
    SUPERADMIN — PROJECT MANAGEMENT (Delete / Toggle)
 ═══════════════════════════════════════════════════ */
-const BUILT_IN_PROJECT_IDS = ['plts','bi','cbhe'];
+const BUILT_IN_PROJECT_IDS = ['bi','cbhe'];
 
 function isBuiltInProject(pid){
   return BUILT_IN_PROJECT_IDS.includes(String(pid));
@@ -5361,29 +5727,25 @@ function renderSuperadminProjectManagementCard(){
   const disabled = getProjectDisabledList();
   const rows = allProjects.map(p => {
     const isDisabled = disabled.includes(p.id);
-    const isBuiltIn = isBuiltInProject(p.id);
-    const statusBadge = isDisabled
-      ? `<span class="badge badge-red">Nonaktif</span>`
-      : `<span class="badge badge-teal">Aktif</span>`;
-    const toggleBtn = isDisabled
-      ? `<button class="btn btn-teal btn-sm" type="button" onclick="superadminToggleProject('${p.id}',false)">Aktifkan</button>`
-      : `<button class="btn btn-gold btn-sm" type="button" onclick="superadminToggleProject('${p.id}',true)">Nonaktifkan</button>`;
-    const deleteBtn = isBuiltIn
-      ? `<button class="btn btn-sm" style="background:rgba(13,10,30,0.05);color:var(--ink3);cursor:not-allowed;border:1px solid var(--border2)" disabled title="Project bawaan tidak bisa dihapus">Hapus</button>`
-      : `<button class="btn btn-red btn-sm" type="button" onclick="superadminDeleteProject('${p.id}')">Hapus</button>`;
+    const toggleId = `sa-tgl-${p.id}`;
     return `
       <div class="admin-row" style="align-items:center">
         <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
           <div style="width:36px;height:36px;border-radius:10px;background:${p.accent}22;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${p.icon}</div>
           <div>
-            <div class="admin-row-title" style="${isDisabled?'color:var(--ink3);text-decoration:line-through':''}">${p.name}</div>
-            <div class="admin-row-sub">${p.org} · <code style="font-size:10px">${p.id}</code>${isBuiltIn?' · <span style="color:var(--teal);font-weight:600;font-size:10px">built-in</span>':''}</div>
+            <div class="admin-row-title" style="${isDisabled?'color:var(--ink3);text-decoration:line-through':''}">${escapeHtml(p.name)}</div>
+            <div class="admin-row-sub">${escapeHtml(p.org)} · <code style="font-size:10px">${p.id}</code></div>
           </div>
         </div>
-        <div class="inline-actions" style="flex-shrink:0">
-          ${statusBadge}
-          ${toggleBtn}
-          ${deleteBtn}
+        <div class="inline-actions" style="flex-shrink:0;align-items:center;gap:10px">
+          <span style="font-size:11px;font-weight:700;color:${isDisabled?'var(--ink3)':'var(--teal)'}">${isDisabled?'Nonaktif':'Aktif'}</span>
+          <label class="toggle-switch" title="${isDisabled?'Aktifkan':'Nonaktifkan'}">
+            <input type="checkbox" id="${toggleId}" ${isDisabled?'':'checked'} onchange="superadminToggleProject('${p.id}',!this.checked);renderProjectControlPage()">
+            <span class="toggle-slider"></span>
+          </label>
+          <button class="sadmin-trash-btn" onclick="superadminDeleteProject('${p.id}')" title="Hapus project">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
         </div>
       </div>`;
   }).join('');
@@ -5393,7 +5755,7 @@ function renderSuperadminProjectManagementCard(){
         <span style="font-size:18px">🛡️</span>
         <div class="section-label" style="margin-bottom:0;color:var(--gold)">Superadmin — Kelola Project</div>
       </div>
-      <div class="helper-text" style="margin-bottom:14px">Hanya superadmin yang dapat mengaktifkan, menonaktifkan, atau menghapus project. Project bawaan (built-in) tidak bisa dihapus, tapi bisa dinonaktifkan agar tidak muncul di landing page.</div>
+      <div class="helper-text" style="margin-bottom:14px">Aktifkan/nonaktifkan project menggunakan tombol geser, atau hapus menggunakan ikon tempat sampah. Semua project (termasuk bawaan) dapat dikelola.</div>
       <div class="admin-list">${rows}</div>
     </div>`;
 }
@@ -5416,7 +5778,6 @@ function superadminToggleProject(pid, disable){
 
 function superadminDeleteProject(pid){
   if(!isSuperadminSession()) return toast('Hanya superadmin yang dapat menghapus project');
-  if(isBuiltInProject(pid)) return toast('Project bawaan tidak dapat dihapus');
   const p = PROJECTS[pid];
   if(!p) return toast('Project tidak ditemukan');
   const confirmMsg = `Hapus project "${p.name}"?\n\nSemua data project ini (timeline, task, dokumen, meeting) akan dihapus permanen. Tindakan ini tidak bisa dibatalkan.`;
@@ -5489,7 +5850,31 @@ const __baseRenderAdminProjectList = renderAdminProjectList;
 renderAdminProjectList = function(){
   const el = document.getElementById('admin-project-list');
   if(!el) return __baseRenderAdminProjectList();
-  el.innerHTML = '<div class="admin-list">' + Object.values(PROJECTS).map(p => `<div class="admin-row"><div><div class="admin-row-title">${p.name}</div><div class="admin-row-sub">${p.org} · password: ${p.password}</div></div><div class="admin-actions"><span class="badge badge-teal">${p.id}</span><button class="btn btn-outline btn-sm" type="button" onclick="openProjectDashboardAsManager('${p.id}')">Open Dashboard</button></div></div>`).join('') + '</div>';
+  const disabled = getProjectDisabledList();
+  el.innerHTML = '<div class="admin-list">' + Object.values(PROJECTS).map(p => {
+    const isDisabled = disabled.includes(p.id);
+    const toggleId = `adm-tgl-${p.id}`;
+    return `<div class="admin-row" style="align-items:center">
+      <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+        <div style="width:36px;height:36px;border-radius:10px;background:${p.accent}22;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${p.icon}</div>
+        <div>
+          <div class="admin-row-title">${escapeHtml(p.name)}</div>
+          <div class="admin-row-sub">${escapeHtml(p.org)} · ID: ${p.id} · pw: ${p.password}</div>
+        </div>
+      </div>
+      <div class="admin-actions" style="align-items:center;gap:10px">
+        <span style="font-size:11px;font-weight:700;color:${isDisabled?'var(--ink3)':'var(--teal)'}">${isDisabled?'Nonaktif':'Aktif'}</span>
+        <label class="toggle-switch" title="${isDisabled?'Aktifkan':'Nonaktifkan'}">
+          <input type="checkbox" id="${toggleId}" ${isDisabled?'':'checked'} onchange="toggleProjectActiveStatus('${p.id}');renderAdminConsole()">
+          <span class="toggle-slider"></span>
+        </label>
+        <button class="sadmin-trash-btn" onclick="deleteProjectFromHub('${p.id}');renderAdminConsole()" title="Hapus project">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </button>
+        <button class="btn btn-outline btn-sm" type="button" onclick="openProjectDashboardAsManager('${p.id}')">Dashboard</button>
+      </div>
+    </div>`;
+  }).join('') + '</div>';
 };
 function renderDashboardManagerShell(){
   const switchWrap = document.getElementById('dashboard-project-switcher');
@@ -6683,8 +7068,253 @@ function clearAllCalendarEvents(){
   }catch(e){}
 }
 
+/* ═══════════════════════════════════
+   USER HUB PAGE (Post-Login Profile)
+═══════════════════════════════════ */
+function isProjectActive(pid){
+  return !getProjectDisabledList().includes(String(pid));
+}
+
+function showUserHubPage(){
+  document.getElementById('landing-page').style.display='none';
+  document.getElementById('sidebar').style.display='none';
+  document.getElementById('main-content').style.display='none';
+  document.getElementById('hamburger-btn').style.display='none';
+  document.getElementById('user-hub-page').classList.add('show');
+  renderUserHubPage();
+}
+
+function hubLogout(){
+  saveAll();
+  currentUserSession=null;
+  currentAdminEmail='';
+  currentProjectId=null;
+  authenticatedProjects={};
+  try{localStorage.removeItem(SUPERADMIN_LOGIN_BRIDGE_KEY);}catch(e){}
+  document.getElementById('user-hub-page').classList.remove('show');
+  showLandingScreen({});
+  toast('Berhasil logout');
+}
+
+function getHubAvatarHtml(user){
+  if(user&&user.photoUrl){
+    return `<img src="${escapeHtml(user.photoUrl)}" class="hub-avatar-img" alt="Foto Profil" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="hub-avatar-initials" style="display:none">${ini(user.name||'?')}</div>`;
+  }
+  return `<div class="hub-avatar-initials">${ini(user&&user.name||'?')}</div>`;
+}
+
+function toggleProjectActiveStatus(pid){
+  const curDisabled=getProjectDisabledList();
+  const isCurrentlyDisabled=curDisabled.includes(String(pid));
+  if(isCurrentlyDisabled){
+    setProjectDisabledList(curDisabled.filter(id=>id!==pid));
+    toast(`Project "${PROJECTS[pid]?.name||pid}" diaktifkan ✅`);
+  } else {
+    setProjectDisabledList([...curDisabled, pid]);
+    toast(`Project "${PROJECTS[pid]?.name||pid}" dinonaktifkan ⛔`);
+  }
+  renderLanding();
+  renderUserHubPage();
+}
+
+function deleteProjectFromHub(pid){
+  const pname=PROJECTS[pid]?.name||pid;
+  if(!confirm(`Hapus project "${pname}" secara permanen?\n\nSemua data project (dokumen, meeting, timeline, dll) akan hilang dan tidak dapat dikembalikan.`)) return;
+  try{
+    delete PROJECTS[pid];
+    if(adminState.customProjects) delete adminState.customProjects[pid];
+    if(projectData[pid]) delete projectData[pid];
+    delete authenticatedProjects[pid];
+    setProjectDisabledList(getProjectDisabledList().filter(id=>id!==pid));
+    if(currentProjectId===pid){
+      currentProjectId=null;
+    }
+    saveAll();
+    renderLanding();
+    renderUserHubPage();
+    toast(`Project "${pname}" berhasil dihapus`);
+  }catch(e){toast('Gagal menghapus project')}
+}
+
+function enterProjectFromHub(pid){
+  if(!PROJECTS[pid]){toast('Project tidak ditemukan');return;}
+  if(!isProjectActive(pid)){toast('Project ini sedang nonaktif');return;}
+  document.getElementById('user-hub-page').classList.remove('show');
+  authenticatedProjects[pid]=true;
+  enterProject(pid);
+}
+
+function enterFirstProjectSuperadmin(){
+  const pids=Object.keys(PROJECTS).filter(pid=>isProjectActive(pid));
+  if(pids.length) enterProjectFromHub(pids[0]);
+  else toast('Tidak ada proyek aktif');
+}
+
+function renderUserHubPage(){
+  const user=currentUserSession;
+  if(!user){hubLogout();return;}
+  const isSA=isSuperadminSession();
+
+  /* ── Top actions ── */
+  const topActions=document.getElementById('hub-topbar-actions');
+  if(topActions){
+    topActions.innerHTML=`
+      ${isSA?`<button class="hub-btn hub-btn-console" onclick="openAdminConsole()" style="margin-right:8px">⚙️ Admin Console</button>`:''}
+      <button class="hub-btn hub-btn-logout" onclick="hubLogout()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </button>`;
+  }
+
+  /* ── Profile card ── */
+  const profileWrap=document.getElementById('hub-profile-card-wrap');
+  if(profileWrap){
+    const now=new Date();
+    const h=now.getHours();
+    const greeting=h<11?'Selamat Pagi':h<15?'Selamat Siang':h<18?'Selamat Sore':'Selamat Malam';
+    const institution=user.institution||'CESGS · Universitas Airlangga';
+    const profileLinkHtml=user.profileLink?`<div class="hub-info-pill">🔗 <a href="${escapeHtml(user.profileLink)}" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none;font-weight:600">Profil Publik</a></div>`:'';
+    const cvHtml=user.cv?`<div class="hub-bio">${escapeHtml(user.cv)}</div>`:'';
+    const roleClass=isSA?'hub-role-badge sa':'hub-role-badge';
+    const roleLabel=isSA?'🛡️ Superadmin':`👤 ${escapeHtml(user.role||'Member')}`;
+    profileWrap.innerHTML=`
+      <div class="hub-profile-card">
+        ${getHubAvatarHtml(user)}
+        <div class="hub-profile-info">
+          <div class="hub-greeting-tag">${greeting} 👋</div>
+          <div class="hub-name">${escapeHtml(user.name)}</div>
+          <div class="${roleClass}">${roleLabel}</div>
+          <div class="hub-info-pills">
+            <div class="hub-info-pill">✉️ ${escapeHtml(user.email)}</div>
+            ${institution?`<div class="hub-info-pill">🏛️ ${escapeHtml(institution)}</div>`:''}
+            ${profileLinkHtml}
+            <div class="hub-info-pill">📅 ${now.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
+          </div>
+          ${cvHtml}
+          <div class="hub-action-row">
+            ${isSA?`<button class="hub-btn hub-btn-console" onclick="openAdminConsole()">⚙️ Admin Console</button>`:''}
+            ${isSA?`<button class="hub-btn hub-btn-console" onclick="enterFirstProjectSuperadmin()">▦ Masuk Project</button>`:''}
+            <button class="hub-btn hub-btn-logout" onclick="hubLogout()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* ── Superadmin panel ── */
+  const saSection=document.getElementById('hub-superadmin-section');
+  if(saSection){
+    if(isSA){
+      saSection.style.display='block';
+      const allProj=Object.values(PROJECTS);
+      const activeCount=allProj.filter(p=>isProjectActive(p.id)).length;
+      const totalAccounts=getUserAccounts().length;
+      const totalRequests=(typeof adminState!=='undefined'&&Array.isArray(adminState.bookingRequests))?adminState.bookingRequests.length:0;
+      const projectRows=allProj.length?allProj.map(p=>{
+        const active=isProjectActive(p.id);
+        const toggleId=`hub-tgl-${p.id}`;
+        return `<div class="sadmin-project-row${active?'':' inactive'}">
+          <div class="sadmin-proj-icon" style="background:${p.accent}18">${p.icon}</div>
+          <div class="sadmin-proj-meta">
+            <div class="sadmin-proj-name">${escapeHtml(p.name)}</div>
+            <div class="sadmin-proj-org" style="color:${p.accent}">${escapeHtml(p.org)}</div>
+          </div>
+          <span class="sadmin-status-label" style="color:${active?'var(--teal)':'var(--ink3)'}">${active?'Aktif':'Nonaktif'}</span>
+          <label class="toggle-switch" title="${active?'Nonaktifkan':'Aktifkan'} project">
+            <input type="checkbox" id="${toggleId}" ${active?'checked':''} onchange="toggleProjectActiveStatus('${p.id}')">
+            <span class="toggle-slider"></span>
+          </label>
+          <button class="sadmin-trash-btn" onclick="deleteProjectFromHub('${p.id}')" title="Hapus project">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>`;
+      }).join(''):`<div class="hub-empty-msg">Belum ada proyek. Tambahkan melalui Admin Console.</div>`;
+
+      saSection.innerHTML=`
+        <div class="sadmin-hub">
+          <div class="hub-section-head" style="margin-bottom:6px">
+            <div class="hub-section-title">🛡️ Panel Kontrol Superadmin</div>
+          </div>
+          <div class="sadmin-sub">Kontrol penuh atas semua proyek dan akun dalam CESGS Project Hub. Aktif/nonaktifkan proyek, hapus proyek, atau buka Admin Console untuk pengaturan lengkap.</div>
+          <div class="sadmin-stats">
+            <div class="stat-tile st-teal"><div class="st-num">${allProj.length}</div><div class="st-label">Total Proyek</div></div>
+            <div class="stat-tile st-blue"><div class="st-num">${activeCount}</div><div class="st-label">Proyek Aktif</div></div>
+            <div class="stat-tile st-gold"><div class="st-num">${totalAccounts}</div><div class="st-label">Total Akun</div></div>
+            <div class="stat-tile st-ink"><div class="st-num">${totalRequests}</div><div class="st-label">Booking Request</div></div>
+          </div>
+          <div class="hub-section-head" style="margin-bottom:12px">
+            <div style="font-size:14px;font-weight:700;color:var(--ink)">Manajemen Proyek</div>
+            <button class="btn btn-teal btn-sm" onclick="openAdminConsole()">+ Tambah Proyek Baru</button>
+          </div>
+          <div id="sadmin-project-list-hub">${projectRows}</div>
+          <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;padding-top:14px;border-top:1px solid rgba(11,140,122,0.1)">
+            <button class="btn btn-outline" onclick="openAdminConsole()">⚙️ Admin Console Lengkap</button>
+            <button class="btn btn-outline" onclick="enterFirstProjectSuperadmin()">▦ Masuk Project Dashboard</button>
+          </div>
+        </div>`;
+    } else {
+      saSection.style.display='none';
+    }
+  }
+
+  /* ── Projects grid ── */
+  const projectsSection=document.getElementById('hub-projects-section');
+  const projectsGrid=document.getElementById('hub-projects-grid');
+  if(!projectsGrid) return;
+
+  const sessionProjs=getSessionProjects();
+  let accessiblePids;
+  if(isSA){
+    accessiblePids=Object.keys(PROJECTS).filter(pid=>isProjectActive(pid));
+  } else {
+    accessiblePids=sessionProjs.filter(pid=>PROJECTS[pid]&&isProjectActive(pid));
+  }
+
+  if(projectsSection) projectsSection.style.display='block';
+  if(!accessiblePids.length){
+    projectsGrid.innerHTML=`<div class="hub-empty-msg">
+      ${isSA?'Semua proyek sedang nonaktif. Aktifkan proyek di atas untuk mengaksesnya.':'Tidak ada proyek aktif yang dapat Anda akses. Hubungi administrator.'}
+    </div>`;
+    return;
+  }
+  const isMA=userCanManage();
+  projectsGrid.innerHTML=accessiblePids.map(pid=>{
+    const p=PROJECTS[pid];
+    if(!p) return '';
+    const caption=isMA?'Buka Project Dashboard →':'Buka Client Dashboard →';
+    const data=projectData[pid];
+    const docCount=data?data.documents.length:(p.seedDocs||[]).length;
+    const meetCount=data?data.meetings.length:0;
+    return `<div class="hub-project-card" onclick="enterProjectFromHub('${pid}')">
+      <div class="hub-pc-accent" style="background:linear-gradient(90deg,${p.accent},${p.accent}77)"></div>
+      <div class="hub-pc-body">
+        <div class="hub-pc-icon" style="background:${p.accent}18">${p.icon}</div>
+        <div class="hub-pc-name">${escapeHtml(p.name)}</div>
+        <div class="hub-pc-org" style="color:${p.accent}">${escapeHtml(p.org)}</div>
+        <div class="hub-pc-desc">${escapeHtml((p.sub||'').slice(0,88))}...</div>
+        <div style="display:flex;gap:6px;margin-bottom:12px">
+          <span style="font-size:10px;background:rgba(13,10,30,0.05);color:var(--ink3);padding:3px 9px;border-radius:7px;font-weight:600">📄 ${docCount} docs</span>
+          <span style="font-size:10px;background:rgba(13,10,30,0.05);color:var(--ink3);padding:3px 9px;border-radius:7px;font-weight:600">📅 ${meetCount} meetings</span>
+        </div>
+        <div class="hub-pc-btn" style="background:${p.accent};color:#fff">${caption}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 ensureSeedManagedAccounts();
 loadAll();
+/* Remove legacy PLN (plts) project data from localStorage if still present */
+try{
+  delete PROJECTS['plts'];
+  if(adminState.customProjects&&adminState.customProjects['plts']) delete adminState.customProjects['plts'];
+  if(projectData['plts']) delete projectData['plts'];
+  const superState=parseJSONSafe(SUPERADMIN_STORAGE_KEY,{})||{};
+  if(superState.projects&&superState.projects['plts']) delete superState.projects['plts'];
+  localStorage.setItem(SUPERADMIN_STORAGE_KEY,JSON.stringify(superState));
+}catch(e){}
 clearAllCalendarEvents();
 pushProjectHubToSuperState();
 renderLanding();
@@ -6713,6 +7343,38 @@ window.addEventListener('storage', (e) => {
 });
 </script>
 
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- USER HUB PAGE (Post-login landing) -->
+<!-- ══════════════════════════════════════════════ -->
+<div id="user-hub-page" class="user-hub-page">
+  <div class="hub-shell">
+    <!-- Top bar -->
+    <div class="hub-topbar">
+      <div class="hub-logo-row">
+        <div class="hub-logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div class="hub-logo-title">CESGS Project Hub</div>
+          <div class="hub-logo-sub">Universitas Airlangga</div>
+        </div>
+      </div>
+      <div id="hub-topbar-actions"></div>
+    </div>
+    <!-- Profile card -->
+    <div id="hub-profile-card-wrap"></div>
+    <!-- Superadmin panel -->
+    <div id="hub-superadmin-section" style="display:none"></div>
+    <!-- Active projects -->
+    <div id="hub-projects-section">
+      <div class="hub-section-head">
+        <div class="hub-section-title">📂 Proyek Aktif Anda</div>
+      </div>
+      <div id="hub-projects-grid" class="hub-projects-grid"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════ -->
 <!-- INTEGRATED SUPER ADMIN -->
